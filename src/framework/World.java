@@ -10,22 +10,23 @@ public class World {
 	private static int MAP_HEIGHT = 25;
 	
 	private int currentPlayerNum;
-	private int maxPlayerNum;
+	private int reqPlayerNum;
 	private List<Character> characters;
 	private Character emptyCharacter;
 	private Tile[][] theMap;
 	
-	public World(int maxPlayerNum_) {
+	public World() {
 		currentPlayerNum = 0;
-		maxPlayerNum = maxPlayerNum_;
 		emptyCharacter = new Character("", "", "");
 		characters = new ArrayList<Character>();
 	}
 
 	
 	public void generateWorld() {
-		createCharacters(maxPlayerNum);
+
+		createCharacters(reqPlayerNum);
 		createMap();
+
 	}
 	
 	public Character getEmptyCharacter() {
@@ -36,7 +37,6 @@ public class World {
 		for (int i = 0; i < numPlayers; i++) {
 			Character newChar = new Character("Player " + i, "A strange fellow.", "Soft and squishy.");
 			newChar.setId(i);
-			currentPlayerNum++;
 			characters.add(newChar);
 		}
 	}	
@@ -46,13 +46,18 @@ public class World {
 		addNarrativePoints();
 		addPlayerPositions();
 	}
+
+	public int AddPlayer() {
+		return currentPlayerNum++;
+
+	}
 	
 	public int GetCurrentPlayerNum() {
 		return currentPlayerNum;
 	}
 	
-	public int GetMaxPlayerNum() {
-		return maxPlayerNum;
+	public int GetReqPlayerNum() {
+		return reqPlayerNum;
 	}
 	
 	private void addNarrativePoints() {

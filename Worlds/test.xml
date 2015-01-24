@@ -30,11 +30,13 @@
 						<basic__description>EAST</basic__description>
 						<feel>Feels cold...</feel>
 						<isOpen>false</isOpen>
+						<orientation>East</orientation>
 					</Entryway>
 					<Entryway>
 						<basic__description>SOUTH</basic__description>
 						<feel>Feels dry...</feel>
 						<isOpen>false</isOpen>
+						<orientation>South</orientation>
 					</Entryway>
 				</exits>
 				<items>
@@ -59,11 +61,13 @@
 						<basic__description>WEST</basic__description>
 						<feel>Feels wet...</feel>
 						<isOpen>false</isOpen>
+						<orientation>West</orientation>
 					</Entryway>
 					<Entryway>
 						<basic__description>SOUTH</basic__description>
 						<feel>Feels hot...</feel>
 						<isOpen>false</isOpen>
+						<orientation>South</orientation>
 					</Entryway>
 				</exits>
 				<items>
@@ -85,11 +89,13 @@
 						<basic__description>NORTH</basic__description>
 						<feel>Feels wet...</feel>
 						<isOpen>false</isOpen>
+						<orientation>North</orientation>
 					</Entryway>
 					<Entryway>
 						<basic__description>EAST</basic__description>
 						<feel>Feels hot...</feel>
 						<isOpen>false</isOpen>
+						<orientation>East</orientation>
 					</Entryway>
 				</exits>
 				<items/>
@@ -103,11 +109,13 @@
 						<basic__description>WEST</basic__description>
 						<feel>Feels dry...</feel>
 						<isOpen>false</isOpen>
+						<orientation>West</orientation>
 					</Entryway>
 					<Entryway>
 						<basic__description>NORTH</basic__description>
 						<feel>Feels cold...</feel>
 						<isOpen>false</isOpen>
+						<orientation>North</orientation>
 					</Entryway>
 				</exits>
 				<items/>

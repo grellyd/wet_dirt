@@ -9,6 +9,8 @@ import java.util.List;
 import com.thoughtworks.xstream.XStream;
 
 import exceptions.ReturnException;
+import framework.Item;
+import framework.MovableItem;
 import framework.World;
 import framework.Tile;
 import framework.Entryway;
@@ -26,6 +28,13 @@ public class MainProcess {
 	
 	public MainProcess() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		xstream = new XStream();
+		xstream.alias("World", World.class);
+		xstream.alias("Tile", Tile.class);
+		xstream.alias("Item", Item.class);
+		xstream.alias("MovableItem", MovableItem.class);
+		xstream.alias("Entryway", Entryway.class);
+		xstream.alias("Character", framework.Character.class);
 		try {
 			// Connect
 			errorMessage = "ERROR: Joining Server Failed. ";
@@ -64,17 +73,20 @@ public class MainProcess {
 				
 				System.out.println("Starting Game!");
 				
-				theWorld.getPlayerTile(PLAYER_NUM);
-				
-				System.out.println(theWorld.describe(PLAYER_NUM));
-				
 				errorMessage = "Error: Getting actions failed. ";
 				
 				do {
+					
+					localTile = theWorld.getPlayerTile(PLAYER_NUM);
+					System.out.println(theWorld.describe(PLAYER_NUM));
+					
 					//prompt for action
 					System.out.println("What do you do next?");
 					String input = reader.readLine();
-					tcpClient.sendMessage(parse(input));
+					String parseOnServer = parse(input);
+					if (!parseOnServer.isEmpty()) {
+						tcpClient.sendMessage(parseOnServer);
+					}
 					//check for event
 					//TODO
 					// fetch updated info from server
@@ -120,8 +132,10 @@ public class MainProcess {
 		if (input.contains("move")){
 			// get the list of local exits.
 			List<String> exits = new ArrayList<String>();
-			for (Entryway e : (localTile.getExits())) {
-				exits.add(e.getOrientation().toString());
+			if (localTile.getExits() != null) {
+				for (Entryway e : (localTile.getExits())) {
+					exits.add(e.getOrientation().toString());
+				}
 			}
 			if (input.contains("north") & exits.contains("North")) {
 				result = "MOVE;NORTH";			

@@ -114,6 +114,7 @@ public class NetworkManager implements Runnable {
 					try {
 						if (rawmsg == null) {
 							System.out.println("Player " + playerId + " disconnected.");
+							world.RemovePlayer();
 							running = false;
 							break;
 						}
@@ -131,11 +132,8 @@ public class NetworkManager implements Runnable {
 							}
 							break;
 						case "JOIN":
-							if (world.GetCurrentPlayerNum() < world.GetReqPlayerNum()) {
-								response = Integer.toString(world.GetCurrentPlayerNum() + 1);
-								world.AddPlayer();
-								break;
-							}
+							response = Integer.toString(playerId);
+							break;
 						case "POLLWORLD":
 							response = xstream.toXML(world).replace(System.getProperty("line.separator"),  "");
 							break;

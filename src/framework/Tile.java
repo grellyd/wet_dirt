@@ -7,14 +7,14 @@ public class Tile {
 	
 	private int x;
 	private int y;
-	private boolean[] exits;
+	private List<Entryway> exits;
 	private String description;
 	private List<Thing> things;
 	
-	public Tile(int xCord, int yCord, boolean[] theExits, String theDescription, ArrayList<Thing> theThings) {
+	public Tile(int xCord, int yCord, List<Entryway> theExits, String theDescription, ArrayList<Thing> theThings) {
 		this.x = xCord;
 		this.y = yCord;
-		if (theExits.length == 4) {
+		if (theExits.size() == 4) {
 			this.exits = theExits;
 		} else //throw new error
 		this.description = theDescription;
@@ -37,12 +37,12 @@ public class Tile {
 		this.y = y;
 	}
 
-	public boolean[] getExits() {
+	public List<Entryway> getExits() {
 		return exits;
 	}
 
-	public void setExits(boolean[] exits) {
-		this.exits = exits;
+	public void setExits(List<Entryway> exits_) {
+		this.exits = exits_;
 	}
 
 	public String getDescription() {

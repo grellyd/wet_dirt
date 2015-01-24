@@ -2,10 +2,8 @@ package framework;
 
 public interface Movable extends Interactable {
 	
-	public boolean pickUp();
+	public void pickUp(Character newHolder);
 	
-	public boolean putDown();
-	
-	public boolean push();
+	public void putDown(Character oldHolder);
 
 }

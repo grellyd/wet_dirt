@@ -1,23 +1,22 @@
 package framework;
 
 public class MovableItem extends Item implements Movable {
-
-	@Override
-	public boolean pickUp() {
-		// TODO Auto-generated method stub
-		return false;
+	
+	private Character holder;
+	
+	public MovableItem(String des, String feeling) {
+		super(des, feeling);
 	}
 
 	@Override
-	public boolean putDown() {
-		// TODO Auto-generated method stub
-		return false;
+	public void pickUp(Character newHolder) {
+		holder = newHolder;
 	}
 
 	@Override
-	public boolean push() {
-		// TODO Auto-generated method stub
-		return false;
+	public void putDown(Character oldHolder) {
+		if (oldHolder.equals(holder)) {
+			holder = new Character("", "", "");
+		}
 	}
-
 }

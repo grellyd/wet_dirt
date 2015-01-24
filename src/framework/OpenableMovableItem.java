@@ -2,16 +2,26 @@ package framework;
 
 public class OpenableMovableItem extends MovableItem implements Openable {
 
+	private boolean isOpen;
+	
+	public OpenableMovableItem(String des, String feeling) {
+		super(des, feeling);
+	}
+
 	@Override
 	public void open() {
-		// TODO Auto-generated method stub
+		isOpen = true;
 
 	}
 
 	@Override
 	public void close() {
-		// TODO Auto-generated method stub
+		isOpen = false;
 
+	}
+	
+	public boolean isOpen() {
+		return isOpen;
 	}
 
 }

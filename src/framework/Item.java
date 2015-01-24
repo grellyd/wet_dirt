@@ -1,17 +1,28 @@
 package framework;
 
 public class Item extends Thing implements Interactable {
+	
+	protected String feel;
+	
+	public Item(String des, String feeling) {
+		super(des);
+		this.feel = feeling;
+	}
+
 
 	@Override
-	public boolean touch() {
-		// TODO Auto-generated method stub
-		return false;
+	public String touch() {
+		return feel;
 	}
 
 	@Override
 	public String lookAt() {
-		// TODO Auto-generated method stub
-		return null;
+		return basic_description;
+	}
+
+	@Override
+	public String lookIntently() {
+		return basic_description;
 	}
 
 }

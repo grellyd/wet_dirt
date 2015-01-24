@@ -1,7 +1,6 @@
 package server;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -11,7 +10,8 @@ import java.nio.file.Paths;
 import com.thoughtworks.xstream.XStream;
 
 import framework.Entryway;
-import framework.Thing;
+import framework.Item;
+import framework.MovableItem;
 import framework.Tile;
 import framework.World;
 
@@ -26,9 +26,10 @@ public class WetDirtServer {
 		xstream = new XStream();
 		xstream.alias("World", World.class);
 		xstream.alias("Tile", Tile.class);
-		xstream.alias("Thing", Thing.class);
+		xstream.alias("Item", Item.class);
+		xstream.alias("MovableItem", MovableItem.class);
 		xstream.alias("Entryway", Entryway.class);
-		xstream.alias("Character", Character.class);
+		xstream.alias("Character", framework.Character.class);
 		
 		System.out.println("wet_dirt - Server v" + VERSION);
 		System.out.print("Enter the filename of the world you would like to load >");

@@ -1,6 +1,5 @@
 package framework;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class World {
@@ -20,10 +19,6 @@ public class World {
 	};
 	
 	public World() {
-		currentPlayerNum = 0;
-		reqPlayerNum = 2;
-		characters = new ArrayList<Character>();
-		theMap = new Tile[mapWidth][mapHeight];
 	}
 	
 	public void MovePlayer(int playerId, DIRECTION dir) {
@@ -57,10 +52,18 @@ public class World {
 	
 	public int GetReqPlayerNum() {
 		return reqPlayerNum;
-	}	
+	}
 	
 	public Tile[][] getTheMap() {
 		return theMap;
+	}
+	
+	public void fireEvent(int tileX, int tileY, int index) {
+		if (tileX > 0 && tileX < mapWidth && tileY > 0 && tileY < mapHeight) {
+			if (theMap[tileX][tileY].getEvents().size() > index) {
+				//theMap[tileX][tileY].
+			}
+		}
 	}
 	
 	public Tile getPlayerTile(int playerNum) {

@@ -5,7 +5,7 @@ public class Entryway extends Thing implements Openable {
 	private String feel;
 	private boolean isOpen;
 	
-	private enum Direction {
+	public enum Direction {
 		North,
 		East,
 		South,

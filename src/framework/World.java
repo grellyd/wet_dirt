@@ -63,6 +63,13 @@ public class World {
 		return theMap;
 	}
 	
+	public Tile getPlayerTile(int playerNum) {
+		Character activeChar = characters.get(playerNum);
+		int x = activeChar.getX();
+		int y = activeChar.getY();
+		return theMap[x][y];
+	}
+	
 	public String describe(int playerNum) {
 		Character activeChar = characters.get(playerNum);
 		int x = activeChar.getX();

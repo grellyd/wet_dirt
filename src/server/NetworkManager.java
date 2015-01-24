@@ -133,6 +133,8 @@ public class NetworkManager implements Runnable {
 						case "JOIN":
 							if (world.GetCurrentPlayerNum() < world.GetReqPlayerNum()) {
 								response = Integer.toString(world.GetCurrentPlayerNum() + 1);
+								world.AddPlayer();
+								break;
 							}
 						case "POLLWORLD":
 							response = xstream.toXML(world).replace(System.getProperty("line.separator"),  "");

@@ -42,14 +42,16 @@ public class MainProcess {
 			} while (!tcpClient.IsConnected());
 			
 			System.out.println("Connected!");
+			errorMessage = "ERROR: Joining game failed. ";
+			PLAYER_NUM = Integer.parseInt(tcpClient.getData("JOIN"));
+			System.out.println("You are player " + PLAYER_NUM);
 			
 			// Join a game
 			
 			
 			
 			while(tcpClient.IsConnected()) {
-				errorMessage = "ERROR: Joining game failed. ";
-				PLAYER_NUM = getPlayerNumber(theWorld);
+				
 				
 				errorMessage = "ERROR: Starting game failed. ";
 				String status;

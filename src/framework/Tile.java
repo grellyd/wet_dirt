@@ -53,11 +53,11 @@ public class Tile {
 		this.description = description;
 	}
 
-	public List getThings() {
+	public List<Thing> getThings() {
 		return things;
 	}
 
-	public void setThings(List things) {
+	public void setThings(List<Thing> things) {
 		this.things = things;
 	}
 

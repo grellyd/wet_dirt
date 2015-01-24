@@ -22,30 +22,28 @@ public class World {
 	}
 
 	
-	public void generateWorld() {
-
-		createCharacters(reqPlayerNum);
-		createMap();
-
-	}
+//	public void generateWorld() {
+//
+//		createCharacters(reqPlayerNum);
+//		createMap();
+//
+//	}
 	
 	public Character getEmptyCharacter() {
 		return emptyCharacter;
 	}
 	
-	private void createCharacters(int numPlayers) {
-		for (int i = 0; i < numPlayers; i++) {
-			Character newChar = new Character("Player " + i, "A strange fellow.", "Soft and squishy.");
-			newChar.setId(i);
-			characters.add(newChar);
-		}
-	}	
-	
-	private void createMap() {
-		theMap =  new Tile [MAP_WIDTH][MAP_HEIGHT];
-		addNarrativePoints();
-		addPlayerPositions();
-	}
+//	private void createCharacters(int numPlayers) {
+//		for (int i = 0; i < numPlayers; i++) {
+//			Character newChar = new Character("Player " + i, "A strange fellow.", "Soft and squishy.");
+//			newChar.setId(i);
+//			characters.add(newChar);
+//		}
+//	}	
+//	
+//	private void createMap() {
+//		theMap =  new Tile [MAP_WIDTH][MAP_HEIGHT];
+//	}
 
 	public int AddPlayer() {
 		return currentPlayerNum++;
@@ -58,15 +56,7 @@ public class World {
 	
 	public int GetReqPlayerNum() {
 		return reqPlayerNum;
-	}
-	
-	private void addNarrativePoints() {
-		//TODO
-	}
-	
-	private void addPlayerPositions() {
-		//TODO
-	}
+	}	
 	
 	private Tile[][] getTheMap() {
 		return theMap;

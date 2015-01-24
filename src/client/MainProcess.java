@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
-import sun.net.www.content.audio.x_aiff;
 import exceptions.ReturnException;
 import framework.World;
 import framework.Tile;
@@ -32,6 +31,7 @@ public class MainProcess {
 			errorMessage = "ERROR: Joining Server Failed. ";
 			
 			System.out.println("Connecting to Server");
+			System.out.print("Enter server IP >");
 			String ip = reader.readLine();
 			System.out.print("Enter port >");
 			int port = Integer.parseInt(reader.readLine());
@@ -66,14 +66,17 @@ public class MainProcess {
 				
 				System.out.println(theWorld.describe(PLAYER_NUM));
 				
-				errorMessage = "Error: Getting first action failed. ";
+				errorMessage = "Error: Getting actions failed. ";
 				
 				do {
 					//prompt for action
 					System.out.println("What do you do next?");
 					String input = reader.readLine();
-					parse(input);
+					tcpClient.sendMessage(parse(input));
 					//check for event
+					//TODO
+					// fetch updated info from server
+					theWorld = (World)xstream.fromXML(tcpClient.getData("POLLWORLD"));
 				} while(true);
 			}
 		

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 import com.thoughtworks.xstream.XStream;
@@ -32,11 +33,24 @@ public class WetDirtServer {
 		xstream.alias("Character", framework.Character.class);
 		
 		System.out.println("wet_dirt - Server v" + VERSION);
-		System.out.print("Enter the filename of the world you would like to load >");
+		//System.out.print("Enter the filename of the world you would like to load >");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		String filename = "";
+		String xmlWorld = "";
 		try {
-			String filename = reader.readLine();
-			String xmlWorld = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
+			
+			boolean success = false;
+			do {
+				System.out.print("Enter the filename of the world you would like to load >");
+				filename = reader.readLine();
+				try {
+					xmlWorld = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
+					success = true;
+				} catch (NoSuchFileException e) {
+					System.out.println("There exists no such world. Please try again.");
+				}
+			} while (!success);
+			
 			world = (World)xstream.fromXML(xmlWorld);
 		} catch (IOException e) {
 			e.printStackTrace();

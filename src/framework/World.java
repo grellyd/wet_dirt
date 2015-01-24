@@ -1,5 +1,6 @@
 package framework;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class World {
@@ -12,18 +13,19 @@ public class World {
 	private int maxPlayerNum;
 	private List<Character> characters;
 	private Character emptyCharacter;
-	
-	//private Collection<Tile> tiles
+	private Tile[][] theMap;
 	
 	public World(int maxPlayerNum_) {
 		currentPlayerNum = 0;
 		maxPlayerNum = maxPlayerNum_;
 		emptyCharacter = new Character("", "", "");
+		characters = new ArrayList<Character>();
 	}
 
 	
 	public void generateWorld() {
 		createCharacters(maxPlayerNum);
+		createMap();
 	}
 	
 	public Character getEmptyCharacter() {
@@ -39,6 +41,12 @@ public class World {
 		}
 	}	
 	
+	private void createMap() {
+		theMap =  new Tile [MAP_WIDTH][MAP_HEIGHT];
+		addNarrativePoints();
+		addPlayerPositions();
+	}
+	
 	public int GetCurrentPlayerNum() {
 		return currentPlayerNum;
 	}
@@ -46,4 +54,17 @@ public class World {
 	public int GetMaxPlayerNum() {
 		return maxPlayerNum;
 	}
+	
+	private void addNarrativePoints() {
+		//TODO
+	}
+	
+	private void addPlayerPositions() {
+		//TODO
+	}
+	
+	private Tile[][] getTheMap() {
+		return theMap;
+	}
+	
 }

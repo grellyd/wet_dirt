@@ -36,7 +36,7 @@ public class NetworkManager implements Runnable {
 	
 	@Override
 	public void run() {
-		for (int i = 0; i < world.GetMaxPlayerNum(); i++) {
+		for (int i = 0; i < world.GetReqPlayerNum(); i++) {
 			try {
 				System.out.println("Awaiting player " + i + "...");
 				socket = ss.accept();
@@ -89,7 +89,7 @@ public class NetworkManager implements Runnable {
 						
 						switch (split[0]) {
 						case "STATUS":
-							if (world.GetPlayerNum() < world.GetMaxPlayerNum()) {
+							if (world.GetCurrentPlayerNum() < world.GetReqPlayerNum()) {
 								response = "WAITING";
 							} else {
 								response = "READY";

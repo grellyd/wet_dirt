@@ -9,21 +9,20 @@ public class World {
 	private static int MAP_HEIGHT = 25;
 	
 	private int currentPlayerNum;
-	private int maxPlayerNum;
+	private int reqPlayerNum;
 	private List<Character> characters;
 	private Character emptyCharacter;
 	
 	//private Collection<Tile> tiles
 	
-	public World(int maxPlayerNum_) {
+	public World() {
 		currentPlayerNum = 0;
-		maxPlayerNum = maxPlayerNum_;
 		emptyCharacter = new Character("", "", "");
 	}
 
 	
 	public void generateWorld() {
-		createCharacters(maxPlayerNum);
+		createCharacters(reqPlayerNum);
 	}
 	
 	public Character getEmptyCharacter() {
@@ -39,11 +38,15 @@ public class World {
 		}
 	}	
 	
+	public int AddPlayer() {
+		return currentPlayerNum++;
+	}
+	
 	public int GetCurrentPlayerNum() {
 		return currentPlayerNum;
 	}
 	
-	public int GetMaxPlayerNum() {
-		return maxPlayerNum;
+	public int GetReqPlayerNum() {
+		return reqPlayerNum;
 	}
 }

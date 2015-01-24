@@ -105,6 +105,7 @@ public class NetworkManager implements Runnable {
 							writer.write(xstream.toXML(world).replace(System.getProperty("line.separator"),  ""));
 							writer.newLine();
 							writer.flush();
+							System.out.println(xstream.toXML(world));
 							break;
 						case "MOVE":
 							if (split.length > 1) {

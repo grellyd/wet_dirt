@@ -1,6 +1,5 @@
 package framework;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Tile {
@@ -9,16 +8,17 @@ public class Tile {
 	private int y;
 	private List<Entryway> exits;
 	private String description;
-	private List<Thing> things;
+	private List<Item> items;
+	private List<Event> events;
 	
-	public Tile(int xCord, int yCord, List<Entryway> theExits, String theDescription, List<Thing> theThings) {
+	public Tile(int xCord, int yCord, List<Entryway> theExits, String theDescription, List<Item> theItems) {
 		this.x = xCord;
 		this.y = yCord;
 		if (theExits.size() == 4) {
 			this.exits = theExits;
 		} else //throw new error
 		this.description = theDescription;
-		this.things = theThings;
+		this.items = theItems;
 	}
 
 	public int getX() {
@@ -53,12 +53,28 @@ public class Tile {
 		this.description = description;
 	}
 
-	public List<Thing> getThings() {
-		return things;
+	public List<Item> getItems() {
+		return items;
 	}
 
-	public void setThings(List<Thing> things) {
-		this.things = things;
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+	
+	public List<Event> getEvents() {
+		return events;
+	}
+	
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
+	
+	public void addEvent(Event event) {
+		events.add(event);
+	}
+	
+	public void fireEvent(Event event) {
+		
 	}
 
 }

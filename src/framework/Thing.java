@@ -1,6 +1,6 @@
 package framework;
 
-public class Thing {
+public abstract class Thing {
 	
 	// This class is for the objects (things) within the world.
 	// basic_description should be "this is a ..."

@@ -3,12 +3,16 @@ package client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
 import sun.net.www.content.audio.x_aiff;
 import exceptions.ReturnException;
 import framework.World;
+import framework.Tile;
+import framework.Entryway;
 
 public class MainProcess {
 	
@@ -19,8 +23,7 @@ public class MainProcess {
 	private String errorMessage = "";
 	
 	private World theWorld;
-	
-	
+	private Tile localTile;
 	
 	public MainProcess() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -59,13 +62,18 @@ public class MainProcess {
 				
 				System.out.println("Starting Game!");
 				
-				theWorld.describe(PLAYER_NUM);
+				theWorld.getPlayerTile(PLAYER_NUM);
+				
+				System.out.println(theWorld.describe(PLAYER_NUM));
 				
 				errorMessage = "Error: Getting first action failed. ";
 				
 				do {
 					//prompt for action
-					
+					System.out.println("What do you do next?");
+					String input = reader.readLine();
+					parse(input);
+					//check for event
 				} while(true);
 			}
 		
@@ -95,6 +103,46 @@ public class MainProcess {
 			
 		}
 		return 1;
+	}
+	
+	private String parse(String input) {
+		input = input.toLowerCase();
+		String result = "";
+		String sequence = "";
+		
+		// look for starting keywords
+		
+		if (input.contains("move")){
+			// get the list of local exits.
+			List<String> exits = new ArrayList<String>();
+			for (Entryway e : (localTile.getExits())) {
+				exits.add(e.getOrientation().toString());
+			}
+			if (input.contains("north") & exits.contains("North")) {
+				result = "MOVE;NORTH";			
+			} else if (input.contains("east") & exits.contains("East")) {
+				result = "MOVE;EAST";
+			} else if (input.contains("south") & exits.contains("South")) {
+				result = "MOVE;SOUTH";
+			} else if (input.contains("west") & exits.contains("WEST")) {
+				result = "MOVE;WEST";
+			} else System.out.println("You can't go that way.");
+			
+		} else if (input.contains("look")) {
+			
+			
+		//} else if (input.contains("look intently at")) {
+			
+		} else if (input.contains("pick up")) {
+			
+		} else if (input.contains("drop")) {
+			
+		} else if (input.contains("use")) {
+			
+		} else System.out.println("I don't understand. Try again?");
+		
+		
+		return result;
 	}
 	
 	

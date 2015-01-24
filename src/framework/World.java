@@ -10,6 +10,7 @@ public class World {
 	private int reqPlayerNum;
 	private List<Character> characters;
 	private Tile[][] theMap;
+	private List<Event> globalEvents;
 	
 	public enum DIRECTION {
 		NORTH,
@@ -58,10 +59,19 @@ public class World {
 		return theMap;
 	}
 	
-	public void fireEvent(int tileX, int tileY, int index) {
-		if (tileX > 0 && tileX < mapWidth && tileY > 0 && tileY < mapHeight) {
-			if (theMap[tileX][tileY].getEvents().size() > index) {
-				//theMap[tileX][tileY].
+	public void fireEvent(Event event) {
+		globalEvents.add(event);
+		if (event.getRange() > 0) {
+			for (int i = event.getTile().getX() - event.getRange(); i < event.getTile().getX() + event.getRange(); i++) {
+				for (int j = event.getTile().getY() - event.getRange(); j < event.getTile().getY() + event.getRange(); j++) {
+					if (i > 0 && i < mapWidth && j > 0 && j < mapHeight && i != event.getTile().getX() && j != event.getTile().getY()) {
+						Event distancedEvent = new Event(theMap[i][j]);
+						distancedEvent.setDescription(event.getDistancedDescription());
+						distancedEvent.setDistancedDescription("");
+						distancedEvent.setRange(0);
+						globalEvents.add(event);
+					}
+				}
 			}
 		}
 	}
@@ -78,7 +88,16 @@ public class World {
 		int x = activeChar.getX();
 		int y = activeChar.getY();
 		Tile activeTile = theMap[x][y];
-		return activeTile.getDescription();
+		String description = activeTile.getDescription();
+		if (activeChar.getGlobalEventsRead() < globalEvents.size()) {
+			for (int i = activeChar.getGlobalEventsRead(); i <= globalEvents.size(); i++) {
+				if (globalEvents.get(i).getTile().getX() == x && globalEvents.get(i).getTile().getY() == y) {
+					description.concat("\n" + globalEvents.get(i));
+				}
+			}
+			activeChar.setGlobalEventsRead(globalEvents.size());
+		}
+		return description;
 	}
 	
 }

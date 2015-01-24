@@ -114,4 +114,5 @@
 			</Tile>
 		</Tile-array>
 	</theMap>
+	<globalEvents/>
 </World>

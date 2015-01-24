@@ -12,6 +12,7 @@ public class Character implements Interactable {
 	private String feel;
 	private int x;
 	private int y;
+	private int globalEventsRead = 0;
 	
 	private List<MovableItem> inventory;
 	
@@ -79,5 +80,12 @@ public class Character implements Interactable {
 		this.playerNumber = playerNumber;
 	}
 
+	public int getGlobalEventsRead() {
+		return globalEventsRead;
+	}
+	
+	public void setGlobalEventsRead(int x) {
+		globalEventsRead = x;
+	}
 
 }

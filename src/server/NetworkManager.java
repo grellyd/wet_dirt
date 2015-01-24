@@ -10,6 +10,8 @@ import java.net.Socket;
 
 import com.thoughtworks.xstream.XStream;
 
+import framework.Event;
+import framework.Tile;
 import framework.World;
 
 public class NetworkManager implements Runnable {	
@@ -48,7 +50,39 @@ public class NetworkManager implements Runnable {
 				break;
 			}
 		}
-		while (running) {}
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		while (running) {
+			System.out.print("> ");
+			try {
+				String command = reader.readLine();
+				switch (command) {
+				case "DumpWorldState":
+					System.out.println(xstream.toXML(world));
+					break;
+				case "GenerateGlobalEvent":
+					int x, y, range;
+					String desc;
+					System.out.print("X: ");
+					x = Integer.parseInt(reader.readLine());
+					System.out.print("Y: ");
+					y = Integer.parseInt(reader.readLine());
+					System.out.print("Range: ");
+					range = Integer.parseInt(reader.readLine());
+					System.out.print("Description: ");
+					desc = reader.readLine();
+					Event event = new Event(new Tile(x, y, null, "", null));
+					event.setDescription(desc);
+					event.setRange(range);
+					world.fireEvent(event);
+					break;
+				default:
+					System.out.println("Invalid command: " + command);
+					break;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		Cleanup();
 	}
 	
@@ -101,37 +135,30 @@ public class NetworkManager implements Runnable {
 								response = Integer.toString(world.GetCurrentPlayerNum() + 1);
 							}
 						case "POLLWORLD":
-							writer.write(xstream.toXML(world).replace(System.getProperty("line.separator"),  ""));
-							writer.newLine();
-							writer.flush();
-							System.out.println(xstream.toXML(world));
+							response = xstream.toXML(world).replace(System.getProperty("line.separator"),  "");
 							break;
 						case "MOVE":
 							if (split.length > 1) {
 								switch (split[1]) {
 								case "NORTH":
-									//Move player north
+									world.MovePlayer(playerId, World.DIRECTION.NORTH);
 									break;
 								case "EAST":
-									//Move player north
+									world.MovePlayer(playerId, World.DIRECTION.EAST);
 									break;
 								case "SOUTH":
-									//Move player north
+									world.MovePlayer(playerId, World.DIRECTION.SOUTH);
 									break;
 								case "WEST":
-									//Move player north
+									world.MovePlayer(playerId, World.DIRECTION.WEST);
 									break;
 								case "TELEPORT":
 									// Teleport to new location
 									break;
 								}
-								writer.write("OK");
-								writer.newLine();
-								writer.flush();
+								response = "OK";
 							} else {
-								writer.write("INVALID");
-								writer.newLine();
-								writer.flush();
+								response = "INVALID";
 							}
 							break;
 						case "PICKUP":
@@ -139,12 +166,9 @@ public class NetworkManager implements Runnable {
 								if (split.length > 1) {
 									int thingId = Integer.parseInt(split[1]);
 									//Pickup thing
-									writer.write("OK");
-									writer.newLine();
-									writer.flush();
+									response = "OK";
 								} else {
-									writer.write("INVALID");
-									
+									response = "INVALID";
 								}
 							} catch (NumberFormatException e) {
 								e.printStackTrace();
@@ -157,8 +181,7 @@ public class NetworkManager implements Runnable {
 									//Drop thing
 									response = "OK";
 								} else {
-									response = "INVALID";
-	
+									response = "INVALID";	
 								}
 							} catch (NumberFormatException e) {
 								e.printStackTrace();

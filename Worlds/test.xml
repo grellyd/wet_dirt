@@ -5,14 +5,14 @@
 	<reqPlayerNum>2</reqPlayerNum>
 	<characters>
 		<Character>
-			<id>0</id>
+			<playerNumber>0</playerNumber>
 			<basic__description>A strange fellow.</basic__description>
 			<feel>Soft and squishy.</feel>
 			<x>0</x>
 			<y>0</y>
 		</Character>
 		<Character>
-			<id>1</id>
+			<playerNumber>1</playerNumber>
 			<basic__description>Another strange fellow.</basic__description>
 			<feel>Soft and squishier.</feel>
 			<x>1</x>

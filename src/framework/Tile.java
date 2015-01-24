@@ -11,7 +11,7 @@ public class Tile {
 	private String description;
 	private List<Thing> things;
 	
-	public Tile(int xCord, int yCord, List<Entryway> theExits, String theDescription, ArrayList<Thing> theThings) {
+	public Tile(int xCord, int yCord, List<Entryway> theExits, String theDescription, List<Thing> theThings) {
 		this.x = xCord;
 		this.y = yCord;
 		if (theExits.size() == 4) {

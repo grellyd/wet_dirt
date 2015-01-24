@@ -5,51 +5,50 @@ import java.util.List;
 
 public class World {
 	
-	private static int MIN_PLAYER_NUM = 0;
-	private static int MAP_WIDTH = 25;
-	private static int MAP_HEIGHT = 25;
-	
+	private int mapWidth = 25;
+	private int mapHeight = 25;
 	private int currentPlayerNum;
 	private int reqPlayerNum;
 	private List<Character> characters;
-	private Character emptyCharacter;
 	private Tile[][] theMap;
+	
+	public enum DIRECTION {
+		NORTH,
+		EAST,
+		SOUTH,
+		WEST
+	};
 	
 	public World() {
 		currentPlayerNum = 0;
-		emptyCharacter = new Character("", "", "");
+		reqPlayerNum = 2;
 		characters = new ArrayList<Character>();
-	}
-
-	
-	public void generateWorld() {
-
-		createCharacters(reqPlayerNum);
-		createMap();
-
+		theMap = new Tile[mapWidth][mapHeight];
 	}
 	
-	public Character getEmptyCharacter() {
-		return emptyCharacter;
-	}
-	
-	private void createCharacters(int numPlayers) {
-		for (int i = 0; i < numPlayers; i++) {
-			Character newChar = new Character("Player " + i, "A strange fellow.", "Soft and squishy.");
-			newChar.setId(i);
-			characters.add(newChar);
+	public void MovePlayer(int playerId, DIRECTION dir) {
+		switch (dir) {
+		case NORTH:
+			characters.get(playerId).setY(characters.get(playerId).getY() - 1);
+			break;
+		case EAST:
+			characters.get(playerId).setX(characters.get(playerId).getX() + 1);
+			break;
+		case WEST:
+			characters.get(playerId).setX(characters.get(playerId).getX() - 1);
+			break;
+		case SOUTH:
+			characters.get(playerId).setY(characters.get(playerId).getY() + 1);
+			break;
 		}
-	}	
-	
-	private void createMap() {
-		theMap =  new Tile [MAP_WIDTH][MAP_HEIGHT];
-		addNarrativePoints();
-		addPlayerPositions();
 	}
 
 	public int AddPlayer() {
 		return currentPlayerNum++;
-
+	}
+	
+	public void RemovePlayer() {
+		currentPlayerNum--;
 	}
 	
 	public int GetCurrentPlayerNum() {
@@ -58,14 +57,6 @@ public class World {
 	
 	public int GetReqPlayerNum() {
 		return reqPlayerNum;
-	}
-	
-	private void addNarrativePoints() {
-		//TODO
-	}
-	
-	private void addPlayerPositions() {
-		//TODO
 	}
 	
 	private Tile[][] getTheMap() {

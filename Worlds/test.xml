@@ -1,0 +1,121 @@
+<World>
+	<mapWidth>2</mapWidth>
+	<mapHeight>2</mapHeight>
+	<currentPlayerNum>0</currentPlayerNum>
+	<reqPlayerNum>2</reqPlayerNum>
+	<characters>    
+		<Character>
+			<id>0</id>
+			<basic__description>A strange fellow.</basic__description>
+			<feel>Soft and squishy.</feel>
+			<x>0</x>
+			<y>0</y>
+		</Character>
+		<Character>
+			<id>1</id>
+			<basic__description>Another strange fellow.</basic__description>
+			<feel>Soft and squishier.</feel>
+			<x>1</x>
+			<y>1</y>
+		</Character>
+	</characters>
+	<emptyCharacter>
+		<id>0</id>
+		<basic__description></basic__description>
+		<feel></feel>
+		<x>0</x>
+		<y>0</y>
+	</emptyCharacter>
+	<theMap>
+		<Tile-array>
+			<Tile>
+				<x>0</x>
+				<y>0</y>
+				<description>TopLeft - Wet</description>
+				<exits>
+					<Entryway>
+						<basic__description>EAST</basic__description>
+						<feel>Feels cold...</feel>
+						<isOpen>false</isOpen>
+					</Entryway>
+					<Entryway>
+						<basic__description>SOUTH</basic__description>
+						<feel>Feels dry...</feel>
+						<isOpen>false</isOpen>
+					</Entryway>
+				</exits>
+				<things>
+					<Thing>
+						<basic__description>A table</basic__description>
+						<full__description>A wooden table</full__description>
+					</Thing>
+					<Thing>
+						<basic__description>A waffle on the table</basic__description>
+						<full__description>A wooden table</full__description>
+					</Thing>
+				</things>
+			</Tile>
+			<Tile>
+				<x>1</x>
+				<y>0</y>
+				<description>TopRight - Cold</description>
+				<exits>
+					<Entryway>
+						<basic__description>WEST</basic__description>
+						<feel>Feels wet...</feel>
+						<isOpen>false</isOpen>
+					</Entryway>
+					<Entryway>
+						<basic__description>SOUTH</basic__description>
+						<feel>Feels hot...</feel>
+						<isOpen>false</isOpen>
+					</Entryway>
+				</exits>
+				<things>
+					<Thing>
+						<basic__description>A ball</basic__description>
+						<full__description>A green orb</full__description>
+					</Thing>
+				</things>
+			</Tile>
+		</Tile-array>
+		<Tile-array>
+			<Tile>
+				<x>0</x>
+				<y>1</y>
+				<description>BottomLeft - Dry</description>
+				<exits>
+					<Entryway>
+						<basic__description>NORTH</basic__description>
+						<feel>Feels wet...</feel>
+						<isOpen>false</isOpen>
+					</Entryway>
+					<Entryway>
+						<basic__description>EAST</basic__description>
+						<feel>Feels hot...</feel>
+						<isOpen>false</isOpen>
+					</Entryway>
+				</exits>
+				<things/>
+			</Tile>
+			<Tile>
+				<x>1</x>
+				<y>1</y>
+				<description>BottomRight - Hot</description>
+				<exits>
+					<Entryway>
+						<basic__description>WEST</basic__description>
+						<feel>Feels dry...</feel>
+						<isOpen>false</isOpen>
+					</Entryway>
+					<Entryway>
+						<basic__description>NORTH</basic__description>
+						<feel>Feels cold...</feel>
+						<isOpen>false</isOpen>
+					</Entryway>
+				</exits>
+				<things/>
+			</Tile>
+		</Tile-array>
+	</theMap>
+</World>

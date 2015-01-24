@@ -9,6 +9,14 @@ public class Thing {
 	protected String basic_description;
 	protected String full_description;
 
+	public String getFull_description() {
+		return full_description;
+	}
+
+	public void setFull_description(String full_description) {
+		this.full_description = full_description;
+	}
+
 	public Thing(String des) {
 		this.basic_description = des;
 	}

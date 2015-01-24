@@ -5,28 +5,50 @@ import java.util.List;
 
 public class World {
 	
-	private static int MIN_PLAYER_NUM = 0;
-	private static int MAP_WIDTH = 25;
-	private static int MAP_HEIGHT = 25;
-	
+	private int mapWidth = 25;
+	private int mapHeight = 25;
 	private int currentPlayerNum;
 	private int reqPlayerNum;
 	private List<Character> characters;
-	private Character emptyCharacter;
 	private Tile[][] theMap;
+	
+	public enum DIRECTION {
+		NORTH,
+		EAST,
+		SOUTH,
+		WEST
+	};
 	
 	public World() {
 		currentPlayerNum = 0;
-		emptyCharacter = new Character("", "", "");
+		reqPlayerNum = 2;
 		characters = new ArrayList<Character>();
+		theMap = new Tile[mapWidth][mapHeight];
 	}
 	
-	public Character getEmptyCharacter() {
-		return emptyCharacter;
+	public void MovePlayer(int playerId, DIRECTION dir) {
+		switch (dir) {
+		case NORTH:
+			characters.get(playerId).setY(characters.get(playerId).getY() - 1);
+			break;
+		case EAST:
+			characters.get(playerId).setX(characters.get(playerId).getX() + 1);
+			break;
+		case WEST:
+			characters.get(playerId).setX(characters.get(playerId).getX() - 1);
+			break;
+		case SOUTH:
+			characters.get(playerId).setY(characters.get(playerId).getY() + 1);
+			break;
+		}
 	}
-
+	
 	public int AddPlayer() {
 		return currentPlayerNum++;
+	}
+	
+	public void RemovePlayer() {
+		currentPlayerNum--;
 	}
 	
 	public int GetCurrentPlayerNum() {
@@ -37,7 +59,7 @@ public class World {
 		return reqPlayerNum;
 	}	
 	
-	private Tile[][] getTheMap() {
+	public Tile[][] getTheMap() {
 		return theMap;
 	}
 	

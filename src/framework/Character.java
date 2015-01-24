@@ -35,8 +35,6 @@ public class Character implements Interactable {
 		return basic_description + "Its name is " + name + ". " + feel;
 	}
 	
-	
-	
 	public List<MovableItem> getInventory() {
 		return inventory;
 	}

@@ -80,6 +80,7 @@ public class NetworkManager implements Runnable {
 					try {
 						if (rawmsg == null) {
 							System.out.println("Player " + playerId + " disconnected.");
+							world.RemovePlayer();
 							running = false;
 							break;
 						}
@@ -109,16 +110,16 @@ public class NetworkManager implements Runnable {
 							if (split.length > 1) {
 								switch (split[1]) {
 								case "NORTH":
-									//Move player north
+									world.MovePlayer(playerId, World.DIRECTION.NORTH);
 									break;
 								case "EAST":
-									//Move player north
+									world.MovePlayer(playerId, World.DIRECTION.EAST);
 									break;
 								case "SOUTH":
-									//Move player north
+									world.MovePlayer(playerId, World.DIRECTION.SOUTH);
 									break;
 								case "WEST":
-									//Move player north
+									world.MovePlayer(playerId, World.DIRECTION.WEST);
 									break;
 								case "TELEPORT":
 									// Teleport to new location

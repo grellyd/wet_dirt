@@ -9,9 +9,9 @@ public class Tile {
 	private int y;
 	private boolean[] exits;
 	private String description;
-	private List things;
+	private List<Thing> things;
 	
-	public Tile(int xCord, int yCord, boolean[] theExits, String theDescription, ArrayList theThings) {
+	public Tile(int xCord, int yCord, boolean[] theExits, String theDescription, ArrayList<Thing> theThings) {
 		this.x = xCord;
 		this.y = yCord;
 		if (theExits.length == 4) {

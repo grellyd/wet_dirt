@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import exceptions.ReturnException;
+
 public class TCPClient {
 	private Socket serversocket;
 	private BufferedReader reader;
@@ -33,7 +35,7 @@ public class TCPClient {
 		}
 	}
 	
-	public void SendMessage(String msg) {
+	public void sendMessage(String msg) {
 		if (connected) {
 			try {
 				writer.write(msg);
@@ -60,4 +62,27 @@ public class TCPClient {
 	public boolean IsConnected() {
 		return connected;
 	}
+
+	public String getData(String msg) throws ReturnException {
+		String result = "";
+		if (connected) {
+			try {
+				writer.write(msg);
+				writer.newLine();
+				writer.flush();
+				result = reader.readLine();
+				if (result.equals("")) {
+					throw new ReturnException("Return was empty.");
+				} 
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Not connected...");
+		}
+		return result;
+		
+	}
+	
+
 }

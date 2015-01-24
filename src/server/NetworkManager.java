@@ -86,6 +86,7 @@ public class NetworkManager implements Runnable {
 						
 						String response = "";
 						String[] split = rawmsg.split(";");
+
 						
 						switch (split[0]) {
 						case "STATUS":
@@ -94,10 +95,11 @@ public class NetworkManager implements Runnable {
 							} else {
 								response = "READY";
 							}
-							writer.write(response);
-							writer.newLine();
-							writer.flush();
 							break;
+						case "JOIN":
+							if (world.GetCurrentPlayerNum() < world.GetReqPlayerNum()) {
+								response = Integer.toString(world.GetCurrentPlayerNum() + 1);
+							}
 						case "POLLWORLD":
 							writer.write(xstream.toXML(world).replace(System.getProperty("line.separator"),  ""));
 							writer.newLine();
@@ -117,6 +119,9 @@ public class NetworkManager implements Runnable {
 									break;
 								case "WEST":
 									//Move player north
+									break;
+								case "TELEPORT":
+									// Teleport to new location
 									break;
 								}
 								writer.write("OK");
@@ -138,8 +143,7 @@ public class NetworkManager implements Runnable {
 									writer.flush();
 								} else {
 									writer.write("INVALID");
-									writer.newLine();
-									writer.flush();
+									
 								}
 							} catch (NumberFormatException e) {
 								e.printStackTrace();
@@ -150,24 +154,22 @@ public class NetworkManager implements Runnable {
 								if (split.length > 1) {
 									int thingId = Integer.parseInt(split[1]);
 									//Drop thing
-									writer.write("OK");
-									writer.newLine();
-									writer.flush();
+									response = "OK";
 								} else {
-									writer.write("INVALID");
-									writer.newLine();
-									writer.flush();
+									response = "INVALID";
+	
 								}
 							} catch (NumberFormatException e) {
 								e.printStackTrace();
 							}
 							break;
 						default:
-							writer.write("INVALID: " + split[0]);
-							writer.newLine();
-							writer.flush();
+							response = "INVALID: " + split[0];
 							break;
 						}
+						writer.write(response);
+						writer.newLine();
+						writer.flush();
 						System.out.println("Player " + playerId + ": " + rawmsg);
 					} catch (NullPointerException e) {
 						e.printStackTrace();

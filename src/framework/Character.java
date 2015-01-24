@@ -7,7 +7,7 @@ import exceptions.ItemNotFoundException;
 public class Character implements Interactable {
 	
 	private String name;
-	private int id;
+	private int playerNumber;
 	private String basic_description;
 	private String feel;
 	private int x;
@@ -73,11 +73,13 @@ public class Character implements Interactable {
 		this.y = y;
 	}
 
-	public int getId() {
-		return id;
+	public int getPlayerNumber() {
+		return playerNumber;
 	}
-	
-	public void setId(int newId) {
-		this.id = newId;
+
+	public void setPlayerNumber(int playerNumber) {
+		this.playerNumber = playerNumber;
 	}
+
+
 }

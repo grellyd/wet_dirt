@@ -20,34 +20,13 @@ public class World {
 		emptyCharacter = new Character("", "", "");
 		characters = new ArrayList<Character>();
 	}
-
-	
-//	public void generateWorld() {
-//
-//		createCharacters(reqPlayerNum);
-//		createMap();
-//
-//	}
 	
 	public Character getEmptyCharacter() {
 		return emptyCharacter;
 	}
-	
-//	private void createCharacters(int numPlayers) {
-//		for (int i = 0; i < numPlayers; i++) {
-//			Character newChar = new Character("Player " + i, "A strange fellow.", "Soft and squishy.");
-//			newChar.setId(i);
-//			characters.add(newChar);
-//		}
-//	}	
-//	
-//	private void createMap() {
-//		theMap =  new Tile [MAP_WIDTH][MAP_HEIGHT];
-//	}
 
 	public int AddPlayer() {
 		return currentPlayerNum++;
-
 	}
 	
 	public int GetCurrentPlayerNum() {
@@ -60,6 +39,14 @@ public class World {
 	
 	private Tile[][] getTheMap() {
 		return theMap;
+	}
+	
+	public String describe(int playerNum) {
+		Character activeChar = characters.get(playerNum);
+		int x = activeChar.getX();
+		int y = activeChar.getY();
+		Tile activeTile = theMap[x][y];
+		return activeTile.getDescription();
 	}
 	
 }

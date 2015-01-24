@@ -1,5 +1,5 @@
 package exceptions;
 
-public class ItemNotFoundException extends Throwable {
+public class ItemNotFoundException extends Exception {
 
 }

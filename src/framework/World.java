@@ -33,7 +33,6 @@ public class World {
 		for (int i = 0; i < numPlayers; i++) {
 			Character newChar = new Character("Player " + i, "A strange fellow.", "Soft and squishy.");
 			newChar.setId(i);
-			currentPlayerNum++;
 			characters.add(newChar);
 		}
 	}	

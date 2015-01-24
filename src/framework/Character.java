@@ -32,7 +32,7 @@ public class Character implements Interactable {
 
 	@Override
 	public String lookIntently() {
-		return basic_description + "Its name is " + name;
+		return basic_description + "Its name is " + name + ". " + feel;
 	}
 	
 	public List<MovableItem> getInventory() {

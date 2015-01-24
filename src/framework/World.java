@@ -42,7 +42,7 @@ public class World {
 			break;
 		}
 	}
-
+	
 	public int AddPlayer() {
 		return currentPlayerNum++;
 	}
@@ -57,9 +57,9 @@ public class World {
 	
 	public int GetReqPlayerNum() {
 		return reqPlayerNum;
-	}
+	}	
 	
-	private Tile[][] getTheMap() {
+	public Tile[][] getTheMap() {
 		return theMap;
 	}
 	

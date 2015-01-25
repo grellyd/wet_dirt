@@ -84,7 +84,7 @@ public class MainProcess {
 					if (!parseOnServer.isEmpty()) {
 						tcpClient.sendMessage(parseOnServer);
 					}
-					UpdateWorld();			
+					UpdateWorld();
 				} while(true);
 			}
 		} catch (NumberFormatException e) {
@@ -179,7 +179,7 @@ public class MainProcess {
 		} else if (input.contains("look")) {
 			if (input.contains("around")) {
 				UpdateWorld();
-				result = theWorld.describe(PLAYER_NUM);
+				System.out.println(theWorld.describe(PLAYER_NUM));
 			} else {
 				boolean itemFound = false;
 				for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {

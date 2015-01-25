@@ -49,11 +49,7 @@ public class Tile {
 	}
 
 	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description + "There are " + Integer.toString(exits.size()) + " doors.";
+		this.description = description + "\nThere are " + Integer.toString(exits.size()) + " doors.";
 		if (exits.size() > 0) {
 			for (Entryway e : exits) {
 				System.out.print("The " + e.getOrientation().toString() + " door is ");
@@ -64,6 +60,12 @@ public class Tile {
 				}
 			}
 		}
+		
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public List<Item> getItems() {

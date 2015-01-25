@@ -122,6 +122,15 @@ public class UI {
     		
     	}
     }
+    
+    public static void addToOutput(String input) {
+		StyledDocument theOutputDoc = scrollArea.getStyledDocument();
+		try {
+			theOutputDoc.insertString(theOutputDoc.getLength(), "", null);
+		} catch (BadLocationException e1) {
+			
+		}
+    }
 	
 	public UI() {
 		createAndShowGUI();

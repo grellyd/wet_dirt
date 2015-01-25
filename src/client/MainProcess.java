@@ -49,10 +49,11 @@ public class MainProcess {
 			int port = 12345;
 			tcpClient.Connect(ip, port);
 			
-			do {
+			while (!tcpClient.IsConnected()) {
 				System.out.println("Waiting for server...");
 				Thread.sleep(5000);
-			} while (!tcpClient.IsConnected());
+				tcpClient.Connect(ip, port);
+			} 
 			
 			System.out.println("Connected!");
 			errorMessage = "ERROR: Joining game failed. ";

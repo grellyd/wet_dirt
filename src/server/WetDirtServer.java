@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
+import client.UI;
+
 import com.thoughtworks.xstream.XStream;
 
 import framework.Entryway;
@@ -46,6 +48,7 @@ public class WetDirtServer {
 				if (filename.equals("d")) {
 					filename = "worlds/test.xml";
 				}
+				UI.createAndShowGUI();
 				try {
 					xmlWorld = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
 					success = true;

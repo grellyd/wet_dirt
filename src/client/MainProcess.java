@@ -9,11 +9,11 @@ import java.util.List;
 import com.thoughtworks.xstream.XStream;
 
 import exceptions.ReturnException;
+import framework.Entryway;
 import framework.Item;
 import framework.MovableItem;
-import framework.World;
 import framework.Tile;
-import framework.Entryway;
+import framework.World;
 
 public class MainProcess {
 	
@@ -81,7 +81,7 @@ public class MainProcess {
 					System.out.println(theWorld.describe(PLAYER_NUM));
 					
 					//prompt for action
-					System.out.println("What do you do next?");
+					System.out.println("What do you do now?");
 					String input = reader.readLine();
 					String parseOnServer = parse(input);
 					if (!parseOnServer.isEmpty()) {
@@ -95,12 +95,6 @@ public class MainProcess {
 					
 				} while(true);
 			}
-		
-		
-		
-		
-		
-		
 		} catch (NumberFormatException e) {
 			System.out.println(errorMessage + e.getMessage());
 			e.printStackTrace();
@@ -120,25 +114,11 @@ public class MainProcess {
 		}		
 	}
 	
-	private int getPlayerNumber(World world) throws IOException, ReturnException {
-		int numPlayers = world.GetCurrentPlayerNum();
-		if (numPlayers > 0) {
-			if (tcpClient.getData("STATUS").equals("WAITING")) {
-				
-			}
-			
-			
-		}
-		return 1;
-	}
-	
 	private String parse(String input) {
 		input = input.toLowerCase();
 		String result = "";
-		String sequence = "";
 		
 		// look for starting keywords
-		
 		if (input.contains("move")){
 			// get the list of local exits.
 			List<String> exits = new ArrayList<String>();
@@ -162,19 +142,69 @@ public class MainProcess {
 			} else System.out.println("You can't go that way.");
 			
 		} else if (input.contains("look")) {
-			
-			
-		//} else if (input.contains("look intently at")) {
-			
+			boolean itemFound = false;
+			for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
+				if (input.contains(item.getName())) {
+					System.out.println(item.getDescription());
+					itemFound = true;
+					break;
+				}
+			}
+			if (!itemFound) {
+				System.out.println("Invalid item");
+			}
+		} else if (input.contains("examine")) {
+			boolean itemFound = false;
+			for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
+				if (input.contains(item.getName())) {
+					System.out.println(item.getFull_description());
+					itemFound = true;
+					break;
+				}
+			}
+			if (!itemFound) {
+				System.out.println("Invalid item");
+			}
 		} else if (input.contains("pick up")) {
-			
+			boolean itemFound = false;
+			for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
+				if (input.contains(item.getName())) {
+					if (item.getClass() == MovableItem.class) {
+						System.out.println(item.getName() + " picked up");
+						theWorld.getCharacters().get(PLAYER_NUM).addToInventory((MovableItem)item);
+						theWorld.getPlayerTile(PLAYER_NUM).getItems().remove(item);
+					} else {
+						System.out.println("You can't carry that!");
+					}
+					
+					itemFound = true;
+					break;
+				}
+			}
+			if (!itemFound) {
+				System.out.println("Invalid item");
+			}
 		} else if (input.contains("drop")) {
-			
+			boolean itemFound = false;
+			for (MovableItem item : theWorld.getCharacters().get(PLAYER_NUM).getInventory()) {
+				if (input.contains(item.getName())) {
+					System.out.println("Dropped " + item.getName());
+					theWorld.getCharacters().get(PLAYER_NUM).getInventory().remove(item);
+					theWorld.getPlayerTile(PLAYER_NUM).getItems().add(item);
+				} else {
+					System.out.println("You do not possess that item.");
+				}
+					
+				itemFound = true;
+				break;
+			}
+			if (!itemFound) {
+				System.out.println("Invalid item");
+			}
 		} else if (input.contains("use")) {
 			
 		} else System.out.println("I don't understand. Try again?");
-		
-		
+				
 		return result;
 	}
 	

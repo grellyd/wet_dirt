@@ -1,5 +1,6 @@
 package framework;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.ItemNotFoundException;
@@ -14,7 +15,7 @@ public class Character implements Interactable {
 	private int y;
 	private int globalEventsRead = 0;
 	
-	private List<MovableItem> inventory;
+	private List<MovableItem> inventory = new ArrayList<MovableItem>();
 	
 	public Character(String name, String desc, String feel) {
 		this.basic_description = desc;

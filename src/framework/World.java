@@ -66,6 +66,10 @@ public class World {
 		return reqPlayerNum;
 	}
 	
+	public List<Character> getCharacters() {
+		return characters;
+	}
+	
 	public Tile[][] getTheMap() {
 		return theMap;
 	}

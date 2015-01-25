@@ -41,13 +41,15 @@
 				</exits>
 				<items>
 					<Item>
+						<name>table</name>
 						<basic__description>A table</basic__description>
 						<full__description>A wooden table</full__description>
 						<feel>It feels really dry</feel>
 					</Item>
 					<MovableItem>
+						<name>waffle</name>
 						<basic__description>A waffle on the table</basic__description>
-						<full__description>A wooden table</full__description>
+						<full__description>A lovely waggle covered in syrup - but it has two bites taken out of it</full__description>
 						<feel>It is soggy</feel>
 					</MovableItem>
 				</items>
@@ -94,7 +96,8 @@
 				</exits>
 				<items>
 					<MovableItem>
-						<basic__description>A ball</basic__description>
+						<name>orb</name>
+						<basic__description>An orb</basic__description>
 						<full__description>A green orb</full__description>
 						<feel>It's the smoothest orb you've ever held</feel>
 					</MovableItem>

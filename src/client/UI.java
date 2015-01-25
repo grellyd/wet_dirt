@@ -66,8 +66,9 @@ public class UI {
 		};
 		
 		theActionBar = new JTextArea("Possible Commands are: \n\tMove $Direction$, "
-				+ "\n\tLook $Object$, Look Around, Examine $Object$, "
-				+ "\n\tCheck doors, Open/Close $Direction$ door");
+				+ "\n\tLook $Object$, Look Around, Examine inventory/$Object$, "
+				+ "\n\tCheck doors, Open/Close $Direction$ door"
+				+ "\n\tCheck inventory, Take/Drop $object$");
 		theActionBar.setOpaque(true);
 		theActionBar.setBackground(actionBarColour);
 		theActionBar.setPreferredSize(menuBarDimension);

@@ -88,9 +88,6 @@ public class UI {
 		scrollArea.setLineWrap(true);
 		scrollArea.setWrapStyleWord(true);
 		
-		DefaultCaret caret = (DefaultCaret) scrollArea.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		
 		scrollContainer = new JScrollPane(scrollArea);
 		scrollContainer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollContainer.setPreferredSize(mainAreaDimension);
@@ -148,6 +145,7 @@ public class UI {
 		
 		try {
 			theOutputDoc.insertString(theOutputDoc.getLength(), inputString, normal);
+			scrollArea.setCaretPosition(theOutputDoc.getLength());
 		} catch (BadLocationException e1) {
 			
 		}

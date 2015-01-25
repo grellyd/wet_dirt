@@ -10,7 +10,10 @@ import java.net.Socket;
 
 import com.thoughtworks.xstream.XStream;
 
+import exceptions.ItemNotFoundException;
 import framework.Event;
+import framework.Item;
+import framework.MovableItem;
 import framework.Tile;
 import framework.World;
 
@@ -165,12 +168,23 @@ public class NetworkManager implements Runnable {
 								response = "INVALID";
 							}
 							break;
-						case "PICKUP":
+						case "TAKE":
 							try {
 								if (split.length > 1) {
-									int thingId = Integer.parseInt(split[1]);
-									//Pickup thing
-									response = "OK";
+									MovableItem mItem = null;
+									for (Item item : world.getPlayerTile(playerId).getItems()) {
+										if (item.getName().equals(split[1])) {
+											mItem = (MovableItem)item;
+											break;
+										}
+									}
+									if (mItem != null) {
+										world.getCharacters().get(playerId).addToInventory(mItem);
+										world.getPlayerTile(playerId).getItems().remove(mItem);
+										response = "OK";
+									} else {
+										response = "INVALID";
+									}							
 								} else {
 									response = "INVALID";
 								}
@@ -181,9 +195,24 @@ public class NetworkManager implements Runnable {
 						case "DROP":
 							try {
 								if (split.length > 1) {
-									int thingId = Integer.parseInt(split[1]);
-									//Drop thing
-									response = "OK";
+									MovableItem mItem = null;
+									for (Item item : world.getCharacters().get(playerId).getInventory()) {
+										if (item.getName().equals(split[1])) {
+											mItem = (MovableItem)item;
+											break;
+										}
+									}
+									if (mItem != null) {
+										try {
+											world.getCharacters().get(playerId).removeFromInventory(mItem);
+										} catch (ItemNotFoundException e) {
+											e.printStackTrace();
+										}
+										world.getPlayerTile(playerId).getItems().add(mItem);
+										response = "OK";
+									} else {
+										response = "INVALID";
+									}
 								} else {
 									response = "INVALID";	
 								}

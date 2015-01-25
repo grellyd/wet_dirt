@@ -2,7 +2,7 @@
 	<mapWidth>2</mapWidth>
 	<mapHeight>2</mapHeight>
 	<currentPlayerNum>0</currentPlayerNum>
-	<reqPlayerNum>2</reqPlayerNum>
+	<reqPlayerNum>1</reqPlayerNum>
 	<characters>
 		<Character>
 			<playerNumber>0</playerNumber>
@@ -129,6 +129,7 @@
 				<items/>
 				<events>
 					<Event>
+						<id>1</id>
 						<description>You are being tested. Answer correctly to succeed.</description>
 						<failureText>You have failed. TO HELL WITH YOU!</failureText>
 						<successText>You have succeeded. YOu are worthy to continue.</successText>

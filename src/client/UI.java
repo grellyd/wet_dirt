@@ -6,14 +6,15 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
 
+
 public class UI {
 	
 	private static JFrame theUI; 
-	private static JMenuBar theMenuBar;
-	private static JTextPane scrollArea;
+	private static JTextArea theActionBar;
+	private static JTextArea scrollArea;
 	private static JTextArea textInputArea;
 	
-	private static Color menuBarColour;
+	private static Color actionBarColour;
 	private static Color textInputAreaColour;
 	private static Color textColour;
 	
@@ -24,6 +25,10 @@ public class UI {
 	private static Dimension textInputDimension;
 
 	private static KeyListener listenEnter;
+	
+	private static String newline = System.getProperty("line.separator");
+	
+	private static String returnString;
 
 	public static void createAndShowGUI() {
 		theUI = new JFrame("wetDirtUI");
@@ -31,12 +36,12 @@ public class UI {
 		
 		textColour = new Color(98, 252, 56); 
 		textInputAreaColour = new Color(0, 0, 0); //black
-		menuBarColour = new Color(153, 60, 240);
+		actionBarColour = new Color(153, 60, 240);
 				
 		textFont = new Font("myFont", Font.BOLD, 14);
 		
-		menuBarDimension = new Dimension(600, 45);
-		mainAreaDimension = new Dimension(600, 900);
+		menuBarDimension = new Dimension(600, 90);
+		mainAreaDimension = new Dimension(600, 600);
 		textInputDimension = new Dimension(600, 20);
 		
 		listenEnter = new KeyListener() {
@@ -59,18 +64,26 @@ public class UI {
 			}
 		};
 		
-		theMenuBar = new JMenuBar();
-		theMenuBar.setOpaque(true);
-		theMenuBar.setBackground(menuBarColour);
-		theMenuBar.setPreferredSize(menuBarDimension);
-		theMenuBar.setName("Possible Commands: ");
-		theMenuBar.setToolTipText("Possible Commands are: \n Move &Direction& \n Look \n Examine");
+		theActionBar = new JTextArea("Possible Commands are: Move $Direction$, Look $Object$ OR around, Examine $Object$, Check doors, Open/Close $Direction$ door");
+		theActionBar.setOpaque(true);
+		theActionBar.setBackground(actionBarColour);
+		theActionBar.setPreferredSize(menuBarDimension);
+		theActionBar.setName("Possible Commands: ");
+		theActionBar.setToolTipText("Possible Commands are: \n Move &Direction& \n Look \n Examine");
+		theActionBar.setForeground(textColour);
+		theActionBar.setEditable(false);
+		theActionBar.setLineWrap(true);
+		theActionBar.setWrapStyleWord(true);
 		
-		scrollArea = new JTextPane();
+		scrollArea = new JTextArea("Welcome to Wet Dirt!" + newline);
 		scrollArea.setPreferredSize(mainAreaDimension);
 		scrollArea.setEditable(false);
 		scrollArea.setBackground(textInputAreaColour);
+		scrollArea.setFont(textFont);
+		scrollArea.setForeground(textColour);
 		scrollArea.setBorder(BorderFactory.createLineBorder(Color.white));
+		scrollArea.setLineWrap(true);
+		scrollArea.setWrapStyleWord(true);
 
 		textInputArea = new JTextArea();
 		textInputArea.setPreferredSize(textInputDimension);
@@ -81,56 +94,69 @@ public class UI {
 		textInputArea.setFont(textFont);
 		textInputArea.setBorder(BorderFactory.createLineBorder(Color.white));
 		textInputArea.addKeyListener(listenEnter);
-		
-		
-		theUI.setJMenuBar(theMenuBar);
+		textInputArea.setLineWrap(true);
+		textInputArea.setWrapStyleWord(true);
+		textInputArea.setCaretColor(textColour);
+				
+		theUI.getContentPane().add(theActionBar, BorderLayout.PAGE_START);
 		theUI.getContentPane().add(scrollArea, BorderLayout.CENTER);
 		theUI.getContentPane().add(textInputArea, BorderLayout.PAGE_END);
 		theUI.setTitle("Wet_Dirt - The Multiplayer Text Adventure Game");
 		theUI.requestFocusInWindow();
 		textInputArea.requestFocusInWindow();
 		
+		returnString = "";
+		
 		theUI.pack();
 		theUI.setVisible(true);
+		
+
 	}
 	
-	public void runGUI() {
-		while (true) {
-			
-		}
-	}
-    
     public static void activateKeyEvent(KeyEvent e, String keyStatus) {
     	int id = e.getID();
     	String inputString = "";
     	if (id == KeyEvent.KEY_RELEASED) {
     		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
     			Document theInputDoc = textInputArea.getDocument();
-    			StyledDocument theOutputDoc = scrollArea.getStyledDocument();
     			try {
-					inputString = theInputDoc.getText(0, theInputDoc.getLength());
+					inputString = theInputDoc.getText(0, theInputDoc.getLength()).trim();
 				} catch (BadLocationException e1) {
 					e1.printStackTrace();
 				}
-    			inputString = inputString + "\n";
-    			try {
-					theOutputDoc.insertString(theOutputDoc.getLength(), inputString, null);
-				} catch (BadLocationException e1) {
-					e1.printStackTrace();
-				}
+    			returnString = inputString;
+    			addToOutput(inputString);
+    			textInputArea.setText("");
     		}
-    		
     	}
     }
     
-    public static void addToOutput(String input) {
-		StyledDocument theOutputDoc = scrollArea.getStyledDocument();
+    public static void addToOutput(String inputString) {
+    	inputString = newline + inputString;
+		Document theOutputDoc = scrollArea.getDocument();
+		SimpleAttributeSet normal = new SimpleAttributeSet();
+		
 		try {
-			theOutputDoc.insertString(theOutputDoc.getLength(), "", null);
+			theOutputDoc.insertString(theOutputDoc.getLength(), inputString, normal);
 		} catch (BadLocationException e1) {
 			
 		}
     }
+    
+    public  static String getInputResult() {
+    	while (returnString.equals("")) {
+    		try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+    	String tempString = returnString;
+    	tempString.trim();
+    	returnString = "";
+    	return tempString;
+    }
+
 	
 	public UI() {
 		createAndShowGUI();

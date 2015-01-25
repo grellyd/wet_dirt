@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
+	private int id;
 	private String description;
 	private String failureText;
 	private String successText;
@@ -63,6 +64,14 @@ public class Event {
 		} else {
 			System.out.println(failureText);
 		}
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public String getDescription() {

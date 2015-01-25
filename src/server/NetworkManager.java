@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.time.LocalTime;
+import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -229,18 +229,54 @@ public class NetworkManager implements Runnable {
 										e.open();
 										Tile playerTile = world.getPlayerTile(playerId);
 										if (playerTile.getY() - 1 >= 0) {
-											//List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() - 1].getExits()
+											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() - 1].getExits();
+											for (Entryway ae : adjacentExits) {
+												if (ae.getOrientation().toString().toLowerCase().equals("south")) {
+													ae.open();
+													break;
+												}
+											}
 										}
 										response = "OK";
 										break;
 									} else if (split[1].equals("EAST") && e.getOrientation().toString().toLowerCase().equals("east")) {
 										e.open();
+										Tile playerTile = world.getPlayerTile(playerId);
+										if (playerTile.getX() + 1 >= 0) {
+											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() + 1][playerTile.getY()].getExits();
+											for (Entryway ae : adjacentExits) {
+												if (ae.getOrientation().toString().toLowerCase().equals("west")) {
+													ae.open();
+													break;
+												}
+											}
+										}
 										response = "OK";
 									} else if (split[1].equals("WEST") && e.getOrientation().toString().toLowerCase().equals("west")) {
 										e.open();
+										Tile playerTile = world.getPlayerTile(playerId);
+										if (playerTile.getX() - 1 >= 0) {
+											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() - 1][playerTile.getY()].getExits();
+											for (Entryway ae : adjacentExits) {
+												if (ae.getOrientation().toString().toLowerCase().equals("east")) {
+													ae.open();
+													break;
+												}
+											}
+										}
 										response = "OK";
 									} else if (split[1].equals("SOUTH") && e.getOrientation().toString().toLowerCase().equals("south")) {
 										e.open();
+										Tile playerTile = world.getPlayerTile(playerId);
+										if (playerTile.getY() + 1 < world.getMapHeight()) {
+											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() + 1].getExits();
+											for (Entryway ae : adjacentExits) {
+												if (ae.getOrientation().toString().toLowerCase().equals("north")) {
+													ae.open();
+													break;
+												}
+											}
+										}
 										response = "OK";
 									}
 								}
@@ -252,18 +288,58 @@ public class NetworkManager implements Runnable {
 						case "CLOSEDOOR":
 							if (split.length > 1) {
 								for (Entryway e : world.getPlayerTile(playerId).getExits()) {
-									if (split[1] == "NORTH" && e.getOrientation().toString().toLowerCase() == "north") {
+									if (split[1].equals("NORTH") && e.getOrientation().toString().toLowerCase().equals("north")) {
 										e.close();
+										Tile playerTile = world.getPlayerTile(playerId);
+										if (playerTile.getY() - 1 >= 0) {
+											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() - 1].getExits();
+											for (Entryway ae : adjacentExits) {
+												if (ae.getOrientation().toString().toLowerCase().equals("south")) {
+													ae.close();
+													break;
+												}
+											}
+										}
 										response = "OK";
 										break;
-									} else if (split[1] == "EAST" && e.getOrientation().toString().toLowerCase() == "east") {
+									} else if (split[1].equals("EAST") && e.getOrientation().toString().toLowerCase().equals("east")) {
 										e.close();
+										Tile playerTile = world.getPlayerTile(playerId);
+										if (playerTile.getX() + 1 >= 0) {
+											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() + 1][playerTile.getY()].getExits();
+											for (Entryway ae : adjacentExits) {
+												if (ae.getOrientation().toString().toLowerCase().equals("west")) {
+													ae.close();
+													break;
+												}
+											}
+										}
 										response = "OK";
-									} else if (split[1] == "WEST" && e.getOrientation().toString().toLowerCase() == "west") {
+									} else if (split[1].equals("WEST") && e.getOrientation().toString().toLowerCase().equals("west")) {
 										e.close();
+										Tile playerTile = world.getPlayerTile(playerId);
+										if (playerTile.getX() - 1 >= 0) {
+											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() - 1][playerTile.getY()].getExits();
+											for (Entryway ae : adjacentExits) {
+												if (ae.getOrientation().toString().toLowerCase().equals("east")) {
+													ae.close();
+													break;
+												}
+											}
+										}
 										response = "OK";
-									} else if (split[1] == "SOUTH" && e.getOrientation().toString().toLowerCase() == "south") {
+									} else if (split[1].equals("SOUTH") && e.getOrientation().toString().toLowerCase().equals("south")) {
 										e.close();
+										Tile playerTile = world.getPlayerTile(playerId);
+										if (playerTile.getY() + 1 < world.getMapHeight()) {
+											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() + 1].getExits();
+											for (Entryway ae : adjacentExits) {
+												if (ae.getOrientation().toString().toLowerCase().equals("north")) {
+													ae.close();
+													break;
+												}
+											}
+										}
 										response = "OK";
 									}
 								}

@@ -72,6 +72,14 @@ public class World {
 		return theMap;
 	}
 	
+	public int getMapWidth() {
+		return mapWidth;
+	}
+	
+	public int getMapHeight() {
+		return mapHeight;
+	}
+	
 	public void fireEvent(Event event) {
 		globalEvents.add(event);
 		if (event.getRange() > 0) {

@@ -74,25 +74,17 @@ public class MainProcess {
 				System.out.println("Starting Game!");
 				
 				errorMessage = "Error: Getting actions failed. ";
+				System.out.println(theWorld.describe(PLAYER_NUM));
 				
 				do {
-					
-					localTile = theWorld.getPlayerTile(PLAYER_NUM);
-					System.out.println(theWorld.describe(PLAYER_NUM));
-					
-					//prompt for action
 					System.out.println("What do you do now?");
 					String input = reader.readLine();
+					UpdateWorld();
 					String parseOnServer = parse(input);
 					if (!parseOnServer.isEmpty()) {
 						tcpClient.sendMessage(parseOnServer);
 					}
-					//check for event
-					//TODO
-					// fetch updated info from server
-					String xmlWorld = tcpClient.getData("POLLWORLD");
-					theWorld = (World)xstream.fromXML(xmlWorld);
-					
+					UpdateWorld();			
 				} while(true);
 			}
 		} catch (NumberFormatException e) {
@@ -112,6 +104,15 @@ public class MainProcess {
 			e.printStackTrace();
 			tcpClient.Disconnect();
 		}		
+	}
+	
+	private void UpdateWorld() {
+		try {
+			theWorld = (World)xstream.fromXML(tcpClient.getData("POLLWORLD"));
+			localTile = theWorld.getPlayerTile(PLAYER_NUM);
+		} catch (ReturnException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private String parse(String input) {
@@ -177,9 +178,8 @@ public class MainProcess {
 			}
 		} else if (input.contains("look")) {
 			if (input.contains("around")) {
-				tcpClient.sendMessage("POLLWORLD");
-				theWorld.describe(PLAYER_NUM);
-				result = "";
+				UpdateWorld();
+				result = theWorld.describe(PLAYER_NUM);
 			} else {
 				boolean itemFound = false;
 				for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
@@ -190,7 +190,7 @@ public class MainProcess {
 					}
 				}
 				if (!itemFound) {
-					System.out.println("Invalid item");
+					System.out.println("Look at what?");
 				}
 			}
 		} else if (input.contains("examine")) {

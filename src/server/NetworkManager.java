@@ -7,10 +7,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalTime;
 
 import com.thoughtworks.xstream.XStream;
 
 import exceptions.ItemNotFoundException;
+import framework.Entryway;
 import framework.Event;
 import framework.Item;
 import framework.MovableItem;
@@ -218,6 +220,56 @@ public class NetworkManager implements Runnable {
 								}
 							} catch (NumberFormatException e) {
 								e.printStackTrace();
+							}
+							break;
+						case "OPENDOOR":
+							if (split.length > 1) {
+								for (Entryway e : world.getPlayerTile(playerId).getExits()) {
+									if (split[1].equals("NORTH") && e.getOrientation().toString().toLowerCase().equals("north")) {
+										e.open();
+										Tile playerTile = world.getPlayerTile(playerId);
+										if (playerTile.getY() - 1 >= 0) {
+											//List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() - 1].getExits()
+										}
+										response = "OK";
+										break;
+									} else if (split[1].equals("EAST") && e.getOrientation().toString().toLowerCase().equals("east")) {
+										e.open();
+										response = "OK";
+									} else if (split[1].equals("WEST") && e.getOrientation().toString().toLowerCase().equals("west")) {
+										e.open();
+										response = "OK";
+									} else if (split[1].equals("SOUTH") && e.getOrientation().toString().toLowerCase().equals("south")) {
+										e.open();
+										response = "OK";
+									}
+								}
+								if (!response.equals("OK")) {
+									response = "INVALID";
+								}
+							}
+							break;
+						case "CLOSEDOOR":
+							if (split.length > 1) {
+								for (Entryway e : world.getPlayerTile(playerId).getExits()) {
+									if (split[1] == "NORTH" && e.getOrientation().toString().toLowerCase() == "north") {
+										e.close();
+										response = "OK";
+										break;
+									} else if (split[1] == "EAST" && e.getOrientation().toString().toLowerCase() == "east") {
+										e.close();
+										response = "OK";
+									} else if (split[1] == "WEST" && e.getOrientation().toString().toLowerCase() == "west") {
+										e.close();
+										response = "OK";
+									} else if (split[1] == "SOUTH" && e.getOrientation().toString().toLowerCase() == "south") {
+										e.close();
+										response = "OK";
+									}
+								}
+								if (!response.equals("OK")) {
+									response = "INVALID";
+								}
 							}
 							break;
 						default:

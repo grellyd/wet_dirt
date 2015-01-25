@@ -71,6 +71,11 @@ public class TCPClient {
 				writer.newLine();
 				writer.flush();
 				result = reader.readLine();
+				if (result == null) {
+					System.out.println("Connection to server lost...");
+					Disconnect();
+					return "";
+				}
 				if (result.equals("")) {
 					throw new ReturnException("Return was empty.");
 				} 

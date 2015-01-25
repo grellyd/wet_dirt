@@ -121,8 +121,10 @@ public class UI {
     public static void addToOutput(String inputString) {
     	inputString = inputString + "\n";
 		StyledDocument theOutputDoc = scrollArea.getStyledDocument();
+		SimpleAttributeSet normal = new SimpleAttributeSet();
+		
 		try {
-			theOutputDoc.insertString(theOutputDoc.getLength(), inputString, null);
+			theOutputDoc.insertString(theOutputDoc.getLength(), inputString, normal);
 		} catch (BadLocationException e1) {
 			
 		}

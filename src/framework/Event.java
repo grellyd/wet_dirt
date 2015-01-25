@@ -1,10 +1,9 @@
 package framework;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import client.UI;
 
 public class Event {
 	private int id;
@@ -23,9 +22,10 @@ public class Event {
 	};
 	
 	private FIREDBY firedBy;
-	private Item firedItem;
+	private String firedItemName;
 	private String interactString;
 	
+	private List<MovableItem> rewards = new ArrayList<MovableItem>();
 	private List<String> questions = new ArrayList<String>();
 	private List<String> correctAnswers = new ArrayList<String>();
 	private List<String> answers = new ArrayList<String>();
@@ -35,16 +35,11 @@ public class Event {
 	}
 	
 	public void fire(Character c) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("--------------");
-		System.out.println(description);
+		UI.addToOutput("--------------", false);
+		UI.addToOutput(description, false);
 		for (String question : questions) {
-			System.out.println(question);
-			try {
-				answers.add(reader.readLine());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			UI.addToOutput(question, false);
+			answers.add(UI.getInputResult());
 		}
 		boolean correctAnswer = true;
 		for (int i = 0; i < correctAnswers.size(); i++) {
@@ -59,10 +54,10 @@ public class Event {
 			}
 		}
 		if (correctAnswer) {
-			System.out.println(successText);
+			UI.addToOutput(successText, false);
 			fired = true;
 		} else {
-			System.out.println(failureText);
+			UI.addToOutput(failureText, false);
 		}
 	}
 	
@@ -106,12 +101,12 @@ public class Event {
 		return firedBy;
 	}
 	
-	public void setFiredItem(Item firedItem) {
-		this.firedItem = firedItem;
+	public void setFiredItemName(String firedItemName) {
+		this.firedItemName = firedItemName;
 	}
 	
-	public Item getFiredItem() {
-		return firedItem;
+	public String getFiredItemName() {
+		return firedItemName;
 	}
 	
 	public void setIteractString(String interactString) {
@@ -120,6 +115,14 @@ public class Event {
 	
 	public String getIteractString() {
 		return interactString;
+	}
+	
+	public void setRewards(List<MovableItem> rewards) {
+		this.rewards = rewards;
+	}
+	
+	public List<MovableItem> getRewards() {
+		return rewards;
 	}
 	
 	public boolean hasFired() {

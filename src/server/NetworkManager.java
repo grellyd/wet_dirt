@@ -180,6 +180,17 @@ public class NetworkManager implements Runnable {
 											break;
 										}
 									}
+									for (Event e : world.getPlayerTile(playerId).getEvents()) {
+										for (Item item : world.getPlayerTile(playerId).getItems()) {
+											if (item.getName().equals(split[1])) {
+												mItem = (MovableItem)item;
+												break;
+											}
+										}
+										if (mItem != null) {
+											break;
+										}
+									}
 									if (mItem != null) {
 										world.getCharacters().get(playerId).addToInventory(mItem);
 										world.getPlayerTile(playerId).getItems().remove(mItem);

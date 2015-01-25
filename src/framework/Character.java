@@ -50,8 +50,6 @@ public class Character implements Interactable {
 	public void addToInventory(MovableItem itemToAdd) {
 		if(itemToAdd != null) {
 			inventory.add(itemToAdd);
-		} else {
-			System.out.println("itemToAdd is null");
 		}
 	}
 

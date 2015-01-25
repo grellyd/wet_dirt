@@ -107,6 +107,15 @@ public class MainProcess {
 									e.fire(theWorld.getCharacters().get(PLAYER_NUM));
 									if (e.hasFired()) {
 										clearedEvents.add(e.getId());
+										if (e.getRewards().size() > 0) {
+											UI.addToOutput("----REWARDS----", false);
+											for (MovableItem item : e.getRewards()) {
+												theWorld.getCharacters().get(PLAYER_NUM).addToInventory(item);
+												UI.addToOutput(item.getName() + " added to inventory!", false);
+												tcpClient.sendMessage("TAKE;" + item.getName());
+											}
+											UI.addToOutput("---------------", false);
+										}
 									}
 								}
 								break;
@@ -138,7 +147,7 @@ public class MainProcess {
 								break;
 							case HASITEM:
 								for (Item i : theWorld.getCharacters().get(PLAYER_NUM).getInventory()) {
-									if (i.getName().equals(e.getFiredItem().getName())) {
+									if (i.getName().equals(e.getFiredItemName())) {
 										e.fire(theWorld.getCharacters().get(PLAYER_NUM));
 										if (e.hasFired()) {
 											clearedEvents.add(e.getId());
@@ -269,7 +278,7 @@ public class MainProcess {
 				} else {
 					output += ":\n";
 					for (MovableItem item : inventory) {
-						output += "--> " + item.getName() + ":" + item.getFull_description() + "\n";
+						output += "--> " + item.getName() + " : " + item.getFull_description() + "\n";
 					}
 				}
 				UI.addToOutput(output, false);
@@ -331,16 +340,22 @@ public class MainProcess {
 				UI.addToOutput("Invalid item", false);
 			}
 		} else if (input.contains("check doors")) {
+
 			UI.addToOutput("Door status:", false);
+			String output = "";
+
 			for (Entryway e : (localTile.getExits())) {
-				System.out.print("The " + e.getOrientation().toString() + " door is ");
+				output += "The " + e.getOrientation().toString() + " door is ";
 				if (e.isOpen()) {
-					UI.addToOutput("open.", false);
+
+					output += "open.\n";
 				} else {
-					UI.addToOutput("closed.", false);
+					output += "closed.\n";
 				}
 			}
+			UI.addToOutput(output, false);
 			UI.addToOutput("--------------", false);
+
 		} else if (input.contains("open")) {
 			if (input.contains("door")) {
 				boolean doorFound = false;

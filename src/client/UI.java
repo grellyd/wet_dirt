@@ -90,8 +90,7 @@ public class UI {
 		scrollArea.setFont(textFont);
 		scrollArea.setForeground(systemTextColour);
 		scrollArea.setBorder(BorderFactory.createLineBorder(Color.white));
-		//scrollArea.setLineWrap(true);
-		//scrollArea.setWrapStyleWord(true);
+
 		
 		scrollContainer = new JScrollPane(scrollArea);
 		scrollContainer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -100,7 +99,7 @@ public class UI {
 		textInputArea = new JTextArea();
 		textInputArea.setPreferredSize(textInputDimension);
 		textInputArea.setBackground(textInputAreaColour);
-		textInputArea.setForeground(systemTextColour);
+		textInputArea.setForeground(userTextColour);
 		textInputArea.setFocusable(true);
 		textInputArea.setEditable(true);
 		textInputArea.setFont(textFont);

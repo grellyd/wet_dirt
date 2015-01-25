@@ -85,12 +85,16 @@ public class MainProcess {
 					String input = reader.readLine();
 					String parseOnServer = parse(input);
 					if (!parseOnServer.isEmpty()) {
+						System.out.println("Sending to server: " + parseOnServer);
 						tcpClient.sendMessage(parseOnServer);
 					}
 					//check for event
 					//TODO
 					// fetch updated info from server
-					theWorld = (World)xstream.fromXML(tcpClient.getData("POLLWORLD"));
+					String xmlWorld = tcpClient.getData("POLLWORLD");
+					theWorld = (World)xstream.fromXML(xmlWorld);
+					System.out.println(xmlWorld);
+					
 				} while(true);
 			}
 		
@@ -140,18 +144,22 @@ public class MainProcess {
 		if (input.contains("move")){
 			// get the list of local exits.
 			List<String> exits = new ArrayList<String>();
+			if (localTile == null) {
+				System.out.println("Error: localTile not initialized");
+				return "";
+			}
 			if (localTile.getExits() != null) {
 				for (Entryway e : (localTile.getExits())) {
-					exits.add(e.getOrientation().toString());
+					exits.add(e.getOrientation().toString().toLowerCase());
 				}
 			}
-			if (input.contains("north") & exits.contains("North")) {
+			if (input.contains("north") && exits.contains("north")) {
 				result = "MOVE;NORTH";			
-			} else if (input.contains("east") & exits.contains("East")) {
+			} else if (input.contains("east") && exits.contains("east")) {
 				result = "MOVE;EAST";
-			} else if (input.contains("south") & exits.contains("South")) {
+			} else if (input.contains("south") && exits.contains("south")) {
 				result = "MOVE;SOUTH";
-			} else if (input.contains("west") & exits.contains("WEST")) {
+			} else if (input.contains("west") && exits.contains("west")) {
 				result = "MOVE;WEST";
 			} else System.out.println("You can't go that way.");
 			

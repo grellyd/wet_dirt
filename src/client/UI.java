@@ -17,7 +17,8 @@ public class UI {
 	
 	private static Color actionBarColour;
 	private static Color textInputAreaColour;
-	private static Color textColour;
+	private static Color systemTextColour;
+	private static Color userTextColour;
 	
 	private static Font textFont;
 	
@@ -35,7 +36,8 @@ public class UI {
 		theUI = new JFrame("wetDirtUI");
 		theUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		textColour = new Color(98, 252, 56); 
+		systemTextColour = new Color(98, 252, 56); 
+		userTextColour = new Color(255, 239, 10);
 		textInputAreaColour = new Color(0, 0, 0); //black
 		actionBarColour = new Color(153, 60, 240);
 				
@@ -73,7 +75,7 @@ public class UI {
 		theActionBar.setPreferredSize(menuBarDimension);
 		theActionBar.setName("Possible Commands: ");
 		theActionBar.setToolTipText("Possible Commands are: \n Move &Direction& \n Look \n Examine");
-		theActionBar.setForeground(textColour);
+		theActionBar.setForeground(systemTextColour);
 		theActionBar.setEditable(false);
 		theActionBar.setLineWrap(true);
 		theActionBar.setWrapStyleWord(true);
@@ -82,7 +84,7 @@ public class UI {
 		scrollArea.setEditable(false);
 		scrollArea.setBackground(textInputAreaColour);
 		scrollArea.setFont(textFont);
-		scrollArea.setForeground(textColour);
+		scrollArea.setForeground(systemTextColour);
 		scrollArea.setBorder(BorderFactory.createLineBorder(Color.white));
 		scrollArea.setLineWrap(true);
 		scrollArea.setWrapStyleWord(true);
@@ -94,7 +96,7 @@ public class UI {
 		textInputArea = new JTextArea();
 		textInputArea.setPreferredSize(textInputDimension);
 		textInputArea.setBackground(textInputAreaColour);
-		textInputArea.setForeground(textColour);
+		textInputArea.setForeground(systemTextColour);
 		textInputArea.setFocusable(true);
 		textInputArea.setEditable(true);
 		textInputArea.setFont(textFont);
@@ -102,14 +104,41 @@ public class UI {
 		textInputArea.addKeyListener(listenEnter);
 		textInputArea.setLineWrap(true);
 		textInputArea.setWrapStyleWord(true);
-		textInputArea.setCaretColor(textColour);
+		textInputArea.setCaretColor(systemTextColour);
+		textInputArea.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				textInputArea.requestFocus();
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
 				
+			}
+			
+		});
+		
+		
+		theUI.addWindowListener(new WindowAdapter() {
+			
+			public void windowActivated(WindowEvent e) {
+				textInputArea.requestFocus();
+			}
+			
+			public void windowOpened(WindowEvent e) {
+				textInputArea.requestFocus();
+			}
+		});	
+		
+		
 		theUI.getContentPane().add(theActionBar, BorderLayout.PAGE_START);
 		theUI.getContentPane().add(scrollContainer, BorderLayout.CENTER);
 		theUI.getContentPane().add(textInputArea, BorderLayout.PAGE_END);
 		theUI.setTitle("Wet_Dirt - The Multiplayer Text Adventure Game");
 		theUI.requestFocusInWindow();
-		textInputArea.requestFocusInWindow();
+		textInputArea.requestFocus();
 		
 		returnString = "";
 		
@@ -131,8 +160,10 @@ public class UI {
 					e1.printStackTrace();
 				}
     			returnString = inputString;
+    			scrollArea.setForeground(userTextColour);
     			addToOutput(inputString);
     			textInputArea.setText("");
+    			scrollArea.setForeground(systemTextColour);
     		}
     	}
     }

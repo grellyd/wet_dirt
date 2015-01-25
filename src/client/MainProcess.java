@@ -85,7 +85,6 @@ public class MainProcess {
 					String input = reader.readLine();
 					String parseOnServer = parse(input);
 					if (!parseOnServer.isEmpty()) {
-						System.out.println("Sending to server: " + parseOnServer);
 						tcpClient.sendMessage(parseOnServer);
 					}
 					//check for event
@@ -93,7 +92,6 @@ public class MainProcess {
 					// fetch updated info from server
 					String xmlWorld = tcpClient.getData("POLLWORLD");
 					theWorld = (World)xstream.fromXML(xmlWorld);
-					System.out.println(xmlWorld);
 					
 				} while(true);
 			}

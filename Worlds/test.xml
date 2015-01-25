@@ -53,6 +53,28 @@
 				</items>
 			</Tile>
 			<Tile>
+				<x>0</x>
+				<y>1</y>
+				<description>BottomLeft - Dry</description>
+				<exits>
+					<Entryway>
+						<basic__description>NORTH</basic__description>
+						<feel>Feels wet...</feel>
+						<isOpen>false</isOpen>
+						<orientation>North</orientation>
+					</Entryway>
+					<Entryway>
+						<basic__description>EAST</basic__description>
+						<feel>Feels hot...</feel>
+						<isOpen>false</isOpen>
+						<orientation>East</orientation>
+					</Entryway>
+				</exits>
+				<items/>
+			</Tile>
+		</Tile-array>
+		<Tile-array>
+			<Tile>
 				<x>1</x>
 				<y>0</y>
 				<description>TopRight - Cold</description>
@@ -77,28 +99,6 @@
 						<feel>It's the smoothest orb you've ever held</feel>
 					</MovableItem>
 				</items>
-			</Tile>
-		</Tile-array>
-		<Tile-array>
-			<Tile>
-				<x>0</x>
-				<y>1</y>
-				<description>BottomLeft - Dry</description>
-				<exits>
-					<Entryway>
-						<basic__description>NORTH</basic__description>
-						<feel>Feels wet...</feel>
-						<isOpen>false</isOpen>
-						<orientation>North</orientation>
-					</Entryway>
-					<Entryway>
-						<basic__description>EAST</basic__description>
-						<feel>Feels hot...</feel>
-						<isOpen>false</isOpen>
-						<orientation>East</orientation>
-					</Entryway>
-				</exits>
-				<items/>
 			</Tile>
 			<Tile>
 				<x>1</x>

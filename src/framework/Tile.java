@@ -49,14 +49,14 @@ public class Tile {
 	}
 
 	public String getDescription() {
-		this.description = description + "\nThere are " + Integer.toString(exits.size()) + " doors.";
+		this.description = description + "\nThere are " + Integer.toString(exits.size()) + " doors.\n";
 		if (exits.size() > 0) {
 			for (Entryway e : exits) {
-				System.out.print("The " + e.getOrientation().toString() + " door is ");
+				this.description += "The " + e.getOrientation().toString() + " door is ";
 				if (e.isOpen()) {
-					System.out.println("open.");
+					this.description += "open.\n";
 				} else {
-					System.out.println("closed.");
+					this.description += "closed.\n";
 				}
 			}
 		}

@@ -74,9 +74,9 @@ public class MainProcess {
 				System.out.println("Starting Game!");
 				
 				errorMessage = "Error: Getting actions failed. ";
+				System.out.println(theWorld.describe(PLAYER_NUM));
 				
 				do {
-					System.out.println(theWorld.describe(PLAYER_NUM));
 					System.out.println("What do you do now?");
 					String input = reader.readLine();
 					UpdateWorld();
@@ -178,8 +178,8 @@ public class MainProcess {
 			}
 		} else if (input.contains("look")) {
 			if (input.contains("around")) {
-				tcpClient.sendMessage("POLLWORLD");
-				theWorld.describe(PLAYER_NUM);
+				UpdateWorld();
+				result = theWorld.describe(PLAYER_NUM);
 			} else {
 				boolean itemFound = false;
 				for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
@@ -190,7 +190,7 @@ public class MainProcess {
 					}
 				}
 				if (!itemFound) {
-					System.out.println("Invalid item");
+					System.out.println("Look at what?");
 				}
 			}
 		} else if (input.contains("examine")) {

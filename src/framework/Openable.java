@@ -3,8 +3,8 @@ package framework;
 public interface Openable extends Interactable{
 		
 	
-	public void open();
+	public boolean open();
 	
-	public void close();
+	public boolean close();
 
 }

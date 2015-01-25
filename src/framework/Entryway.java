@@ -25,13 +25,15 @@ public class Entryway extends Thing implements Openable {
 	}
 
 	@Override
-	public void open() {
+	public boolean open() {
 		isOpen = true;
+		return true;
 	}
 
 	@Override
-	public void close() {
+	public boolean close() {
 		isOpen = false;
+		return true;
 	}
 
 	@Override

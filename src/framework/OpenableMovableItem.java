@@ -9,15 +9,15 @@ public class OpenableMovableItem extends MovableItem implements Openable {
 	}
 
 	@Override
-	public void open() {
+	public boolean open() {
 		isOpen = true;
-
+		return true;
 	}
 
 	@Override
-	public void close() {
+	public boolean close() {
 		isOpen = false;
-
+		return true;
 	}
 	
 	public boolean isOpen() {

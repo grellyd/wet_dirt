@@ -52,11 +52,11 @@ public class Tile {
 		this.description = description + "\nThere are " + Integer.toString(exits.size()) + " doors.";
 		if (exits.size() > 0) {
 			for (Entryway e : exits) {
-				System.out.print("The " + e.getOrientation().toString() + " door is ");
+				this.description = description + "\nThe " + e.getOrientation().toString() + " door is ";
 				if (e.isOpen()) {
-					System.out.println("open.");
+					this.description = description + "open.";
 				} else {
-					System.out.println("closed.");
+					this.description = description + "closed.";
 				}
 			}
 		}

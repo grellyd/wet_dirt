@@ -112,21 +112,17 @@ public class UI {
 				} catch (BadLocationException e1) {
 					e1.printStackTrace();
 				}
-    			inputString = inputString + "\n";
-    			try {
-					theOutputDoc.insertString(theOutputDoc.getLength(), inputString, null);
-				} catch (BadLocationException e1) {
-					e1.printStackTrace();
-				}
+    			addToOutput(inputString);
     		}
     		
     	}
     }
     
-    public static void addToOutput(String input) {
+    public static void addToOutput(String inputString) {
+    	inputString = inputString + "\n";
 		StyledDocument theOutputDoc = scrollArea.getStyledDocument();
 		try {
-			theOutputDoc.insertString(theOutputDoc.getLength(), "", null);
+			theOutputDoc.insertString(theOutputDoc.getLength(), inputString, null);
 		} catch (BadLocationException e1) {
 			
 		}

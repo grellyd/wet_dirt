@@ -179,6 +179,7 @@ public class MainProcess {
 			if (input.contains("around")) {
 				tcpClient.sendMessage("POLLWORLD");
 				theWorld.describe(PLAYER_NUM);
+				result = "";
 			} else {
 				boolean itemFound = false;
 				for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {

@@ -48,7 +48,7 @@ public class Event {
 		boolean correctAnswer = true;
 		for (int i = 0; i < correctAnswers.size(); i++) {
 			for (String a : correctAnswers.get(i).split(";")) {
-				if (!answers.get(i).contains(a)) {
+				if (!answers.get(i).toLowerCase().contains(a.toLowerCase())) {
 					correctAnswer = false;
 					break;
 				}
@@ -103,6 +103,14 @@ public class Event {
 	
 	public Item getFiredItem() {
 		return firedItem;
+	}
+	
+	public void setIteractString(String interactString) {
+		this.interactString = interactString;
+	}
+	
+	public String getIteractString() {
+		return interactString;
 	}
 	
 	public boolean hasFired() {

@@ -55,6 +55,7 @@
 						<feel>It is soggy</feel>
 					</MovableItem>
 				</items>
+				<events/>
 			</Tile>
 			<Tile>
 				<x>0</x>
@@ -75,6 +76,7 @@
 					</Entryway>
 				</exits>
 				<items/>
+				<events/>
 			</Tile>
 		</Tile-array>
 		<Tile-array>
@@ -104,6 +106,7 @@
 						<feel>It's the smoothest orb you've ever held</feel>
 					</MovableItem>
 				</items>
+				<events/>
 			</Tile>
 			<Tile>
 				<x>1</x>
@@ -124,6 +127,29 @@
 					</Entryway>
 				</exits>
 				<items/>
+				<events>
+					<Event>
+						<description>You are being tested. Answer correctly to succeed.</description>
+						<failureText>You have failed. TO HELL WITH YOU!</failureText>
+						<successText>You have succeeded. YOu are worthy to continue.</successText>
+						<distancedDescription></distancedDescription>
+						<range>0</range>
+						<firedBy>INTERACT</firedBy>
+						<firedItem/>
+						<interactString>LOOK;CEILING</interactString>
+						<questions>
+							<String>What is 2+2?</String>
+							<String>Where shall you place the monkey tile?</String>
+							<String>Are you real?</String>
+						</questions>
+						<correctAnswers>
+							<String>4</String>
+							<String>NORTH</String>
+							<String>yes</String>
+						</correctAnswers>
+						<answers/>
+					</Event>
+				</events>
 			</Tile>
 		</Tile-array>
 	</theMap>

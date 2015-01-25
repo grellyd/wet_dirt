@@ -3,6 +3,8 @@ package client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -25,6 +27,7 @@ public class MainProcess {
 	
 	private World theWorld;
 	private Tile localTile;
+	private List<Event> clearedEvents = new ArrayList<Event>();
 	
 	public MainProcess() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -35,6 +38,9 @@ public class MainProcess {
 		xstream.alias("MovableItem", MovableItem.class);
 		xstream.alias("Entryway", Entryway.class);
 		xstream.alias("Character", framework.Character.class);
+		xstream.alias("Event", framework.Event.class);
+		xstream.alias("String", String.class);
+		
 		try {
 			// Connect
 			errorMessage = "ERROR: Joining Server Failed. ";
@@ -80,23 +86,53 @@ public class MainProcess {
 					System.out.println("What do you do now?");
 					String input = reader.readLine();
 					UpdateWorld();
+					for (Event e : localTile.getEvents()) {
+						if (!clearedEvents.contains(e)) {
+							switch (e.getFiredBy()) {
+							case INTERACT:
+								boolean succesfullyInteracted = true;
+								for (String s : e.getIteractString().split(";")) {
+									if (!input.toLowerCase().contains(s.toLowerCase())) {
+										succesfullyInteracted = false;
+										break;
+									}
+								}
+								if (succesfullyInteracted) {
+									e.fire(theWorld.getCharacters().get(PLAYER_NUM));
+									if (e.hasFired()) {
+										clearedEvents.add(e);
+									}
+								}
+								break;
+							default:
+								break;
+							}
+						}
+					}
 					String parseOnServer = parse(input);
 					if (!parseOnServer.isEmpty()) {
 						tcpClient.sendMessage(parseOnServer);
 					}
 					UpdateWorld();
 					for (Event e : localTile.getEvents()) {
-						switch (e.getFiredBy()) {
-						case AUTO:
-							e.fire(theWorld.getCharacters().get(PLAYER_NUM));
-							break;
-						case HASITEM:
-							for (Item i : theWorld.getCharacters().get(PLAYER_NUM).getInventory()) {
-								if (i.getName().equals(e.getFiredItem().getName()) && !e.hasFired()) {
-									e.fire(theWorld.getCharacters().get(PLAYER_NUM));
+						if (!clearedEvents.contains(e)) {
+							switch (e.getFiredBy()) {
+							case AUTO:
+								e.fire(theWorld.getCharacters().get(PLAYER_NUM));
+								break;
+							case HASITEM:
+								for (Item i : theWorld.getCharacters().get(PLAYER_NUM).getInventory()) {
+									if (i.getName().equals(e.getFiredItem().getName())) {
+										e.fire(theWorld.getCharacters().get(PLAYER_NUM));
+										if (e.hasFired()) {
+											clearedEvents.add(e);
+										}
+									}
 								}
+								break;
+							default:
+								break;
 							}
-							break;
 						}
 					}
 				} while(true);

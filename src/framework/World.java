@@ -2,6 +2,8 @@ package framework;
 
 import java.util.List;
 
+import client.TCPClient;
+
 public class World {
 	
 	private int mapWidth = 25;

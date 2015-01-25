@@ -13,6 +13,7 @@ public class UI {
 	private static JTextArea theActionBar;
 	private static JTextArea scrollArea;
 	private static JTextArea textInputArea;
+	private static JScrollPane scrollContainer;
 	
 	private static Color actionBarColour;
 	private static Color textInputAreaColour;
@@ -64,7 +65,9 @@ public class UI {
 			}
 		};
 		
-		theActionBar = new JTextArea("Possible Commands are: Move $Direction$, Look $Object$ OR around, Examine $Object$, Check doors, Open/Close $Direction$ door");
+		theActionBar = new JTextArea("Possible Commands are: \n\tMove $Direction$, "
+				+ "\n\tLook $Object$, Look Around, Examine $Object$, "
+				+ "\n\tCheck doors, Open/Close $Direction$ door");
 		theActionBar.setOpaque(true);
 		theActionBar.setBackground(actionBarColour);
 		theActionBar.setPreferredSize(menuBarDimension);
@@ -75,8 +78,7 @@ public class UI {
 		theActionBar.setLineWrap(true);
 		theActionBar.setWrapStyleWord(true);
 		
-		scrollArea = new JTextArea("Welcome to Wet Dirt!" + newline);
-		scrollArea.setPreferredSize(mainAreaDimension);
+		scrollArea = new JTextArea("Welcome to Wet_Dirt!" + newline);
 		scrollArea.setEditable(false);
 		scrollArea.setBackground(textInputAreaColour);
 		scrollArea.setFont(textFont);
@@ -84,7 +86,14 @@ public class UI {
 		scrollArea.setBorder(BorderFactory.createLineBorder(Color.white));
 		scrollArea.setLineWrap(true);
 		scrollArea.setWrapStyleWord(true);
-
+		
+		DefaultCaret caret = (DefaultCaret) scrollArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		
+		scrollContainer = new JScrollPane(scrollArea);
+		scrollContainer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollContainer.setPreferredSize(mainAreaDimension);
+		
 		textInputArea = new JTextArea();
 		textInputArea.setPreferredSize(textInputDimension);
 		textInputArea.setBackground(textInputAreaColour);
@@ -99,7 +108,7 @@ public class UI {
 		textInputArea.setCaretColor(textColour);
 				
 		theUI.getContentPane().add(theActionBar, BorderLayout.PAGE_START);
-		theUI.getContentPane().add(scrollArea, BorderLayout.CENTER);
+		theUI.getContentPane().add(scrollContainer, BorderLayout.CENTER);
 		theUI.getContentPane().add(textInputArea, BorderLayout.PAGE_END);
 		theUI.setTitle("Wet_Dirt - The Multiplayer Text Adventure Game");
 		theUI.requestFocusInWindow();

@@ -1,8 +1,7 @@
 package client;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -25,7 +24,7 @@ public class MainProcess {
 	
 	private World theWorld;
 	private Tile localTile;
-
+	private List<Integer> clearedEvents = new ArrayList<Integer>();
 	
 	public MainProcess() {
 		xstream = new XStream();
@@ -35,6 +34,9 @@ public class MainProcess {
 		xstream.alias("MovableItem", MovableItem.class);
 		xstream.alias("Entryway", Entryway.class);
 		xstream.alias("Character", framework.Character.class);
+		xstream.alias("Event", framework.Event.class);
+		xstream.alias("String", String.class);
+		
 		try {
 			UI.createAndShowGUI();
 			// Connect
@@ -81,23 +83,72 @@ public class MainProcess {
 					UI.addToOutput("What do you do now?");
 					String input = UI.getInputResult();
 					UpdateWorld();
+					boolean interactedWithEvent = false;
+					for (Event e : localTile.getEvents()) {
+						boolean isCleared = false;
+						for (Integer integer : clearedEvents) {
+							if (integer.intValue() == e.getId()) {
+								isCleared = true;
+								break;
+							}
+						}
+						if (!isCleared) {
+							switch (e.getFiredBy()) {
+							case INTERACT:
+								boolean successfullyInteracted = true;
+								for (String s : e.getIteractString().split(";")) {
+									if (!input.toLowerCase().contains(s.toLowerCase())) {
+										successfullyInteracted = false;
+										break;
+									}
+								}
+								interactedWithEvent = successfullyInteracted;
+								if (successfullyInteracted) {
+									e.fire(theWorld.getCharacters().get(PLAYER_NUM));
+									if (e.hasFired()) {
+										clearedEvents.add(e.getId());
+									}
+								}
+								break;
+							default:
+								break;
+							}
+						}
+					}
+					if (interactedWithEvent) {
+						continue;
+					}
 					String parseOnServer = parse(input);
 					if (!parseOnServer.isEmpty()) {
 						tcpClient.sendMessage(parseOnServer);
 					}
 					UpdateWorld();
 					for (Event e : localTile.getEvents()) {
-						switch (e.getFiredBy()) {
-						case AUTO:
-							e.fire(theWorld.getCharacters().get(PLAYER_NUM));
-							break;
-						case HASITEM:
-							for (Item i : theWorld.getCharacters().get(PLAYER_NUM).getInventory()) {
-								if (i.getName().equals(e.getFiredItem().getName()) && !e.hasFired()) {
-									e.fire(theWorld.getCharacters().get(PLAYER_NUM));
-								}
+						boolean isCleared = false;
+						for (Integer integer : clearedEvents) {
+							if (integer.intValue() == e.getId()) {
+								isCleared = true;
+								break;
 							}
-							break;
+						}
+						if (!isCleared) {
+							switch (e.getFiredBy()) {
+							case AUTO:
+								e.fire(theWorld.getCharacters().get(PLAYER_NUM));
+								break;
+							case HASITEM:
+								for (Item i : theWorld.getCharacters().get(PLAYER_NUM).getInventory()) {
+									if (i.getName().equals(e.getFiredItem().getName())) {
+										e.fire(theWorld.getCharacters().get(PLAYER_NUM));
+										if (e.hasFired()) {
+											clearedEvents.add(e.getId());
+										}
+									}
+								}
+								break;
+							default:
+								break;
+							}
 						}
 					}
 				} while(true);

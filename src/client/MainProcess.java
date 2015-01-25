@@ -25,6 +25,7 @@ public class MainProcess {
 	
 	private World theWorld;
 	private Tile localTile;
+	private UI theUI;
 	
 	public MainProcess() {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -36,6 +37,8 @@ public class MainProcess {
 		xstream.alias("Entryway", Entryway.class);
 		xstream.alias("Character", framework.Character.class);
 		try {
+			theUI = new UI();
+			theUI.createAndShowGUI();
 			// Connect
 			errorMessage = "ERROR: Joining Server Failed. ";
 			

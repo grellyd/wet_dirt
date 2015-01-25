@@ -48,7 +48,7 @@ public class WetDirtServer {
 				if (filename.equals("d")) {
 					filename = "worlds/test.xml";
 				}
-				//UI.createAndShowGUI();
+				UI.createAndShowGUI();
 				try {
 					xmlWorld = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
 					success = true;

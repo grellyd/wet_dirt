@@ -2,6 +2,8 @@ package framework;
 
 import java.util.List;
 
+import client.TCPClient;
+
 public class World {
 	
 	private int mapWidth = 25;
@@ -66,10 +68,6 @@ public class World {
 		return reqPlayerNum;
 	}
 	
-	public List<Character> getCharacters() {
-		return characters;
-	}
-	
 	public Tile[][] getTheMap() {
 		return theMap;
 	}
@@ -125,5 +123,15 @@ public class World {
 		}
 		return description;
 	}
+
+	public List<Character> getCharacters() {
+		return characters;
+	}
+
+	public void setCharacters(List<Character> characters) {
+		this.characters = characters;
+	}
+
+
 	
 }

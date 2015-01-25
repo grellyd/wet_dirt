@@ -41,12 +41,12 @@ public class MainProcess {
 			
 			System.out.println("Connecting to Server");
 			System.out.print("Enter server IP >");
-			//String ip = reader.readLine();
+			String ip = reader.readLine();
 			System.out.print("Enter port >");
-			//int port = Integer.parseInt(reader.readLine());
-			System.out.println("Using local settings");
-			String ip = "127.0.0.1";
-			int port = 12345;
+			int port = Integer.parseInt(reader.readLine());
+			//System.out.println("Using local settings");
+			//String ip = "127.0.0.1";
+			//int port = 12345;
 			tcpClient.Connect(ip, port);
 			
 			while (!tcpClient.IsConnected()) {
@@ -177,16 +177,21 @@ public class MainProcess {
 				}
 			}
 		} else if (input.contains("look")) {
-			boolean itemFound = false;
-			for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
-				if (input.contains(item.getName())) {
-					System.out.println(item.getDescription());
-					itemFound = true;
-					break;
+			if (input.contains("around")) {
+				tcpClient.sendMessage("POLLWORLD");
+				theWorld.describe(PLAYER_NUM);
+			} else {
+				boolean itemFound = false;
+				for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
+					if (input.contains(item.getName())) {
+						System.out.println(item.getDescription());
+						itemFound = true;
+						break;
+					}
 				}
-			}
-			if (!itemFound) {
-				System.out.println("Invalid item");
+				if (!itemFound) {
+					System.out.println("Invalid item");
+				}
 			}
 		} else if (input.contains("examine")) {
 			boolean itemFound = false;
@@ -202,6 +207,7 @@ public class MainProcess {
 			}
 		} else if (input.contains("check inventory")) {
 			System.out.println("Inventory:");
+			System.out.println("--------------");
 			for (MovableItem item : theWorld.getCharacters().get(PLAYER_NUM).getInventory()) {
 				System.out.println(item.getName());				
 			}

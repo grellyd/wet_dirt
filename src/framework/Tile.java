@@ -1,6 +1,9 @@
 package framework;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Tile {
 	
@@ -50,7 +53,17 @@ public class Tile {
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		this.description = description + "There are " + Integer.toString(exits.size()) + " doors.";
+		if (exits.size() > 0) {
+			for (Entryway e : exits) {
+				System.out.print("The " + e.getOrientation().toString() + " door is ");
+				if (e.isOpen()) {
+					System.out.println("open.");
+				} else {
+					System.out.println("closed.");
+				}
+			}
+		}
 	}
 
 	public List<Item> getItems() {

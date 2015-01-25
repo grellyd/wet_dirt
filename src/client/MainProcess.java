@@ -261,16 +261,30 @@ public class MainProcess {
 				}
 			}
 		} else if (input.contains("examine")) {
-			boolean itemFound = false;
-			for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
-				if (input.contains(item.getName())) {
-					UI.addToOutput(item.getFull_description());
-					itemFound = true;
-					break;
+			if (input.contains("inventory")) {
+				String output = "Looking closer at your inventory, you have";
+				List<MovableItem> inventory = theWorld.getCharacters().get(PLAYER_NUM).getInventory();
+				if (inventory.size() == 0) {
+					output += " nothing.";
+				} else {
+					output += ":\n";
+					for (MovableItem item : inventory) {
+						output += "--> " + item.getName() + ":" + item.getFull_description() + "\n";
+					}
 				}
-			}
-			if (!itemFound) {
-				UI.addToOutput("Invalid item");
+				UI.addToOutput(output);
+			} else {
+				boolean itemFound = false;
+				for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
+					if (input.contains(item.getName())) {
+						UI.addToOutput(item.getFull_description());
+						itemFound = true;
+						break;
+					}
+				}
+				if (!itemFound) {
+					UI.addToOutput("Invalid item");
+				}
 			}
 		} else if (input.contains("check inventory")) {
 			UI.addToOutput("Inventory:");

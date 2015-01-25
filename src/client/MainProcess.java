@@ -3,15 +3,15 @@ package client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
 import exceptions.ReturnException;
 import framework.Entryway;
+import framework.Event;
 import framework.Item;
 import framework.MovableItem;
+import framework.OpenableItem;
 import framework.Tile;
 import framework.World;
 
@@ -88,6 +88,20 @@ public class MainProcess {
 						tcpClient.sendMessage(parseOnServer);
 					}
 					UpdateWorld();
+					for (Event e : localTile.getEvents()) {
+						switch (e.getFiredBy()) {
+						case AUTO:
+							e.fire(theWorld.getCharacters().get(PLAYER_NUM));
+							break;
+						case HASITEM:
+							for (Item i : theWorld.getCharacters().get(PLAYER_NUM).getInventory()) {
+								if (i.getName().equals(e.getFiredItem().getName()) && !e.hasFired()) {
+									e.fire(theWorld.getCharacters().get(PLAYER_NUM));
+								}
+							}
+							break;
+						}
+					}
 				} while(true);
 			}
 		} catch (NumberFormatException e) {
@@ -112,6 +126,11 @@ public class MainProcess {
 	private void UpdateWorld() {
 		try {
 			theWorld = (World)xstream.fromXML(tcpClient.getData("POLLWORLD"));
+			if (localTile != null) {
+				if (localTile.getX() != theWorld.getPlayerTile(PLAYER_NUM).getX() || localTile.getY() != theWorld.getPlayerTile(PLAYER_NUM).getY()) {
+					System.out.println(theWorld.describe(PLAYER_NUM));
+				}
+			}
 			localTile = theWorld.getPlayerTile(PLAYER_NUM);
 		} catch (ReturnException e) {
 			e.printStackTrace();
@@ -263,93 +282,125 @@ public class MainProcess {
 				}
 			}
 			System.out.println("--------------");
-		} else if (input.contains("open") && input.contains("door")) {
-			boolean doorFound = false;
-			for (Entryway e : (localTile.getExits())) {
-				switch (e.getOrientation()) {
-				case North:
-					if (input.contains("north")) {
-						doorFound = true;
-						e.open();
-						result = "OPENDOOR;NORTH";
-						System.out.println("The door is opened.");
+		} else if (input.contains("open")) {
+			if (input.contains("door")) {
+				boolean doorFound = false;
+				for (Entryway e : (localTile.getExits())) {
+					switch (e.getOrientation()) {
+					case North:
+						if (input.contains("north")) {
+							doorFound = true;
+							e.open();
+							result = "OPENDOOR;NORTH";
+							System.out.println("The door is opened.");
+						}
+						break;
+					case East:
+						if (input.contains("east")) {
+							doorFound = true;
+							e.open();
+							result = "OPENDOOR;EAST";
+							System.out.println("The door is opened.");
+						}
+						break;
+					case South:
+						if (input.contains("south")) {
+							doorFound = true;
+							e.open();
+							result = "OPENDOOR;SOUTH";
+							System.out.println("The door is opened.");
+						}
+						break;
+					case West:
+						if (input.contains("west")) {
+							doorFound = true;
+							e.open();
+							result = "OPENDOOR;WEST";
+							System.out.println("The door is opened.");
+						}
+						break;
 					}
-					break;
-				case East:
-					if (input.contains("east")) {
-						doorFound = true;
-						e.open();
-						result = "OPENDOOR;EAST";
-						System.out.println("The door is opened.");
+					if (doorFound) {
+						break;
 					}
-					break;
-				case South:
-					if (input.contains("south")) {
-						doorFound = true;
-						e.open();
-						result = "OPENDOOR;SOUTH";
-						System.out.println("The door is opened.");
-					}
-					break;
-				case West:
-					if (input.contains("west")) {
-						doorFound = true;
-						e.open();
-						result = "OPENDOOR;WEST";
-						System.out.println("The door is opened.");
-					}
-					break;
 				}
-				if (doorFound) {
-					break;
+				if (!doorFound) {
+					System.out.println("Which door?");
 				}
-			}
-			if (!doorFound) {
-				System.out.println("Which door?");
-			}
-		} else if (input.contains("close") && input.contains("door")) {
-			boolean doorFound = false;
-			for (Entryway e : (localTile.getExits())) {
-				switch (e.getOrientation()) {
-				case North:
-					if (input.contains("north")) {
-						doorFound = true;
-						e.close();
-						result = "CLOSEDOOR;NORTH";
-						System.out.println("The door is closed.");
+			} else {
+				for (Item item : localTile.getItems()) {
+					if (item.getClass() == OpenableItem.class) {
+						if (input.contains(item.getName())) {
+							boolean canOpen = ((OpenableItem)item).open();
+							if (canOpen) {
+								System.out.println("It is open.");
+							} else {
+								System.out.println("It won't budge.");
+							}
+							break;
+						}
 					}
-					break;
-				case East:
-					if (input.contains("east")) {
-						doorFound = true;
-						e.close();
-						result = "CLOSEDOOR;EAST";
-						System.out.println("The door is closed.");
-					}
-					break;
-				case South:
-					if (input.contains("south")) {
-						doorFound = true;
-						e.close();
-						result = "CLOSEDOOR;SOUTH";
-						System.out.println("The door is closed.");
-					}
-					break;
-				case West:
-					if (input.contains("west")) {
-						doorFound = true;
-						e.close();
-						result = "CLOSEDOOR;WEST";
-						System.out.println("The door is closed.");
-					}
-					break;
-				}
-				if (doorFound) {
-					break;
 				}
 			}
-			if (!doorFound) {
-				System.out.println("Which door?");
+		} else if (input.contains("close")) {
+			if (input.contains("door")) {
+				boolean doorFound = false;
+				for (Entryway e : (localTile.getExits())) {
+					switch (e.getOrientation()) {
+					case North:
+						if (input.contains("north")) {
+							doorFound = true;
+							e.close();
+							result = "CLOSEDOOR;NORTH";
+							System.out.println("The door is closed.");
+						}
+						break;
+					case East:
+						if (input.contains("east")) {
+							doorFound = true;
+							e.close();
+							result = "CLOSEDOOR;EAST";
+							System.out.println("The door is closed.");
+						}
+						break;
+					case South:
+						if (input.contains("south")) {
+							doorFound = true;
+							e.close();
+							result = "CLOSEDOOR;SOUTH";
+							System.out.println("The door is closed.");
+						}
+						break;
+					case West:
+						if (input.contains("west")) {
+							doorFound = true;
+							e.close();
+							result = "CLOSEDOOR;WEST";
+							System.out.println("The door is closed.");
+						}
+						break;
+					}
+					if (doorFound) {
+						break;
+					}
+				}
+				if (!doorFound) {
+					System.out.println("Which door?");
+				}
+			} else {
+				for (Item item : localTile.getItems()) {
+					if (item.getClass() == OpenableItem.class) {
+						if (input.contains(item.getName())) {
+							boolean canClose = ((OpenableItem)item).close();
+							if (canClose) {
+								System.out.println("It is closed.");
+							} else {
+								System.out.println("It won't budge.");
+							}
+							break;
+						}
+					}
+				}
 			}
 		} else if (input.contains("use")) {
 			

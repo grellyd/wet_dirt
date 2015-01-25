@@ -41,12 +41,12 @@ public class MainProcess {
 			
 			System.out.println("Connecting to Server");
 			System.out.print("Enter server IP >");
-			//String ip = reader.readLine();
+			String ip = reader.readLine();
 			System.out.print("Enter port >");
-			//int port = Integer.parseInt(reader.readLine());
-			System.out.println("Using local settings");
-			String ip = "127.0.0.1";
-			int port = 12345;
+			int port = Integer.parseInt(reader.readLine());
+			//System.out.println("Using local settings");
+			//String ip = "127.0.0.1";
+			//int port = 12345;
 			tcpClient.Connect(ip, port);
 			
 			while (!tcpClient.IsConnected()) {

@@ -10,6 +10,9 @@ import java.nio.file.Paths;
 
 //import client.UI;
 
+
+import client.UI;
+
 import com.thoughtworks.xstream.XStream;
 
 import framework.Entryway;
@@ -35,7 +38,6 @@ public class WetDirtServer {
 		xstream.alias("Character", framework.Character.class);
 		
 		System.out.println("wet_dirt - Server v" + VERSION);
-		//System.out.print("Enter the filename of the world you would like to load >");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String filename = "";
 		String xmlWorld = "";
@@ -44,11 +46,12 @@ public class WetDirtServer {
 			boolean success = false;
 			do {
 				System.out.print("Enter the filename of the world you would like to load >");
-				filename = reader.readLine();
+				//filename = reader.readLine();
+				filename = "d";
 				if (filename.equals("d")) {
 					filename = "worlds/test.xml";
 				}
-				//UI.createAndShowGUI();
+				UI.createAndShowGUI();
 				try {
 					xmlWorld = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
 					success = true;

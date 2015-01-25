@@ -166,18 +166,24 @@ public class MainProcess {
 			if (!itemFound) {
 				System.out.println("Invalid item");
 			}
-		} else if (input.contains("pick up")) {
+		} else if (input.contains("check inventory")) {
+			System.out.println("Inventory:");
+			for (MovableItem item : theWorld.getCharacters().get(PLAYER_NUM).getInventory()) {
+				System.out.println(item.getName());				
+			}
+			System.out.println("--------------");
+		} else if (input.contains("take")) {
 			boolean itemFound = false;
 			for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
 				if (input.contains(item.getName())) {
 					if (item.getClass() == MovableItem.class) {
-						System.out.println(item.getName() + " picked up");
+						System.out.println(item.getName() + " placed in inventory.");
 						theWorld.getCharacters().get(PLAYER_NUM).addToInventory((MovableItem)item);
 						theWorld.getPlayerTile(PLAYER_NUM).getItems().remove(item);
+						result = "TAKE;" + item.getName();
 					} else {
 						System.out.println("You can't carry that!");
 					}
-					
 					itemFound = true;
 					break;
 				}
@@ -192,6 +198,7 @@ public class MainProcess {
 					System.out.println("Dropped " + item.getName());
 					theWorld.getCharacters().get(PLAYER_NUM).getInventory().remove(item);
 					theWorld.getPlayerTile(PLAYER_NUM).getItems().add(item);
+					result = "DROP;" + item.getName();
 				} else {
 					System.out.println("You do not possess that item.");
 				}
@@ -202,6 +209,10 @@ public class MainProcess {
 			if (!itemFound) {
 				System.out.println("Invalid item");
 			}
+		} else if (input.contains("open")) {
+			
+		} else if (input.contains("close")) {
+			
 		} else if (input.contains("use")) {
 			
 		} else System.out.println("I don't understand. Try again?");

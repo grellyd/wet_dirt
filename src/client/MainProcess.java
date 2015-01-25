@@ -76,23 +76,15 @@ public class MainProcess {
 				errorMessage = "Error: Getting actions failed. ";
 				
 				do {
-					
-					localTile = theWorld.getPlayerTile(PLAYER_NUM);
 					System.out.println(theWorld.describe(PLAYER_NUM));
-					
-					//prompt for action
 					System.out.println("What do you do now?");
 					String input = reader.readLine();
+					UpdateWorld();
 					String parseOnServer = parse(input);
 					if (!parseOnServer.isEmpty()) {
 						tcpClient.sendMessage(parseOnServer);
 					}
-					//check for event
-					//TODO
-					// fetch updated info from server
-					String xmlWorld = tcpClient.getData("POLLWORLD");
-					theWorld = (World)xstream.fromXML(xmlWorld);
-					
+					UpdateWorld();			
 				} while(true);
 			}
 		} catch (NumberFormatException e) {
@@ -112,6 +104,15 @@ public class MainProcess {
 			e.printStackTrace();
 			tcpClient.Disconnect();
 		}		
+	}
+	
+	private void UpdateWorld() {
+		try {
+			theWorld = (World)xstream.fromXML(tcpClient.getData("POLLWORLD"));
+			localTile = theWorld.getPlayerTile(PLAYER_NUM);
+		} catch (ReturnException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private String parse(String input) {

@@ -25,10 +25,9 @@ public class MainProcess {
 	
 	private World theWorld;
 	private Tile localTile;
-	private UI theUI;
+
 	
 	public MainProcess() {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		xstream = new XStream();
 		xstream.alias("World", World.class);
 		xstream.alias("Tile", Tile.class);
@@ -37,31 +36,30 @@ public class MainProcess {
 		xstream.alias("Entryway", Entryway.class);
 		xstream.alias("Character", framework.Character.class);
 		try {
-			theUI = new UI();
-			theUI.createAndShowGUI();
+			UI.createAndShowGUI();
 			// Connect
 			errorMessage = "ERROR: Joining Server Failed. ";
 			
-			System.out.println("Connecting to Server");
-			System.out.print("Enter server IP >");
-			String ip = reader.readLine();
-			System.out.print("Enter port >");
-			int port = Integer.parseInt(reader.readLine());
-			//System.out.println("Using local settings");
+			UI.addToOutput("Connecting to Server");
+			UI.addToOutput("Enter server IP >");
+			String ip = UI.getInputResult();
+			UI.addToOutput("Enter port >");
+			int port = Integer.parseInt(UI.getInputResult());
+			//theUI.addToOutput("Using local settings");
 			//String ip = "127.0.0.1";
 			//int port = 12345;
 			tcpClient.Connect(ip, port);
 			
 			while (!tcpClient.IsConnected()) {
-				System.out.println("Waiting for server...");
+				UI.addToOutput("Waiting for server...");
 				Thread.sleep(5000);
 				tcpClient.Connect(ip, port);
 			} 
 			
-			System.out.println("Connected!");
+			UI.addToOutput("Connected!");
 			errorMessage = "ERROR: Joining game failed. ";
 			PLAYER_NUM = Integer.parseInt(tcpClient.getData("JOIN"));
-			System.out.println("You are player " + PLAYER_NUM);
+			UI.addToOutput("You are player " + PLAYER_NUM);
 						
 			while(tcpClient.IsConnected()) {
 				
@@ -74,14 +72,14 @@ public class MainProcess {
 				errorMessage = "ERROR: Fetching world failed. ";
 				theWorld = (World)xstream.fromXML(tcpClient.getData("POLLWORLD"));
 				
-				System.out.println("Starting Game!");
+				UI.addToOutput("Starting Game!");
 				
 				errorMessage = "Error: Getting actions failed. ";
-				System.out.println(theWorld.describe(PLAYER_NUM));
+				UI.addToOutput(theWorld.describe(PLAYER_NUM));
 				
 				do {
-					System.out.println("What do you do now?");
-					String input = reader.readLine();
+					UI.addToOutput("What do you do now?");
+					String input = UI.getInputResult();
 					UpdateWorld();
 					String parseOnServer = parse(input);
 					if (!parseOnServer.isEmpty()) {
@@ -105,19 +103,15 @@ public class MainProcess {
 				} while(true);
 			}
 		} catch (NumberFormatException e) {
-			System.out.println(errorMessage + e.getMessage());
+			UI.addToOutput(errorMessage + e.getMessage());
 			e.printStackTrace();
 			tcpClient.Disconnect();
-		} catch (IOException e) {
-			System.out.println(errorMessage + e.getMessage());
-			e.printStackTrace();
-			tcpClient.Disconnect();e.printStackTrace();
 		} catch (ReturnException e) {
-			System.out.println(errorMessage + e.getMessage());
+			UI.addToOutput(errorMessage + e.getMessage());
 			e.printStackTrace();
 			tcpClient.Disconnect();
 		} catch (InterruptedException e) {
-			System.out.println(errorMessage + e.getMessage());
+			UI.addToOutput(errorMessage + e.getMessage());
 			e.printStackTrace();
 			tcpClient.Disconnect();
 		}		
@@ -128,7 +122,7 @@ public class MainProcess {
 			theWorld = (World)xstream.fromXML(tcpClient.getData("POLLWORLD"));
 			if (localTile != null) {
 				if (localTile.getX() != theWorld.getPlayerTile(PLAYER_NUM).getX() || localTile.getY() != theWorld.getPlayerTile(PLAYER_NUM).getY()) {
-					System.out.println(theWorld.describe(PLAYER_NUM));
+					UI.addToOutput(theWorld.describe(PLAYER_NUM));
 				}
 			}
 			localTile = theWorld.getPlayerTile(PLAYER_NUM);
@@ -144,7 +138,7 @@ public class MainProcess {
 		// look for starting keywords
 		if (input.contains("move")){
 			if (localTile == null) {
-				System.out.println("Error: localTile not initialized");
+				UI.addToOutput("Error: localTile not initialized");
 				return "";
 			}			
 			
@@ -158,7 +152,7 @@ public class MainProcess {
 							if (e.isOpen()) {
 								result = "MOVE;NORTH";
 							} else {
-								System.out.println("The way north is closed.");
+								UI.addToOutput("The way north is closed.");
 							}
 						}
 						break;
@@ -168,7 +162,7 @@ public class MainProcess {
 							if (e.isOpen()) {
 								result = "MOVE;EAST";
 							} else {
-								System.out.println("The way east is closed.");
+								UI.addToOutput("The way east is closed.");
 							}
 						}
 						break;
@@ -178,7 +172,7 @@ public class MainProcess {
 							if (e.isOpen()) {
 								result = "MOVE;SOUTH";
 							} else {
-								System.out.println("The way south is closed.");
+								UI.addToOutput("The way south is closed.");
 							}
 						}
 						break;
@@ -188,100 +182,100 @@ public class MainProcess {
 							if (e.isOpen()) {
 								result = "MOVE;WEST";
 							} else {
-								System.out.println("The way west is closed.");
+								UI.addToOutput("The way west is closed.");
 							}
 						}
 						break;
 					}
 				}
 				if (!doorFound) {
-					System.out.println("You can't go this way.");
+					UI.addToOutput("You can't go this way.");
 				}
 			}
 		} else if (input.contains("look")) {
 			if (input.contains("around")) {
 				UpdateWorld();
-				System.out.println(theWorld.describe(PLAYER_NUM));
+				UI.addToOutput(theWorld.describe(PLAYER_NUM));
 			} else {
 				boolean itemFound = false;
 				for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
 					if (input.contains(item.getName())) {
-						System.out.println(item.getDescription());
+						UI.addToOutput(item.getDescription());
 						itemFound = true;
 						break;
 					}
 				}
 				if (!itemFound) {
-					System.out.println("Look at what?");
+					UI.addToOutput("Look at what?");
 				}
 			}
 		} else if (input.contains("examine")) {
 			boolean itemFound = false;
 			for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
 				if (input.contains(item.getName())) {
-					System.out.println(item.getFull_description());
+					UI.addToOutput(item.getFull_description());
 					itemFound = true;
 					break;
 				}
 			}
 			if (!itemFound) {
-				System.out.println("Invalid item");
+				UI.addToOutput("Invalid item");
 			}
 		} else if (input.contains("check inventory")) {
-			System.out.println("Inventory:");
-			System.out.println("--------------");
+			UI.addToOutput("Inventory:");
+			UI.addToOutput("--------------");
 			for (MovableItem item : theWorld.getCharacters().get(PLAYER_NUM).getInventory()) {
-				System.out.println(item.getName());				
+				UI.addToOutput(item.getName());				
 			}
-			System.out.println("--------------");
+			UI.addToOutput("--------------");
 		} else if (input.contains("take")) {
 			boolean itemFound = false;
 			for (Item item : theWorld.getPlayerTile(PLAYER_NUM).getItems()) {
 				if (input.contains(item.getName())) {
 					if (item.getClass() == MovableItem.class) {
-						System.out.println(item.getName() + " placed in inventory.");
+						UI.addToOutput(item.getName() + " placed in inventory.");
 						theWorld.getCharacters().get(PLAYER_NUM).addToInventory((MovableItem)item);
 						theWorld.getPlayerTile(PLAYER_NUM).getItems().remove(item);
 						result = "TAKE;" + item.getName();
 					} else {
-						System.out.println("You can't carry that!");
+						UI.addToOutput("You can't carry that!");
 					}
 					itemFound = true;
 					break;
 				}
 			}
 			if (!itemFound) {
-				System.out.println("Invalid item");
+				UI.addToOutput("Invalid item");
 			}
 		} else if (input.contains("drop")) {
 			boolean itemFound = false;
 			for (MovableItem item : theWorld.getCharacters().get(PLAYER_NUM).getInventory()) {
 				if (input.contains(item.getName())) {
-					System.out.println("Dropped " + item.getName());
+					UI.addToOutput("Dropped " + item.getName());
 					theWorld.getCharacters().get(PLAYER_NUM).getInventory().remove(item);
 					theWorld.getPlayerTile(PLAYER_NUM).getItems().add(item);
 					result = "DROP;" + item.getName();
 				} else {
-					System.out.println("You do not possess that item.");
+					UI.addToOutput("You do not possess that item.");
 				}
 					
 				itemFound = true;
 				break;
 			}
 			if (!itemFound) {
-				System.out.println("Invalid item");
+				UI.addToOutput("Invalid item");
 			}
 		} else if (input.contains("check doors")) {
-			System.out.println("Door status:");
+			UI.addToOutput("Door status:");
 			for (Entryway e : (localTile.getExits())) {
 				System.out.print("The " + e.getOrientation().toString() + " door is ");
 				if (e.isOpen()) {
-					System.out.println("open.");
+					UI.addToOutput("open.");
 				} else {
-					System.out.println("closed.");
+					UI.addToOutput("closed.");
 				}
 			}
-			System.out.println("--------------");
+			UI.addToOutput("--------------");
 		} else if (input.contains("open")) {
 			if (input.contains("door")) {
 				boolean doorFound = false;
@@ -292,7 +286,7 @@ public class MainProcess {
 							doorFound = true;
 							e.open();
 							result = "OPENDOOR;NORTH";
-							System.out.println("The door is opened.");
+							UI.addToOutput("The door is opened.");
 						}
 						break;
 					case East:
@@ -300,7 +294,7 @@ public class MainProcess {
 							doorFound = true;
 							e.open();
 							result = "OPENDOOR;EAST";
-							System.out.println("The door is opened.");
+							UI.addToOutput("The door is opened.");
 						}
 						break;
 					case South:
@@ -308,7 +302,7 @@ public class MainProcess {
 							doorFound = true;
 							e.open();
 							result = "OPENDOOR;SOUTH";
-							System.out.println("The door is opened.");
+							UI.addToOutput("The door is opened.");
 						}
 						break;
 					case West:
@@ -316,7 +310,7 @@ public class MainProcess {
 							doorFound = true;
 							e.open();
 							result = "OPENDOOR;WEST";
-							System.out.println("The door is opened.");
+							UI.addToOutput("The door is opened.");
 						}
 						break;
 					}
@@ -325,7 +319,7 @@ public class MainProcess {
 					}
 				}
 				if (!doorFound) {
-					System.out.println("Which door?");
+					UI.addToOutput("Which door?");
 				}
 			} else {
 				for (Item item : localTile.getItems()) {
@@ -333,9 +327,9 @@ public class MainProcess {
 						if (input.contains(item.getName())) {
 							boolean canOpen = ((OpenableItem)item).open();
 							if (canOpen) {
-								System.out.println("It is open.");
+								UI.addToOutput("It is open.");
 							} else {
-								System.out.println("It won't budge.");
+								UI.addToOutput("It won't budge.");
 							}
 							break;
 						}
@@ -352,7 +346,7 @@ public class MainProcess {
 							doorFound = true;
 							e.close();
 							result = "CLOSEDOOR;NORTH";
-							System.out.println("The door is closed.");
+							UI.addToOutput("The door is closed.");
 						}
 						break;
 					case East:
@@ -360,7 +354,7 @@ public class MainProcess {
 							doorFound = true;
 							e.close();
 							result = "CLOSEDOOR;EAST";
-							System.out.println("The door is closed.");
+							UI.addToOutput("The door is closed.");
 						}
 						break;
 					case South:
@@ -368,7 +362,7 @@ public class MainProcess {
 							doorFound = true;
 							e.close();
 							result = "CLOSEDOOR;SOUTH";
-							System.out.println("The door is closed.");
+							UI.addToOutput("The door is closed.");
 						}
 						break;
 					case West:
@@ -376,7 +370,7 @@ public class MainProcess {
 							doorFound = true;
 							e.close();
 							result = "CLOSEDOOR;WEST";
-							System.out.println("The door is closed.");
+							UI.addToOutput("The door is closed.");
 						}
 						break;
 					}
@@ -385,7 +379,7 @@ public class MainProcess {
 					}
 				}
 				if (!doorFound) {
-					System.out.println("Which door?");
+					UI.addToOutput("Which door?");
 				}
 			} else {
 				for (Item item : localTile.getItems()) {
@@ -393,9 +387,9 @@ public class MainProcess {
 						if (input.contains(item.getName())) {
 							boolean canClose = ((OpenableItem)item).close();
 							if (canClose) {
-								System.out.println("It is closed.");
+								UI.addToOutput("It is closed.");
 							} else {
-								System.out.println("It won't budge.");
+								UI.addToOutput("It won't budge.");
 							}
 							break;
 						}
@@ -404,7 +398,7 @@ public class MainProcess {
 			}
 		} else if (input.contains("use")) {
 			
-		} else System.out.println("I don't understand. Try again?");
+		} else UI.addToOutput("I don't understand. Try again?");
 				
 		return result;
 	}

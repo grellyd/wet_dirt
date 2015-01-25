@@ -4,10 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 
-import com.sun.webkit.ContextMenu.ShowContext;
 
 public class UI {
 	
@@ -29,6 +27,8 @@ public class UI {
 	private static KeyListener listenEnter;
 	
 	private static String newline = System.getProperty("line.separator");
+	
+	private static String returnString;
 
 	public static void createAndShowGUI() {
 		theUI = new JFrame("wetDirtUI");
@@ -41,7 +41,7 @@ public class UI {
 		textFont = new Font("myFont", Font.BOLD, 14);
 		
 		menuBarDimension = new Dimension(600, 90);
-		mainAreaDimension = new Dimension(600, 900);
+		mainAreaDimension = new Dimension(600, 600);
 		textInputDimension = new Dimension(600, 20);
 		
 		listenEnter = new KeyListener() {
@@ -105,6 +105,8 @@ public class UI {
 		theUI.requestFocusInWindow();
 		textInputArea.requestFocusInWindow();
 		
+		returnString = "";
+		
 		theUI.pack();
 		theUI.setVisible(true);
 		
@@ -118,10 +120,11 @@ public class UI {
     		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
     			Document theInputDoc = textInputArea.getDocument();
     			try {
-					inputString = theInputDoc.getText(0, theInputDoc.getLength());
+					inputString = theInputDoc.getText(0, theInputDoc.getLength()).trim();
 				} catch (BadLocationException e1) {
 					e1.printStackTrace();
 				}
+    			returnString = inputString;
     			addToOutput(inputString);
     			textInputArea.setText("");
     		}
@@ -129,6 +132,7 @@ public class UI {
     }
     
     public static void addToOutput(String inputString) {
+    	inputString = newline + inputString;
 		Document theOutputDoc = scrollArea.getDocument();
 		SimpleAttributeSet normal = new SimpleAttributeSet();
 		
@@ -138,6 +142,21 @@ public class UI {
 			
 		}
     }
+    
+    public  static String getInputResult() {
+    	while (returnString.equals("")) {
+    		try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    	}
+    	String tempString = returnString;
+    	tempString.trim();
+    	returnString = "";
+    	return tempString;
+    }
+
 	
 	public UI() {
 		createAndShowGUI();

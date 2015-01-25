@@ -141,15 +141,19 @@ public class NetworkManager implements Runnable {
 							if (split.length > 1) {
 								switch (split[1]) {
 								case "NORTH":
+									System.out.println("Moving player " + playerId + " north");
 									world.MovePlayer(playerId, World.DIRECTION.NORTH);
 									break;
 								case "EAST":
+									System.out.println("Moving player " + playerId + " east");
 									world.MovePlayer(playerId, World.DIRECTION.EAST);
 									break;
 								case "SOUTH":
+									System.out.println("Moving player " + playerId + " south");
 									world.MovePlayer(playerId, World.DIRECTION.SOUTH);
 									break;
 								case "WEST":
+									System.out.println("Moving player " + playerId + " west");
 									world.MovePlayer(playerId, World.DIRECTION.WEST);
 									break;
 								case "TELEPORT":

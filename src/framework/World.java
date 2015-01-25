@@ -23,18 +23,29 @@ public class World {
 	}
 	
 	public void MovePlayer(int playerId, DIRECTION dir) {
+		Character curCharacter = characters.get(playerId);
+		int xDest = curCharacter.getX();
+		int yDest = curCharacter.getY();
 		switch (dir) {
 		case NORTH:
-			characters.get(playerId).setY(characters.get(playerId).getY() - 1);
+			if (yDest - 1 >= 0) {
+				characters.get(playerId).setY(characters.get(playerId).getY() - 1);
+			}
 			break;
 		case EAST:
-			characters.get(playerId).setX(characters.get(playerId).getX() + 1);
+			if (xDest + 1 < mapWidth) {
+				characters.get(playerId).setX(characters.get(playerId).getX() + 1);
+			}
 			break;
 		case WEST:
-			characters.get(playerId).setX(characters.get(playerId).getX() - 1);
+			if (xDest - 1 >= 0) {
+				characters.get(playerId).setX(characters.get(playerId).getX() - 1);
+			}
 			break;
 		case SOUTH:
-			characters.get(playerId).setY(characters.get(playerId).getY() + 1);
+			if (yDest + 1 < mapHeight) {
+				characters.get(playerId).setY(characters.get(playerId).getY() + 1);
+			}
 			break;
 		}
 	}
@@ -80,7 +91,10 @@ public class World {
 		Character activeChar = characters.get(playerNum);
 		int x = activeChar.getX();
 		int y = activeChar.getY();
-		return theMap[x][y];
+		if (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
+			return theMap[x][y];
+		}
+		return null;
 	}
 	
 	public String describe(int playerNum) {

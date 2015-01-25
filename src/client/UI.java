@@ -2,16 +2,19 @@ package client;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.font.TextAttribute;
 
 import javax.swing.*;
 import javax.swing.text.*;
+import javax.swing.text.AttributeSet.ColorAttribute;
+import javax.swing.text.StyleConstants.ColorConstants;
 
 
 public class UI {
 	
 	private static JFrame theUI; 
 	private static JTextArea theActionBar;
-	private static JTextArea scrollArea;
+	private static JTextPane scrollArea;
 	private static JTextArea textInputArea;
 	private static JScrollPane scrollContainer;
 	
@@ -67,9 +70,9 @@ public class UI {
 			}
 		};
 		
-		theActionBar = new JTextArea("Possible Commands are: \n\tMove $Direction$, "
-				+ "\n\tLook $Object$, Look Around, Examine inventory/$Object$, "
-				+ "\n\tCheck doors, Open/Close $Direction$ door"
+		theActionBar = new JTextArea("Possible Commands are: \n\tMove $direction$, "
+				+ "\n\tLook $object$, Look Around, Examine inventory/$object$, "
+				+ "\n\tCheck doors, Open/Close $direction$ door"
 				+ "\n\tCheck inventory, Take/Drop $object$");
 		theActionBar.setOpaque(true);
 		theActionBar.setBackground(actionBarColour);
@@ -81,14 +84,14 @@ public class UI {
 		theActionBar.setLineWrap(true);
 		theActionBar.setWrapStyleWord(true);
 		
-		scrollArea = new JTextArea("Welcome to Wet_Dirt!" + newline);
+		scrollArea = new JTextPane();
 		scrollArea.setEditable(false);
 		scrollArea.setBackground(textInputAreaColour);
 		scrollArea.setFont(textFont);
 		scrollArea.setForeground(systemTextColour);
 		scrollArea.setBorder(BorderFactory.createLineBorder(Color.white));
-		scrollArea.setLineWrap(true);
-		scrollArea.setWrapStyleWord(true);
+		//scrollArea.setLineWrap(true);
+		//scrollArea.setWrapStyleWord(true);
 		
 		scrollContainer = new JScrollPane(scrollArea);
 		scrollContainer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -146,6 +149,8 @@ public class UI {
 		theUI.pack();
 		theUI.setVisible(true);
 		
+		addToOutput("Welcome to Wet_Dirt!", false);
+		
 
 	}
 	
@@ -161,24 +166,33 @@ public class UI {
 					e1.printStackTrace();
 				}
     			returnString = inputString;
-    			scrollArea.setForeground(userTextColour);
-    			addToOutput(inputString);
+    			addToOutput(inputString, true);
     			textInputArea.setText("");
-    			scrollArea.setForeground(systemTextColour);
     		}
     	}
     }
     
-    public static void addToOutput(String inputString) {
+    public static void addToOutput(String inputString, boolean isUser) {
     	inputString = newline + inputString;
 		Document theOutputDoc = scrollArea.getDocument();
-		SimpleAttributeSet normal = new SimpleAttributeSet();
-		
-		try {
-			theOutputDoc.insertString(theOutputDoc.getLength(), inputString, normal);
-			scrollArea.setCaretPosition(theOutputDoc.getLength());
-		} catch (BadLocationException e1) {
-			
+		if (isUser) {
+			try {
+				MutableAttributeSet userAttrib = scrollArea.getInputAttributes();
+				StyleConstants.setForeground(userAttrib, userTextColour);
+				theOutputDoc.insertString(theOutputDoc.getLength(), inputString, userAttrib);
+				scrollArea.setCaretPosition(theOutputDoc.getLength());
+			} catch (BadLocationException e1) {
+				
+			}
+		} else {
+			try {
+				MutableAttributeSet systemAttrib = scrollArea.getInputAttributes();
+				StyleConstants.setForeground(systemAttrib, systemTextColour);
+				theOutputDoc.insertString(theOutputDoc.getLength(), inputString, systemAttrib);
+				scrollArea.setCaretPosition(theOutputDoc.getLength());
+			} catch (BadLocationException e1) {
+				
+			}
 		}
     }
     

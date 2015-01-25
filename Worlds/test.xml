@@ -106,7 +106,38 @@
 						<feel>It's the smoothest orb you've ever held</feel>
 					</MovableItem>
 				</items>
-				<events/>
+				<events>
+					<Event>
+						<id>1</id>
+						<description>You are being tested. Answer correctly to succeed.</description>
+						<failureText>You have failed. TO HELL WITH YOU!</failureText>
+						<successText>You have succeeded. You are worthy to continue.</successText>
+						<distancedDescription></distancedDescription>
+						<range>0</range>
+						<firedBy>INTERACT</firedBy>
+						<firedItemName/>
+						<interactString>LOOK;CEILING</interactString>
+						<questions>
+							<String>What is 2+2?</String>
+							<String>Where shall you place the monkey tile?</String>
+							<String>Are you real?</String>
+						</questions>
+						<correctAnswers>
+							<String>4</String>
+							<String>NORTH</String>
+							<String>yes</String>
+						</correctAnswers>
+						<answers/>
+						<rewards>
+							<MovableItem>
+								<name>goldenKey</name>
+								<basic__description>A golden key</basic__description>
+								<full__description>A sun-like coloured key that has a diamond on the end</full__description>
+								<feel>It feels smooth</feel>
+							</MovableItem>
+						</rewards>
+					</Event>
+				</events>
 			</Tile>
 			<Tile>
 				<x>1</x>
@@ -127,30 +158,7 @@
 					</Entryway>
 				</exits>
 				<items/>
-				<events>
-					<Event>
-						<id>1</id>
-						<description>You are being tested. Answer correctly to succeed.</description>
-						<failureText>You have failed. TO HELL WITH YOU!</failureText>
-						<successText>You have succeeded. YOu are worthy to continue.</successText>
-						<distancedDescription></distancedDescription>
-						<range>0</range>
-						<firedBy>INTERACT</firedBy>
-						<firedItem/>
-						<interactString>LOOK;CEILING</interactString>
-						<questions>
-							<String>What is 2+2?</String>
-							<String>Where shall you place the monkey tile?</String>
-							<String>Are you real?</String>
-						</questions>
-						<correctAnswers>
-							<String>4</String>
-							<String>NORTH</String>
-							<String>yes</String>
-						</correctAnswers>
-						<answers/>
-					</Event>
-				</events>
+				<events/>
 			</Tile>
 		</Tile-array>
 	</theMap>

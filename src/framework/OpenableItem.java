@@ -2,7 +2,7 @@ package framework;
 
 public class OpenableItem extends Item implements Openable {
 
-	private boolean isOpen;
+	private boolean isOpen = false;
 	
 	public OpenableItem(String des, String feeling) {
 		super(des, feeling);
@@ -19,5 +19,4 @@ public class OpenableItem extends Item implements Openable {
 		isOpen = false;
 
 	}
-
 }

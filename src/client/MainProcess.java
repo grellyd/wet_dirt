@@ -41,31 +41,31 @@ public class MainProcess {
 			
 			System.out.println("Connecting to Server");
 			System.out.print("Enter server IP >");
-			String ip = reader.readLine();
+			//String ip = reader.readLine();
 			System.out.print("Enter port >");
-			int port = Integer.parseInt(reader.readLine());
+			//int port = Integer.parseInt(reader.readLine());
+			System.out.println("Using local settings");
+			String ip = "127.0.0.1";
+			int port = 12345;
 			tcpClient.Connect(ip, port);
 			
 			do {
 				System.out.println("Waiting for server...");
+				Thread.sleep(5000);
 			} while (!tcpClient.IsConnected());
 			
 			System.out.println("Connected!");
 			errorMessage = "ERROR: Joining game failed. ";
 			PLAYER_NUM = Integer.parseInt(tcpClient.getData("JOIN"));
 			System.out.println("You are player " + PLAYER_NUM);
-			
-			// Join a game
-			
-			
-			
+						
 			while(tcpClient.IsConnected()) {
-				
 				
 				errorMessage = "ERROR: Starting game failed. ";
 				String status;
 				do {
 					status = tcpClient.getData("STATUS");
+					Thread.sleep(5000);
 				} while (!status.equals("READY"));
 				
 				errorMessage = "ERROR: Fetching world failed. ";
@@ -100,10 +100,18 @@ public class MainProcess {
 		
 		
 		} catch (NumberFormatException e) {
+			System.out.println(errorMessage + e.getMessage());
 			e.printStackTrace();
+			tcpClient.Disconnect();
 		} catch (IOException e) {
+			System.out.println(errorMessage + e.getMessage());
 			e.printStackTrace();
+			tcpClient.Disconnect();e.printStackTrace();
 		} catch (ReturnException e) {
+			System.out.println(errorMessage + e.getMessage());
+			e.printStackTrace();
+			tcpClient.Disconnect();
+		} catch (InterruptedException e) {
 			System.out.println(errorMessage + e.getMessage());
 			e.printStackTrace();
 			tcpClient.Disconnect();

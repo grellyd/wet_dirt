@@ -43,6 +43,9 @@ public class WetDirtServer {
 			do {
 				System.out.print("Enter the filename of the world you would like to load >");
 				filename = reader.readLine();
+				if (filename.equals("d")) {
+					filename = "worlds/test.xml";
+				}
 				try {
 					xmlWorld = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
 					success = true;

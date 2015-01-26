@@ -23,7 +23,13 @@
 	</characters>
 	<theMap>
 		<Tile-array> <!-- 0 -->
-                        
+			<Tile>
+				<x>0</x>
+				<y>0</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
 			<Tile><!-- GLASS TOWER starts -->
 				<x>0</x>
 				<y>1</y>
@@ -140,7 +146,14 @@
 						<feel>It appears to be made from the same material as the glass tower, but more densely formed.</feel>
 					</MovableItem>
 				</items><events/>
-			</Tile> <!-- Glass Tower Ends -->
+			</Tile> <!-- Glass Tower Ends --> 
+			<Tile>
+				<x>0</x>
+				<y>3</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
                       		
 		</Tile-array> <!-- 0 array ends -->
             
@@ -347,6 +360,13 @@
                 
         <Tile-array> <!-- 2 -->
             
+			<Tile>
+				<x>2</x>
+				<y>0</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
             <Tile><!--OBSIDIAN TOWER-->
 				<x>2</x>
 				<y>1</y>
@@ -464,12 +484,47 @@
 					</MovableItem>
 				</items><events/>
 			</Tile>
+			<Tile>
+				<x>2</x>
+				<y>3</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
                 
         </Tile-array> <!-- 2 -->
         
         <Tile-array> <!-- 3 -->
 
             
+			<Tile>
+				<x>3</x>
+				<y>0</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
+			<Tile>
+				<x>3</x>
+				<y>1</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
+			<Tile>
+				<x>3</x>
+				<y>2</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
+			<Tile>
+				<x>3</x>
+				<y>3</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
             
         </Tile-array>
 		

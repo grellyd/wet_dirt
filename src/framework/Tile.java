@@ -9,7 +9,7 @@ public class Tile {
 	private List<Entryway> exits;
 	private String description;
 	private List<Item> items;
-	private List<Event> events;
+	private List<DirtEvent> events;
 	
 	public Tile(int xCord, int yCord, List<Entryway> theExits, String theDescription, List<Item> theItems) {
 		this.x = xCord;
@@ -79,19 +79,19 @@ public class Tile {
 		this.items = items;
 	}
 	
-	public List<Event> getEvents() {
+	public List<DirtEvent> getEvents() {
 		return events;
 	}
 	
-	public void setEvents(List<Event> events) {
+	public void setEvents(List<DirtEvent> events) {
 		this.events = events;
 	}
 	
-	public void addEvent(Event event) {
+	public void addEvent(DirtEvent event) {
 		events.add(event);
 	}
 	
-	public void fireEvent(Event event) {
+	public void fireEvent(DirtEvent event) {
 		
 	}
 

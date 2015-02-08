@@ -1,0 +1,166 @@
+<World>
+	<mapWidth>2</mapWidth>
+	<mapHeight>2</mapHeight>
+	<currentPlayerNum>0</currentPlayerNum>
+	<reqPlayerNum>1</reqPlayerNum>
+	<characters>
+		<Character>
+			<playerNumber>0</playerNumber>
+			<basic__description>A strange fellow.</basic__description>
+			<feel>Soft and squishy.</feel>
+			<x>0</x>
+			<y>0</y>
+			<inventory/>
+		</Character>
+		<Character>
+			<playerNumber>1</playerNumber>
+			<basic__description>Another strange fellow.</basic__description>
+			<feel>Soft and squishier.</feel>
+			<x>1</x>
+			<y>1</y>
+			<inventory/>
+		</Character>
+	</characters>
+	<theMap>
+		<Tile-array>
+			<Tile>
+				<x>0</x>
+				<y>0</y>
+				<description>TopLeft - Wet</description>
+				<exits>
+					<Entryway>
+						<basic__description>EAST</basic__description>
+						<feel>Feels cold...</feel>
+						<isOpen>false</isOpen>
+						<orientation>East</orientation>
+					</Entryway>
+					<Entryway>
+						<basic__description>SOUTH</basic__description>
+						<feel>Feels dry...</feel>
+						<isOpen>false</isOpen>
+						<orientation>South</orientation>
+					</Entryway>
+				</exits>
+				<items>
+					<Item>
+						<name>table</name>
+						<basic__description>A table</basic__description>
+						<full__description>A wooden table</full__description>
+						<feel>It feels really dry</feel>
+					</Item>
+					<MovableItem>
+						<name>waffle</name>
+						<basic__description>A waffle on the table</basic__description>
+						<full__description>A lovely waggle covered in syrup - but it has two bites taken out of it</full__description>
+						<feel>It is soggy</feel>
+					</MovableItem>
+				</items>
+				<events/>
+			</Tile>
+			<Tile>
+				<x>0</x>
+				<y>1</y>
+				<description>BottomLeft - Dry</description>
+				<exits>
+					<Entryway>
+						<basic__description>NORTH</basic__description>
+						<feel>Feels wet...</feel>
+						<isOpen>false</isOpen>
+						<orientation>North</orientation>
+					</Entryway>
+					<Entryway>
+						<basic__description>EAST</basic__description>
+						<feel>Feels hot...</feel>
+						<isOpen>false</isOpen>
+						<orientation>East</orientation>
+					</Entryway>
+				</exits>
+				<items/>
+				<events/>
+			</Tile>
+		</Tile-array>
+		<Tile-array>
+			<Tile>
+				<x>1</x>
+				<y>0</y>
+				<description>TopRight - Cold</description>
+				<exits>
+					<Entryway>
+						<basic__description>WEST</basic__description>
+						<feel>Feels wet...</feel>
+						<isOpen>false</isOpen>
+						<orientation>West</orientation>
+					</Entryway>
+					<Entryway>
+						<basic__description>SOUTH</basic__description>
+						<feel>Feels hot...</feel>
+						<isOpen>false</isOpen>
+						<orientation>South</orientation>
+					</Entryway>
+				</exits>
+				<items>
+					<MovableItem>
+						<name>orb</name>
+						<basic__description>An orb</basic__description>
+						<full__description>A green orb</full__description>
+						<feel>It's the smoothest orb you've ever held</feel>
+					</MovableItem>
+				</items>
+				<events>
+					<Event>
+						<id>1</id>
+						<description>You are being tested. Answer correctly to succeed.</description>
+						<failureText>You have failed. TO HELL WITH YOU!</failureText>
+						<successText>You have succeeded. You are worthy to continue.</successText>
+						<distancedDescription></distancedDescription>
+						<range>0</range>
+						<firedBy>INTERACT</firedBy>
+						<firedItemName/>
+						<interactString>LOOK;CEILING</interactString>
+						<questions>
+							<String>What is 2+2?</String>
+							<String>Where shall you place the monkey tile?</String>
+							<String>Are you real?</String>
+						</questions>
+						<correctAnswers>
+							<String>4</String>
+							<String>NORTH</String>
+							<String>yes</String>
+						</correctAnswers>
+						<answers/>
+						<rewards>
+							<MovableItem>
+								<name>goldenKey</name>
+								<basic__description>A golden key</basic__description>
+								<full__description>A sun-like coloured key that has a diamond on the end</full__description>
+								<feel>It feels smooth</feel>
+							</MovableItem>
+						</rewards>
+					</Event>
+				</events>
+			</Tile>
+			<Tile>
+				<x>1</x>
+				<y>1</y>
+				<description>BottomRight - Hot</description>
+				<exits>
+					<Entryway>
+						<basic__description>WEST</basic__description>
+						<feel>Feels dry...</feel>
+						<isOpen>false</isOpen>
+						<orientation>West</orientation>
+					</Entryway>
+					<Entryway>
+						<basic__description>NORTH</basic__description>
+						<feel>Feels cold...</feel>
+						<isOpen>false</isOpen>
+						<orientation>North</orientation>
+					</Entryway>
+				</exits>
+				<items/>
+				<events/>
+			</Tile>
+		</Tile-array>
+	</theMap>
+	<globalEvents/>
+</World>

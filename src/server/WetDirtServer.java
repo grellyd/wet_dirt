@@ -33,7 +33,7 @@ public class WetDirtServer {
 		xstream.alias("MovableItem", MovableItem.class);
 		xstream.alias("Entryway", Entryway.class);
 		xstream.alias("Character", framework.Character.class);
-		xstream.alias("Event", framework.Event.class);
+		xstream.alias("Event", framework.DirtEvent.class);
 		xstream.alias("String", String.class);
 		
 		System.out.println("wet_dirt - Server v" + VERSION);

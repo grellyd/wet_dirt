@@ -1,0 +1,533 @@
+<World>
+	<mapWidth>4</mapWidth>
+	<mapHeight>5</mapHeight>
+	<currentPlayerNum>0</currentPlayerNum>
+	<reqPlayerNum>2</reqPlayerNum>
+	<characters>
+		<Character>
+			<playerNumber>0</playerNumber>
+			<basic__description>A strange fellow.</basic__description>
+			<feel>Soft and squishy.</feel>
+			<x>1</x>
+			<y>1</y>
+			<inventory/>
+		</Character>
+		<Character>
+			<playerNumber>1</playerNumber>
+			<basic__description>Another strange fellow.</basic__description>
+			<feel>Soft and squishier.</feel>
+			<x>1</x>
+			<y>2</y>
+			<inventory/>
+		</Character>
+	</characters>
+	<theMap>
+		<Tile-array> <!-- 0 -->
+			<Tile>
+				<x>0</x>
+				<y>0</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
+			<Tile><!-- GLASS TOWER starts -->
+				<x>0</x>
+				<y>1</y>
+				<!-- GLASS TOWER-->
+				<description>The hard glass floors and clear walls reflect and refract light in a varying array of shifting patterns, occasionally with the faintest unnatural glow of subtle purple. Almost difficult to see at first amongst the shimmering surfaces, a glass display case stands in the center of the room.</description>
+				<exits>
+					<Entryway>
+						<basic__description>A beautifully adorned glass door NORTH</basic__description>
+						<feel>The coolness of the air in the tower is refreshing and surprising after the acrid heat of the desert. </feel>
+						<isOpen>false</isOpen>
+						<orientation>East</orientation>
+					</Entryway>
+				</exits>
+				<items>
+					<Item>
+						<name>box</name>
+						<basic__description>mahogany box</basic__description>
+						<full__description>A small wooden box with a hinged side</full__description>
+						<feel>It feels smooth, a light layer of dust covers it. Clearly it has not been opened in a long time</feel>
+					</Item>
+					<Item>
+						<name>mechanism</name>
+						<basic__description>metal mechanism</basic__description>
+						<full__description>A large silver globe mounted on a metal post juts from a complicated metal stand</full__description>
+						<feel>cold and mechanical</feel>
+					</Item>
+					<Item>
+						<name>stand</name>
+						<basic__description>metal stand</basic__description>
+						<full__description>you find a flat round plate that appears to be bolted to the top beneath the rod. Upon further inspection you also find a small square hole in the side of the stand.</full__description>
+						<feel>cold and mechanical</feel>
+					</Item>
+					<Item>
+						<name>hole</name>
+						<basic__description>square hole</basic__description>
+						<full__description>A small square hole that seems to lead to the internal engine of the mechanism</full__description>
+						<feel>small and square</feel>
+					</Item>
+					<Item>
+						<name>plate</name>
+						<basic__description>a metal plate</basic__description>
+						<full__description>a flat round plate that appears to be bolted to the top beneath the rod</full__description>
+						<feel>cold and mechanical</feel>
+					</Item>
+					<MovableItem>
+						<name>handle</name>
+						<basic__description>metal handle</basic__description>
+						<full__description> a small metal handle with a square shaped peg on the end</full__description>
+						<feel>It feels cool in your hands.</feel>
+					</MovableItem>
+					<MovableItem>
+						<name>crystal</name>
+						<basic__description>small crystal</basic__description>
+						<full__description>The faucets glitter as the stone splits even the faintest light into a dozen little stars. </full__description>
+						<feel>It appears to be made from the same material as the glass tower, but more densely formed.</feel>
+					</MovableItem>
+				</items><events/>
+			</Tile> <!-- Glass Tower Ends -->
+
+            <Tile><!-- GLASS TOWER starts -->
+				<x>0</x>
+				<y>2</y>
+				<!-- GLASS TOWER-->
+				<description>The hard glass floors and clear walls reflect and refract light in a varying array of shifting patterns, occasionally with the faintest unnatural glow of subtle purple. Almost difficult to see at first amongst the shimmering surfaces, a glass display case stands in the center of the room.</description>
+				<exits>
+					<Entryway>
+						<basic__description>A beautifully adorned glass door NORTH</basic__description>
+						<feel>The coolness of the air in the tower is refreshing and surprising after the acrid heat of the desert. </feel>
+						<isOpen>false</isOpen>
+						<orientation>East</orientation>
+					</Entryway>
+				</exits>
+				<items>
+					<Item>
+						<name>box</name>
+						<basic__description>mahogany box</basic__description>
+						<full__description>A small wooden box with a hinged side</full__description>
+						<feel>It feels smooth, a light layer of dust covers it. Clearly it has not been opened in a long time</feel>
+					</Item>
+					<Item>
+						<name>mechanism</name>
+						<basic__description>metal mechanism</basic__description>
+						<full__description>A large silver globe mounted on a metal post juts from a complicated metal stand</full__description>
+						<feel>cold and mechanical</feel>
+					</Item>
+					<Item>
+						<name>stand</name>
+						<basic__description>metal stand</basic__description>
+						<full__description>you find a flat round plate that appears to be bolted to the top beneath the rod. Upon further inspection you also find a small square hole in the side of the stand.</full__description>
+						<feel>cold and mechanical</feel>
+					</Item>
+					<Item>
+						<name>hole</name>
+						<basic__description>square hole</basic__description>
+						<full__description>A small square hole that seems to lead to the internal engine of the mechanism</full__description>
+						<feel>small and square</feel>
+					</Item>
+					<Item>
+						<name>plate</name>
+						<basic__description>a metal plate</basic__description>
+						<full__description>a flat round plate that appears to be bolted to the top beneath the rod</full__description>
+						<feel>cold and mechanical</feel>
+					</Item>
+					<MovableItem>
+						<name>handle</name>
+						<basic__description>metal handle</basic__description>
+						<full__description> a small metal handle with a square shaped peg on the end</full__description>
+						<feel>It feels cool in your hands.</feel>
+					</MovableItem>
+					<MovableItem>
+						<name>crystal</name>
+						<basic__description>small crystal</basic__description>
+						<full__description>The faucets glitter as the stone splits even the faintest light into a dozen little stars. </full__description>
+						<feel>It appears to be made from the same material as the glass tower, but more densely formed.</feel>
+					</MovableItem>
+				</items><events/>
+			</Tile> <!-- Glass Tower Ends --> 
+			<Tile>
+				<x>0</x>
+				<y>3</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
+                      		
+		</Tile-array> <!-- 0 array ends -->
+            
+        <Tile-array> <!-- 1 -->
+            <Tile> <!-- Stone Tower start -->
+				<x>1</x> 
+				<y>0</y>
+                <description>You walk in the dark, cold room. High walls made of stone.</description>
+				<exits>
+					<Entryway>
+						<basic__description>South</basic__description>
+						<feel>Feels cold...</feel>
+						<isOpen>false</isOpen>
+						<orientation>South</orientation>
+					</Entryway>
+				</exits>
+				<items>
+                    <Item> 
+                        <name>ceiling</name>
+						<basic__description>A round stained glass dome, finely set with glass of muted copper, gold, silver and blue.</basic__description>
+						<full__description>The curling colours flow in an ornate circle to form a compass adorned with elemental symbols. At North there is curls of wind, At West a a red ball of flame, East with purple swirls of magic and South brown shards of stone. The glass is dark and no light can be seen shining through it.</full__description>
+						<feel>It makes you shiver.</feel>
+					</Item>
+                    <Item>
+						<name>desk</name>
+						<basic__description>The desk is heavyset, made with thick marble slabs and inlayed with delicate carvings.</basic__description>
+						<full__description>The desk has several hefty looking drawers made from the same stone. The surface of the desk has four carved indentations with a tarnished copper compass mounted in the middle.</full__description>
+						<feel>It feels heavy.</feel>
+					</Item>
+                    <!-- open drawes -->
+                    <Item>
+						<name>drawers</name>
+						<basic__description></basic__description>  <!-- not visible upon entrance -->
+						<full__description>you struggle and after several seconds the impractical marble drawers grind open, to reveal several small stone tiles. </full__description>
+						<feel></feel>
+                    </Item>
+					<MovableItem>
+						<name>Stone Tiles</name>
+						<basic__description></basic__description>
+						<full__description>The tiles fit comfortably in your palm, carved with images of 4 creatures; a gryphon, a golem, a unicorn and a dragon, all ferociously posed.</full__description>
+						<feel></feel>
+                    <!-- which tile up?         Gryphon 
+                        which tile in down?     Golem
+                        Which tile in right?    Unicorn
+                        Which tile in left?     Dragon
+                        As you set down the final tile, there's a deep scraping rumble of rock against rock. Sand and dust litter down from the ceiling in tiny showers and suddenly the room is dappled with blues and golds as light bursts shining through the stained glass ceiling. The light illuminates a small pile of bones, old and bleached with scraps of fabric clinging pitifully to its past owners remains. -->
+					</MovableItem>
+                    <Item>
+						<name>bones</name>
+                        <!-- inspect bones -->
+						<basic__description></basic__description>
+						<full__description>You find a note amongst the remains.</full__description>
+						<feel></feel>
+                    </Item>
+ 					<MovableItem>
+						<name>note</name>
+                        <!-- inspect note -->
+						<basic__description></basic__description>
+						<full__description>In scrawling ancient hand it reads 'In our search of reason, we have lost true meaning- the magi and I have been searching so long, so listlessly to find the fundamentals of what gives magic to this universe that I believe we have lost sight of magic itself.
+                            The preparations are nearly complete. Soon we shall know if the answers we chase are as imaginary as the beasts of legends themselves’
+                        On the opposite side of the note a series of numbers have been hastily recorded with once dripping ink: [NUMBER PUZZLE ANSWER]</full__description>
+						<feel>wet</feel>
+                    </MovableItem>
+				</items><events/>
+			</Tile> <!-- stone tower ends -->      
+            
+            <Tile> <!-- Player 0 Room Start -->
+				<x>1</x>
+				<y>1</y>
+                <description>You are standing in glittering soft sands the color of tarnished copper. Distant dunes ripple softly with the listless breeze, ever transforming under the heavy heat of the sun. To the North there is an iridescent glass tower, to the West a stoic grey stone tower, to the East a jet obsidian tower. They stand immense, appearing to concave upwards as they stretch towards the sun. What do you do?
+</description>
+				<exits>
+					<Entryway>
+                        <basic__description>NORTH</basic__description>
+						<feel>Feels wet...</feel>
+						<isOpen>false</isOpen>
+						<orientation>North</orientation>
+					</Entryway>
+					<Entryway>
+						<basic__description>EAST</basic__description>
+						<feel>Feels hot...</feel>
+						<isOpen>false</isOpen>
+						<orientation>East</orientation>
+					</Entryway>
+                    <Entryway>
+						<basic__description>West</basic__description>
+						<feel>Feels hot...</feel>
+						<isOpen>false</isOpen>
+						<orientation>West</orientation>
+					</Entryway>
+				</exits>
+                <items>
+                    <MovableItem> 
+                        <name>hourglass</name>
+                        <!-- pick up hourglass -->
+                        <basic__description>Small hour glass lies nestled in sand in front of you.</basic__description>
+						<full__description>you gently pluck a small hourglass from the ground. It is delicately carved from what appears to be a white stone, curling spirals twist around the central glass. Upon holding it upright the black sands it contains begin flowing gently upwards as if counting time in inverse. It feels cool in your hands.</full__description>
+						<feel></feel>
+					</MovableItem>
+                </items><events/>
+			</Tile> <!-- player 0 start room ends -->
+            
+            <Tile> <!-- Player 1 Room Start -->
+				<x>1</x>
+				<y>2</y>
+                <description>You are standing in glittering soft sands the color of tarnished copper. Distant dunes ripple softly with the listless breeze, ever transforming under the heavy heat of the sun. To the North there is an iridescent glass tower, to the West a stoic grey stone tower, to the East a jet obsidian tower. They stand immense, appearing to concave upwards as they stretch towards the sun. What do you do?
+</description>
+				<exits>
+					<Entryway>
+                        <!-- needs to be fixed after placing room --> 
+						<basic__description>SOUTH</basic__description>
+						<feel>Feels wet...</feel>
+						<isOpen>false</isOpen>
+						<orientation>South</orientation>
+					</Entryway>
+					<Entryway>
+						<basic__description>EAST</basic__description>
+						<feel>Feels hot...</feel>
+						<isOpen>false</isOpen>
+						<orientation>East</orientation>
+					</Entryway>
+                    <Entryway>
+						<basic__description>WEST</basic__description>
+						<feel>Feels hot...</feel>
+						<isOpen>false</isOpen>
+						<orientation>West</orientation>
+					</Entryway>
+				</exits>
+                <items>
+                    <MovableItem> 
+                        <name>hourglass</name>
+                        <!-- pick up hourglass -->
+                        <basic__description>Small hour glass lies nestled in sand in front of you.</basic__description>
+						<full__description>you gently pluck a small hourglass from the ground. It is delicately carved from what appears to be a white stone, curling spirals twist around the central glass. Upon holding it upright the black sands it contains begin flowing gently upwards as if counting time in inverse. It feels cool in your hands.</full__description>
+						<feel></feel>
+					</MovableItem>
+                </items><events/>
+			</Tile> <!-- player 1 start room ends -->
+            
+            <Tile> <!-- Stone Tower start -->
+				<x>1</x> 
+				<y>3</y>
+                <description>You walk in the dark, cold room. High walls made of stone.</description>
+				<exits>
+					<Entryway>
+                        <!-- needs fix after placing room -->
+						<basic__description>NORTH</basic__description>
+						<feel>Feels cold...</feel>
+						<isOpen>false</isOpen>
+						<orientation>North</orientation>
+					</Entryway>
+				</exits>
+				<items>
+                    <Item> 
+                        <name>ceiling</name>
+						<basic__description>A round stained glass dome, finely set with glass of muted copper, gold, silver and blue.</basic__description>
+						<full__description>The curling colours flow in an ornate circle to form a compass adorned with elemental symbols. At North there is curls of wind, At West a a red ball of flame, East with purple swirls of magic and South brown shards of stone. The glass is dark and no light can be seen shining through it.</full__description>
+						<feel>It makes you shiver.</feel>
+					</Item>
+                    <Item>
+						<name>desk</name>
+						<basic__description>The desk is heavyset, made with thick marble slabs and inlayed with delicate carvings.</basic__description>
+						<full__description>The desk has several hefty looking drawers made from the same stone. The surface of the desk has four carved indentations with a tarnished copper compass mounted in the middle.</full__description>
+						<feel>It feels heavy.</feel>
+					</Item>
+                    <!-- open drawes -->
+                    <Item>
+						<name>drawers</name>
+						<basic__description></basic__description>  <!-- not visible upon entrance -->
+						<full__description>you struggle and after several seconds the impractical marble drawers grind open, to reveal several small stone tiles. </full__description>
+						<feel></feel>
+                    </Item>
+					<MovableItem>
+						<name>Stone Tiles</name>
+						<basic__description></basic__description>
+						<full__description>The tiles fit comfortably in your palm, carved with images of 4 creatures; a gryphon, a golem, a unicorn and a dragon, all ferociously posed.</full__description>
+						<feel></feel>
+                    <!-- which tile up?         Gryphon 
+                        which tile in down?     Golem
+                        Which tile in right?    Unicorn
+                        Which tile in left?     Dragon
+                        As you set down the final tile, there's a deep scraping rumble of rock against rock. Sand and dust litter down from the ceiling in tiny showers and suddenly the room is dappled with blues and golds as light bursts shining through the stained glass ceiling. The light illuminates a small pile of bones, old and bleached with scraps of fabric clinging pitifully to its past owners remains. -->
+					</MovableItem>
+                    <Item>
+						<name>bones</name>
+                        <!-- inspect bones -->
+						<basic__description></basic__description>
+						<full__description>You find a note amongst the remains.</full__description>
+						<feel></feel>
+                    </Item>
+ 					<MovableItem>
+						<name>note</name>
+                        <!-- inspect note -->
+						<basic__description></basic__description>
+						<full__description>In scrawling ancient hand it reads 'In our search of reason, we have lost true meaning- the magi and I have been searching so long, so listlessly to find the fundamentals of what gives magic to this universe that I believe we have lost sight of magic itself.
+                            The preparations are nearly complete. Soon we shall know if the answers we chase are as imaginary as the beasts of legends themselves’
+                        On the opposite side of the note a series of numbers have been hastily recorded with once dripping ink: [NUMBER PUZZLE ANSWER]</full__description>
+						<feel>wet</feel>
+                    </MovableItem>
+				</items><events/>
+			</Tile> <!-- stone tower ends -->      
+            
+        </Tile-array> <!-- 1 end -->
+                
+        <Tile-array> <!-- 2 -->
+            
+			<Tile>
+				<x>2</x>
+				<y>0</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
+            <Tile><!--OBSIDIAN TOWER-->
+				<x>2</x>
+				<y>1</y>
+				
+				<description>The room is pitch, as if the walls surrounding you consume the light from the outside with an otherworldly hunger. A stillness follows your hollow scraping footsteps on the coarse black shale floor. The room contains a crude basin emanating the only source of haunting red light, by which you can make out an adjacent table height slab with a small deck of cards placed on it.</description>
+				<exits>
+					<Entryway>
+						<basic__description>a spined black stone door, intimidating and dark WEST</basic__description>
+						<feel>the door is sharp enough to almost draw blood</feel>
+						<isOpen>false</isOpen>
+						<orientation>West</orientation>
+					</Entryway>
+				</exits>
+				<items>
+					<Item>
+						<name>basin</name>
+						<basic__description>A stone marble basin</basic__description>
+						<full__description>Rising slightly higher than your waist, the hewn obsidian basin appears to be filled equally with two liquids; rippling red molten and clear blue water. The two liquids are separated down the center by two thick marble disks.</full__description>
+						<feel>hard and coarse, painful to the touch</feel>
+					</Item>
+					<Item>
+						<name>disks</name>
+						<basic__description>A pair of stone disks</basic__description>
+						<full__description>the disks are carved deeply with recognizable numerals, and appear to be spinnable.</full__description>
+						<feel>they feel hauntingly warm, as if alive</feel>
+					</Item>
+					<Item>
+						<name>slab</name>
+						<basic__description>A large black stone slab</basic__description>
+						<full__description>engraved subtly on the ebony stone an inscription reads 'skill of the shuffle, luck of the draw'</full__description>
+						<feel>it is engraved on the tables smooth surface</feel>
+					</Item>
+					<MovableItem>
+						<name>deck</name>
+						<basic__description>a deck of shabby divination cards </basic__description>
+						<full__description>a deck of divination cards, the shabby black backs imply heavy use by their previous owner. Upon a closer inspection you find they are black on both sides.</full__description>
+						<feel>It feels old and shabby</feel>
+					</MovableItem>
+					<MovableItem>
+						<name>7 of swords</name>
+						<basic__description>the 7 of coins card</basic__description>
+						<full__description>a man stands struggling to carry 5 swords, while looking wistfully behind him at two remaining swords stick out of the ground.</full__description>
+						<feel>It feels old and shabby</feel>
+					</MovableItem>
+					<MovableItem>
+						<name>7 of coins</name>
+						<basic__description>the 7 of coins card</basic__description>
+						<full__description>the card portrays a young man taking a rest from the difficult work of harvesting his abundant crop. 7 lush flowers surround him</full__description>
+						<feel>It feels old and shabby</feel>
+					</MovableItem>
+					<MovableItem>
+						<name>Key</name>
+						<basic__description>a Black Key</basic__description>
+						<full__description>The key seems to absorb all light around it except for eerily glowing scripture emblazoned in red on its handle: 'seventh son of magic, seventh son of time'</full__description>
+						<feel>It feels old and shabby</feel>
+					</MovableItem>
+				</items><events/>
+			</Tile>
+        
+            <Tile><!--OBSIDIAN TOWER-->
+				<x>2</x>
+				<y>2</y>
+				
+				<description>The room is pitch, as if the walls surrounding you consume the light from the outside with an otherworldly hunger. A stillness follows your hollow scraping footsteps on the coarse black shale floor. The room contains a crude basin emanating the only source of haunting red light, by which you can make out an adjacent table height slab with a small deck of cards placed on it.</description>
+				<exits>
+					<Entryway>
+						<basic__description>a spined black stone door, intimidating and dark WEST</basic__description>
+						<feel>the door is sharp enough to almost draw blood</feel>
+						<isOpen>false</isOpen>
+						<orientation>West</orientation>
+					</Entryway>
+				</exits>
+				<items>
+					<Item>
+						<name>basin</name>
+						<basic__description>A stone marble basin</basic__description>
+						<full__description>Rising slightly higher than your waist, the hewn obsidian basin appears to be filled equally with two liquids; rippling red molten and clear blue water. The two liquids are separated down the center by two thick marble disks.</full__description>
+						<feel>hard and coarse, painful to the touch</feel>
+					</Item>
+					<Item>
+						<name>disks</name>
+						<basic__description>A pair of stone disks</basic__description>
+						<full__description>the disks are carved deeply with recognizable numerals, and appear to be spinnable.</full__description>
+						<feel>they feel hauntingly warm, as if alive</feel>
+					</Item>
+					<Item>
+						<name>slab</name>
+						<basic__description>A large black stone slab</basic__description>
+						<full__description>engraved subtly on the ebony stone an inscription reads 'skill of the shuffle, luck of the draw'</full__description>
+						<feel>it is engraved on the tables smooth surface</feel>
+					</Item>
+					<MovableItem>
+						<name>deck</name>
+						<basic__description>a deck of shabby divination cards </basic__description>
+						<full__description>a deck of divination cards, the shabby black backs imply heavy use by their previous owner. Upon a closer inspection you find they are black on both sides.</full__description>
+						<feel>It feels old and shabby</feel>
+					</MovableItem>
+					<MovableItem>
+						<name>7 of swords</name>
+						<basic__description>the 7 of coins card</basic__description>
+						<full__description>a man stands struggling to carry 5 swords, while looking wistfully behind him at two remaining swords stick out of the ground.</full__description>
+						<feel>It feels old and shabby</feel>
+					</MovableItem>
+					<MovableItem>
+						<name>7 of coins</name>
+						<basic__description>the 7 of coins card</basic__description>
+						<full__description>the card portrays a young man taking a rest from the difficult work of harvesting his abundant crop. 7 lush flowers surround him</full__description>
+						<feel>It feels old and shabby</feel>
+					</MovableItem>
+					<MovableItem>
+						<name>Key</name>
+						<basic__description>a Black Key</basic__description>
+						<full__description>The key seems to absorb all light around it except for eerily glowing scripture emblazoned in red on its handle: 'seventh son of magic, seventh son of time'</full__description>
+						<feel>It feels old and shabby</feel>
+					</MovableItem>
+				</items><events/>
+			</Tile>
+			<Tile>
+				<x>2</x>
+				<y>3</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
+                
+        </Tile-array> <!-- 2 -->
+        
+        <Tile-array> <!-- 3 -->
+
+            
+			<Tile>
+				<x>3</x>
+				<y>0</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
+			<Tile>
+				<x>3</x>
+				<y>1</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
+			<Tile>
+				<x>3</x>
+				<y>2</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
+			<Tile>
+				<x>3</x>
+				<y>3</y>
+				<description/>
+				<exits/>
+				<items/><events/>
+			</Tile>
+            
+        </Tile-array>
+		
+	</theMap>
+	<globalEvents/>
+</World>

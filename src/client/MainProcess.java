@@ -7,7 +7,7 @@ import com.thoughtworks.xstream.XStream;
 
 import exceptions.ReturnException;
 import framework.Entryway;
-import framework.Event;
+import framework.DirtEvent;
 import framework.Item;
 import framework.MovableItem;
 import framework.OpenableItem;
@@ -34,7 +34,7 @@ public class MainProcess {
 		xstream.alias("MovableItem", MovableItem.class);
 		xstream.alias("Entryway", Entryway.class);
 		xstream.alias("Character", framework.Character.class);
-		xstream.alias("Event", framework.Event.class);
+		xstream.alias("Event", framework.DirtEvent.class);
 		xstream.alias("String", String.class);
 		
 		try {
@@ -84,7 +84,7 @@ public class MainProcess {
 					String input = UI.getInputResult();
 					UpdateWorld();
 					boolean interactedWithEvent = false;
-					for (Event e : localTile.getEvents()) {
+					for (DirtEvent e : localTile.getEvents()) {
 						boolean isCleared = false;
 						for (Integer integer : clearedEvents) {
 							if (integer.intValue() == e.getId()) {
@@ -132,7 +132,7 @@ public class MainProcess {
 						tcpClient.sendMessage(parseOnServer);
 					}
 					UpdateWorld();
-					for (Event e : localTile.getEvents()) {
+					for (DirtEvent e : localTile.getEvents()) {
 						boolean isCleared = false;
 						for (Integer integer : clearedEvents) {
 							if (integer.intValue() == e.getId()) {

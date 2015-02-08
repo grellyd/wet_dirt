@@ -5,7 +5,7 @@ import java.util.List;
 
 import client.UI;
 
-public class Event {
+public class DirtEvent {
 	private int id;
 	private String description;
 	private String failureText;
@@ -30,7 +30,7 @@ public class Event {
 	private List<String> correctAnswers = new ArrayList<String>();
 	private List<String> answers = new ArrayList<String>();
 	
-	public Event(Tile tile) {
+	public DirtEvent(Tile tile) {
 		this.tile = tile;
 	}
 	

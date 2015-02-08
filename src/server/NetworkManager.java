@@ -13,7 +13,7 @@ import com.thoughtworks.xstream.XStream;
 
 import exceptions.ItemNotFoundException;
 import framework.Entryway;
-import framework.Event;
+import framework.DirtEvent;
 import framework.Item;
 import framework.MovableItem;
 import framework.Tile;
@@ -75,7 +75,7 @@ public class NetworkManager implements Runnable {
 					range = Integer.parseInt(reader.readLine());
 					System.out.print("Description: ");
 					desc = reader.readLine();
-					Event event = new Event(new Tile(x, y, null, "", null));
+					DirtEvent event = new DirtEvent(new Tile(x, y, null, "", null));
 					event.setDescription(desc);
 					event.setRange(range);
 					world.fireEvent(event);
@@ -180,7 +180,7 @@ public class NetworkManager implements Runnable {
 											break;
 										}
 									}
-									for (Event e : world.getPlayerTile(playerId).getEvents()) {
+									for (DirtEvent e : world.getPlayerTile(playerId).getEvents()) {
 										for (Item item : e.getRewards()) {
 											if (item.getName().equals(split[1])) {
 												mItem = (MovableItem)item;

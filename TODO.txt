@@ -1,0 +1,8 @@
+1: rename for consistency
+2: Players join, what do we do now?
+3: Robust connection for server and clients. Retry?
+4: Social - ui and interaction for chatting and inventroy viewing/swapping
+5: Saving/loading
+6: Creating a server UI
+7: Pressure Plate mechanic
+8: Custom Exceptions

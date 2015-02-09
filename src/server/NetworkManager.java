@@ -399,7 +399,7 @@ public class NetworkManager implements Runnable {
 							result = "The door is opened";
 							Tile playerTile = curTile;
 							if (playerTile.getY() - 1 >= 0) {
-								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() - 1].getExits();
+								List <Entryway> adjacentExits = world.getMapTile(playerTile.getX(), playerTile.getY() - 1).getExits();
 								for (Entryway ae : adjacentExits) {
 									if (ae.getOrientation().toString().toLowerCase().equals("south")) {
 										ae.open();
@@ -414,7 +414,7 @@ public class NetworkManager implements Runnable {
 							result = "The door is opened";
 							Tile playerTile = curTile;
 							if (playerTile.getX() + 1 >= 0) {
-								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() + 1][playerTile.getY()].getExits();
+								List <Entryway> adjacentExits = world.getMapTile(playerTile.getX() + 1, playerTile.getY()).getExits();
 								for (Entryway ae : adjacentExits) {
 									if (ae.getOrientation().toString().toLowerCase().equals("west")) {
 										ae.open();
@@ -429,7 +429,7 @@ public class NetworkManager implements Runnable {
 							result = "The door is opened";
 							Tile playerTile = curTile;
 							if (playerTile.getX() - 1 >= 0) {
-								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() - 1][playerTile.getY()].getExits();
+								List <Entryway> adjacentExits = world.getMapTile(playerTile.getX() - 1, playerTile.getY()).getExits();
 								for (Entryway ae : adjacentExits) {
 									if (ae.getOrientation().toString().toLowerCase().equals("east")) {
 										ae.open();
@@ -444,7 +444,7 @@ public class NetworkManager implements Runnable {
 							result = "The door is opened";
 							Tile playerTile = curTile;
 							if (playerTile.getY() + 1 < world.getMapHeight()) {
-								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() + 1].getExits();
+								List <Entryway> adjacentExits = world.getMapTile(playerTile.getX(), playerTile.getY() + 1).getExits();
 								for (Entryway ae : adjacentExits) {
 									if (ae.getOrientation().toString().toLowerCase().equals("north")) {
 										ae.open();
@@ -483,7 +483,7 @@ public class NetworkManager implements Runnable {
 							result = "The door is opened";
 							Tile playerTile = curTile;
 							if (playerTile.getY() - 1 >= 0) {
-								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() - 1].getExits();
+								List <Entryway> adjacentExits = world.getMapTile(playerTile.getX(), playerTile.getY() - 1).getExits();
 								for (Entryway ae : adjacentExits) {
 									if (ae.getOrientation().toString().toLowerCase().equals("south")) {
 										ae.close();
@@ -498,7 +498,7 @@ public class NetworkManager implements Runnable {
 							result = "The door is opened";
 							Tile playerTile = curTile;
 							if (playerTile.getX() + 1 >= 0) {
-								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() + 1][playerTile.getY()].getExits();
+								List <Entryway> adjacentExits = world.getMapTile(playerTile.getX() + 1, playerTile.getY()).getExits();
 								for (Entryway ae : adjacentExits) {
 									if (ae.getOrientation().toString().toLowerCase().equals("west")) {
 										ae.close();
@@ -513,7 +513,7 @@ public class NetworkManager implements Runnable {
 							result = "The door is opened";
 							Tile playerTile = curTile;
 							if (playerTile.getX() - 1 >= 0) {
-								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() - 1][playerTile.getY()].getExits();
+								List <Entryway> adjacentExits = world.getMapTile(playerTile.getX() - 1, playerTile.getY()).getExits();
 								for (Entryway ae : adjacentExits) {
 									if (ae.getOrientation().toString().toLowerCase().equals("east")) {
 										ae.close();
@@ -528,7 +528,7 @@ public class NetworkManager implements Runnable {
 							result = "The door is opened";
 							Tile playerTile = curTile;
 							if (playerTile.getY() + 1 < world.getMapHeight()) {
-								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() + 1].getExits();
+								List <Entryway> adjacentExits = world.getMapTile(playerTile.getX(), playerTile.getY() + 1).getExits();
 								for (Entryway ae : adjacentExits) {
 									if (ae.getOrientation().toString().toLowerCase().equals("north")) {
 										ae.close();

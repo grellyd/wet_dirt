@@ -2,7 +2,7 @@
 	<mapWidth>2</mapWidth>
 	<mapHeight>2</mapHeight>
 	<currentPlayerNum>0</currentPlayerNum>
-	<reqPlayerNum>1</reqPlayerNum>
+	<reqPlayerNum>2</reqPlayerNum>
 	<characters>
 		<Character>
 			<playerNumber>0</playerNumber>
@@ -115,7 +115,6 @@
 						<distancedDescription></distancedDescription>
 						<range>0</range>
 						<firedBy>INTERACT</firedBy>
-						<firedItemName/>
 						<interactString>LOOK;CEILING</interactString>
 						<questions>
 							<String>What is 2+2?</String>

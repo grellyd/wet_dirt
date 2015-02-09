@@ -3,8 +3,6 @@ package framework;
 import java.util.ArrayList;
 import java.util.List;
 
-import client.UI;
-
 public class DirtEvent {
 	private int id;
 	private String description;
@@ -13,16 +11,12 @@ public class DirtEvent {
 	private String distancedDescription;
 	private int range;
 	private Tile tile;
-	private boolean fired = false;
 	
 	public enum FIREDBY {
-		AUTO,
-		HASITEM,
 		INTERACT
 	};
 	
 	private FIREDBY firedBy;
-	private String firedItemName;
 	private String interactString;
 	
 	private List<MovableItem> rewards = new ArrayList<MovableItem>();
@@ -34,13 +28,31 @@ public class DirtEvent {
 		this.tile = tile;
 	}
 	
-	public void fire(Character c) {
-		UI.addToOutput("--------------", false);
-		UI.addToOutput(description, false);
-		for (String question : questions) {
-			UI.addToOutput(question, false);
-			answers.add(UI.getInputResult());
-		}
+	public DirtEvent(DirtEvent event) {
+		tile = event.tile;
+		id = event.id;
+		description = event.description;
+		failureText = event.failureText;
+		successText = event.successText;
+		distancedDescription = event.distancedDescription;
+		range = event.range;
+		firedBy = event.firedBy;
+		interactString = event.interactString;
+		rewards = event.rewards;
+		questions = event.questions;
+		correctAnswers = event.correctAnswers;
+		answers = new ArrayList<String>();
+	}
+	
+	public List<String> getQuestions() {
+		return questions;
+	}
+	
+	public List<String> getUserAnswers() {
+		return answers;
+	}
+	
+	public boolean passed() {
 		boolean correctAnswer = true;
 		for (int i = 0; i < correctAnswers.size(); i++) {
 			for (String a : correctAnswers.get(i).split(";")) {
@@ -54,11 +66,18 @@ public class DirtEvent {
 			}
 		}
 		if (correctAnswer) {
-			UI.addToOutput(successText, false);
-			fired = true;
+			return true;
 		} else {
-			UI.addToOutput(failureText, false);
+			return false;
 		}
+	}
+	
+	public String getSuccessText() {
+		return successText;
+	}
+	
+	public String getFailureText() {
+		return failureText;
 	}
 	
 	public int getId() {
@@ -101,14 +120,6 @@ public class DirtEvent {
 		return firedBy;
 	}
 	
-	public void setFiredItemName(String firedItemName) {
-		this.firedItemName = firedItemName;
-	}
-	
-	public String getFiredItemName() {
-		return firedItemName;
-	}
-	
 	public void setIteractString(String interactString) {
 		this.interactString = interactString;
 	}
@@ -123,10 +134,6 @@ public class DirtEvent {
 	
 	public List<MovableItem> getRewards() {
 		return rewards;
-	}
-	
-	public boolean hasFired() {
-		return fired;
 	}
 	
 	public Tile getTile() {

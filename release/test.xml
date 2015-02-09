@@ -2,7 +2,7 @@
 	<mapWidth>2</mapWidth>
 	<mapHeight>2</mapHeight>
 	<currentPlayerNum>0</currentPlayerNum>
-	<reqPlayerNum>1</reqPlayerNum>
+	<reqPlayerNum>2</reqPlayerNum>
 	<characters>
 		<Character>
 			<playerNumber>0</playerNumber>

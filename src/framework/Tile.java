@@ -46,25 +46,25 @@ public class Tile {
 	}
 
 	public String getDescription() {
-		this.description = "--------------\n" + description;
-		this.description = description + "\nThere are " + Integer.toString(exits.size()) + " doors and " + Integer.toString(items.size()) + " items\n";
+		String response = "--------------\n" + description;
+		response += "\nThere are " + Integer.toString(exits.size()) + " doors and " + Integer.toString(items.size()) + " items\n";
 		if (exits.size() > 0) {
 			for (Entryway e : exits) {
-				this.description += "--> The " + e.getOrientation().toString() + " door is ";
+				response += "--> The " + e.getOrientation().toString() + " door is ";
 				if (e.isOpen()) {
-					this.description += "open.\n";
+					response += "open.\n";
 				} else {
-					this.description += "closed.\n";
+					response += "closed.\n";
 				}
 			}
-			this.description += "You see the following items:\n";
+			response += "You see the following items:\n";
 			for (Item i : items) {
-				this.description += "--> " + i.getName() + "\n";
+				response += "--> " + i.getName() + "\n";
 			}
-			this.description += "--------------";
+			response += "--------------";
 		}
 		
-		return description;
+		return response;
 	}
 
 	public void setDescription(String description) {

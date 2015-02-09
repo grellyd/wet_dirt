@@ -7,15 +7,16 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
-import exceptions.ItemNotFoundException;
-import framework.Entryway;
 import framework.DirtEvent;
+import framework.Entryway;
 import framework.Item;
 import framework.MovableItem;
+import framework.OpenableItem;
 import framework.Tile;
 import framework.World;
 
@@ -96,6 +97,7 @@ public class NetworkManager implements Runnable {
 		private World world;
 		private int playerId;
 		private boolean running = true;
+		private List<Integer> clearedEvents = new ArrayList<Integer>();
 		
 		public ClientThread(Socket socket, World world) {
 			this.socket = socket;
@@ -120,15 +122,13 @@ public class NetworkManager implements Runnable {
 						if (rawmsg == null) {
 							System.out.println("Player " + playerId + " disconnected.");
 							world.RemovePlayer();
+							//TODO: Add handling for when a player disconnects
 							running = false;
 							break;
 						}
 						
 						String response = "";
-						String[] split = rawmsg.split(";");
-
-						
-						switch (split[0]) {
+						switch (rawmsg) {
 						case "STATUS":
 							if (world.GetCurrentPlayerNum() < world.GetReqPlayerNum()) {
 								response = "WAITING";
@@ -136,233 +136,15 @@ public class NetworkManager implements Runnable {
 								response = "READY";
 							}
 							break;
-						case "JOIN":
-							response = Integer.toString(playerId);
-							break;
-						case "POLLWORLD":
-							response = xstream.toXML(world).replace(System.getProperty("line.separator"),  "");
-							break;
-						case "MOVE":
-							if (split.length > 1) {
-								switch (split[1]) {
-								case "NORTH":
-									System.out.println("Moving player " + playerId + " north");
-									world.MovePlayer(playerId, World.DIRECTION.NORTH);
-									break;
-								case "EAST":
-									System.out.println("Moving player " + playerId + " east");
-									world.MovePlayer(playerId, World.DIRECTION.EAST);
-									break;
-								case "SOUTH":
-									System.out.println("Moving player " + playerId + " south");
-									world.MovePlayer(playerId, World.DIRECTION.SOUTH);
-									break;
-								case "WEST":
-									System.out.println("Moving player " + playerId + " west");
-									world.MovePlayer(playerId, World.DIRECTION.WEST);
-									break;
-								case "TELEPORT":
-									// Teleport to new location
-									break;
-								}
-								response = "OK";
-							} else {
-								response = "INVALID";
-							}
-							break;
-						case "TAKE":
-							try {
-								if (split.length > 1) {
-									MovableItem mItem = null;
-									for (Item item : world.getPlayerTile(playerId).getItems()) {
-										if (item.getName().equals(split[1])) {
-											mItem = (MovableItem)item;
-											break;
-										}
-									}
-									for (DirtEvent e : world.getPlayerTile(playerId).getEvents()) {
-										for (Item item : e.getRewards()) {
-											if (item.getName().equals(split[1])) {
-												mItem = (MovableItem)item;
-												break;
-											}
-										}
-										if (mItem != null) {
-											break;
-										}
-									}
-									if (mItem != null) {
-										world.getCharacters().get(playerId).addToInventory(mItem);
-										world.getPlayerTile(playerId).getItems().remove(mItem);
-										response = "OK";
-									} else {
-										response = "INVALID";
-									}							
-								} else {
-									response = "INVALID";
-								}
-							} catch (NumberFormatException e) {
-								e.printStackTrace();
-							}
-							break;
-						case "DROP":
-							try {
-								if (split.length > 1) {
-									MovableItem mItem = null;
-									for (Item item : world.getCharacters().get(playerId).getInventory()) {
-										if (item.getName().equals(split[1])) {
-											mItem = (MovableItem)item;
-											break;
-										}
-									}
-									if (mItem != null) {
-										try {
-											world.getCharacters().get(playerId).removeFromInventory(mItem);
-										} catch (ItemNotFoundException e) {
-											e.printStackTrace();
-										}
-										world.getPlayerTile(playerId).getItems().add(mItem);
-										response = "OK";
-									} else {
-										response = "INVALID";
-									}
-								} else {
-									response = "INVALID";	
-								}
-							} catch (NumberFormatException e) {
-								e.printStackTrace();
-							}
-							break;
-						case "OPENDOOR":
-							if (split.length > 1) {
-								for (Entryway e : world.getPlayerTile(playerId).getExits()) {
-									if (split[1].equals("NORTH") && e.getOrientation().toString().toLowerCase().equals("north")) {
-										e.open();
-										Tile playerTile = world.getPlayerTile(playerId);
-										if (playerTile.getY() - 1 >= 0) {
-											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() - 1].getExits();
-											for (Entryway ae : adjacentExits) {
-												if (ae.getOrientation().toString().toLowerCase().equals("south")) {
-													ae.open();
-													break;
-												}
-											}
-										}
-										response = "OK";
-										break;
-									} else if (split[1].equals("EAST") && e.getOrientation().toString().toLowerCase().equals("east")) {
-										e.open();
-										Tile playerTile = world.getPlayerTile(playerId);
-										if (playerTile.getX() + 1 >= 0) {
-											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() + 1][playerTile.getY()].getExits();
-											for (Entryway ae : adjacentExits) {
-												if (ae.getOrientation().toString().toLowerCase().equals("west")) {
-													ae.open();
-													break;
-												}
-											}
-										}
-										response = "OK";
-									} else if (split[1].equals("WEST") && e.getOrientation().toString().toLowerCase().equals("west")) {
-										e.open();
-										Tile playerTile = world.getPlayerTile(playerId);
-										if (playerTile.getX() - 1 >= 0) {
-											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() - 1][playerTile.getY()].getExits();
-											for (Entryway ae : adjacentExits) {
-												if (ae.getOrientation().toString().toLowerCase().equals("east")) {
-													ae.open();
-													break;
-												}
-											}
-										}
-										response = "OK";
-									} else if (split[1].equals("SOUTH") && e.getOrientation().toString().toLowerCase().equals("south")) {
-										e.open();
-										Tile playerTile = world.getPlayerTile(playerId);
-										if (playerTile.getY() + 1 < world.getMapHeight()) {
-											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() + 1].getExits();
-											for (Entryway ae : adjacentExits) {
-												if (ae.getOrientation().toString().toLowerCase().equals("north")) {
-													ae.open();
-													break;
-												}
-											}
-										}
-										response = "OK";
-									}
-								}
-								if (!response.equals("OK")) {
-									response = "INVALID";
-								}
-							}
-							break;
-						case "CLOSEDOOR":
-							if (split.length > 1) {
-								for (Entryway e : world.getPlayerTile(playerId).getExits()) {
-									if (split[1].equals("NORTH") && e.getOrientation().toString().toLowerCase().equals("north")) {
-										e.close();
-										Tile playerTile = world.getPlayerTile(playerId);
-										if (playerTile.getY() - 1 >= 0) {
-											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() - 1].getExits();
-											for (Entryway ae : adjacentExits) {
-												if (ae.getOrientation().toString().toLowerCase().equals("south")) {
-													ae.close();
-													break;
-												}
-											}
-										}
-										response = "OK";
-										break;
-									} else if (split[1].equals("EAST") && e.getOrientation().toString().toLowerCase().equals("east")) {
-										e.close();
-										Tile playerTile = world.getPlayerTile(playerId);
-										if (playerTile.getX() + 1 >= 0) {
-											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() + 1][playerTile.getY()].getExits();
-											for (Entryway ae : adjacentExits) {
-												if (ae.getOrientation().toString().toLowerCase().equals("west")) {
-													ae.close();
-													break;
-												}
-											}
-										}
-										response = "OK";
-									} else if (split[1].equals("WEST") && e.getOrientation().toString().toLowerCase().equals("west")) {
-										e.close();
-										Tile playerTile = world.getPlayerTile(playerId);
-										if (playerTile.getX() - 1 >= 0) {
-											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() - 1][playerTile.getY()].getExits();
-											for (Entryway ae : adjacentExits) {
-												if (ae.getOrientation().toString().toLowerCase().equals("east")) {
-													ae.close();
-													break;
-												}
-											}
-										}
-										response = "OK";
-									} else if (split[1].equals("SOUTH") && e.getOrientation().toString().toLowerCase().equals("south")) {
-										e.close();
-										Tile playerTile = world.getPlayerTile(playerId);
-										if (playerTile.getY() + 1 < world.getMapHeight()) {
-											List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() + 1].getExits();
-											for (Entryway ae : adjacentExits) {
-												if (ae.getOrientation().toString().toLowerCase().equals("north")) {
-													ae.close();
-													break;
-												}
-											}
-										}
-										response = "OK";
-									}
-								}
-								if (!response.equals("OK")) {
-									response = "INVALID";
-								}
-							}
+						case "START":
+							response = world.describe(playerId);
 							break;
 						default:
-							response = "INVALID: " + split[0];
+							response = Parse(rawmsg);
 							break;
 						}
+						
+						response = response.replaceAll("\n", "::NEWLINE");
 						writer.write(response);
 						writer.newLine();
 						writer.flush();
@@ -376,7 +158,413 @@ public class NetworkManager implements Runnable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}		
+		}
+		
+		private String FireEvent(DirtEvent event) {
+			try {
+				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+				
+				String result = "--------------\n" + event.getDescription() + "\n";
+				for (String question : event.getQuestions()) {
+					result += question;
+					writer.write(result.replaceAll("\n", "::NEWLINE"));
+					writer.newLine();
+					writer.flush();
+					event.getUserAnswers().add(reader.readLine());
+					result = "";
+				}
+				if (event.passed()) {
+					result = event.getSuccessText() + "\n";
+					clearedEvents.add(event.getId());
+					if (event.getRewards().size() > 0) {
+						result += "----REWARDS----\n";
+						for (MovableItem item : event.getRewards()) {
+							world.getCharacters().get(playerId).addToInventory(item);
+							result += item.getName() + " added to inventory!\n";
+						}
+						result += "---------------";
+					}
+					return result;
+				} else {
+					return event.getFailureText();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				return "";
+			}	
+		}
+		
+		private String Parse(String input) {
+			input = input.toLowerCase();
+			String result = "";
+			Tile curTile = world.getPlayerTile(playerId);
+			
+			boolean interactedWithEvent = false;
+			for (DirtEvent e : curTile.getEvents()) {
+				boolean isCleared = false;
+				for (Integer integer : clearedEvents) {
+					if (integer.intValue() == e.getId()) {
+						isCleared = true;
+						break;
+					}
+				}
+				if (!isCleared) {
+					switch (e.getFiredBy()) {
+					case INTERACT:
+						boolean successfullyInteracted = true;
+						for (String s : e.getIteractString().split(";")) {
+							if (!input.contains(s.toLowerCase())) {
+								successfullyInteracted = false;
+								break;
+							}
+						}
+						interactedWithEvent = successfullyInteracted;
+						if (successfullyInteracted) {
+							DirtEvent event = new DirtEvent(e);
+							result = FireEvent(event);
+						}
+						break;
+					default:
+						break;
+					}
+				}
+			}
+			if (interactedWithEvent) {
+				return result;
+			}
+			
+			// look for starting keywords
+			if (input.contains("move")){				
+				if (curTile.getExits() != null) {
+					boolean doorFound = false;
+					for (Entryway e : (curTile.getExits())) {
+						switch (e.getOrientation()) {
+						case North:
+							if (input.contains("north")) {
+								doorFound = true;
+								if (e.isOpen()) {
+									System.out.println("Moving player " + playerId + " north");
+									world.MovePlayer(playerId, World.DIRECTION.NORTH);
+									result = world.describe(playerId);
+								} else {
+									result = "The way north is closed.";
+								}
+							}
+							break;
+						case East:
+							if (input.contains("east")) {
+								doorFound = true;
+								if (e.isOpen()) {
+									System.out.println("Moving player " + playerId + " east");
+									world.MovePlayer(playerId, World.DIRECTION.EAST);
+									result = world.describe(playerId);
+								} else {
+									result = "The way east is closed.";
+								}
+							}
+							break;
+						case South:
+							if (input.contains("south")) {
+								doorFound = true;
+								if (e.isOpen()) {
+									System.out.println("Moving player " + playerId + " south");
+									world.MovePlayer(playerId, World.DIRECTION.SOUTH);
+									result = world.describe(playerId);
+								} else {
+									result = "The way south is closed.";
+								}
+							}
+							break;
+						case West:
+							if (input.contains("west")) {
+								doorFound = true;
+								if (e.isOpen()) {
+									System.out.println("Moving player " + playerId + " west");
+									world.MovePlayer(playerId, World.DIRECTION.WEST);
+									result = world.describe(playerId);
+								} else {
+									result = "The way west is closed.";
+								}
+							}
+							break;
+						}
+					}
+					if (!doorFound) {
+						result = "You can't go this way.";
+					}
+				}
+			} else if (input.contains("look")) {
+				if (input.contains("around")) {
+					result = world.describe(playerId);
+				} else {
+					boolean itemFound = false;
+					for (Item item : curTile.getItems()) {
+						if (input.contains(item.getName())) {
+							result = item.getDescription();
+							itemFound = true;
+							break;
+						}
+					}
+					if (!itemFound) {
+						result = "Look at what?";
+					}
+				}
+			} else if (input.contains("examine")) {
+				if (input.contains("inventory")) {
+					result = "Looking closer at your inventory, you have";
+					List<MovableItem> inventory = world.getCharacters().get(playerId).getInventory();
+					if (inventory.size() == 0) {
+						result += " nothing.";
+					} else {
+						result += ":\n";
+						for (MovableItem item : inventory) {
+							result += "--> " + item.getName() + " : " + item.getFull_description() + "\n";
+						}
+						result += "--------------";
+					}
+				} else {
+					boolean itemFound = false;
+					for (Item item : curTile.getItems()) {
+						if (input.contains(item.getName())) {
+							result = item.getFull_description();
+							itemFound = true;
+							break;
+						}
+					}
+					if (!itemFound) {
+						result = "I don't know what that is...";
+					}
+				}
+			} else if (input.contains("check inventory")) {
+				result = "Inventory:\n";
+				result += "--------------\n";
+				for (MovableItem item : world.getCharacters().get(playerId).getInventory()) {
+					result += item.getName() + "\n";				
+				}
+				result += "--------------";
+			} else if (input.contains("take")) {
+				boolean itemFound = false;
+				for (Item item : curTile.getItems()) {
+					if (input.contains(item.getName())) {
+						if (item.getClass() == MovableItem.class) {
+							result = item.getName() + " placed in inventory.";
+							world.getCharacters().get(playerId).addToInventory((MovableItem)item);
+							curTile.getItems().remove(item);
+						} else {
+							result = "You can't carry that!";
+						}
+						itemFound = true;
+						break;
+					}
+				}
+				if (!itemFound) {
+					result = "I don't know what that is...";
+				}
+			} else if (input.contains("drop")) {
+				boolean itemFound = false;
+				for (MovableItem item : world.getCharacters().get(playerId).getInventory()) {
+					if (input.contains(item.getName())) {
+						result = "Dropped " + item.getName();
+						world.getCharacters().get(playerId).getInventory().remove(item);
+						curTile.getItems().add(item);
+					} else {
+						result = "You do not possess that item.";
+					}
+						
+					itemFound = true;
+					break;
+				}
+				if (!itemFound) {
+					result = "I don't know what that is...";
+				}
+			} else if (input.contains("check doors")) {
+				result = "Door status:\n";
+				for (Entryway e : (curTile.getExits())) {
+					result += "The " + e.getOrientation().toString() + " door is ";
+					if (e.isOpen()) {
+						result += "open.\n";
+					} else {
+						result += "closed.\n";
+					}
+				}
+				result += "--------------";
+			} else if (input.contains("open")) {
+				if (input.contains("door")) {
+					boolean doorFound = false;
+					for (Entryway e : curTile.getExits()) {
+						if (input.contains("north") && e.getOrientation().toString().toLowerCase().equals("north")) {
+							e.open();
+							doorFound = true;
+							result = "The door is opened";
+							Tile playerTile = curTile;
+							if (playerTile.getY() - 1 >= 0) {
+								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() - 1].getExits();
+								for (Entryway ae : adjacentExits) {
+									if (ae.getOrientation().toString().toLowerCase().equals("south")) {
+										ae.open();
+										break;
+									}
+								}
+							}
+							break;
+						} else if (input.contains("east") && e.getOrientation().toString().toLowerCase().equals("east")) {
+							e.open();
+							doorFound = true;
+							result = "The door is opened";
+							Tile playerTile = curTile;
+							if (playerTile.getX() + 1 >= 0) {
+								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() + 1][playerTile.getY()].getExits();
+								for (Entryway ae : adjacentExits) {
+									if (ae.getOrientation().toString().toLowerCase().equals("west")) {
+										ae.open();
+										break;
+									}
+								}
+							}
+							break;
+						} else if (input.contains("west") && e.getOrientation().toString().toLowerCase().equals("west")) {
+							e.open();
+							doorFound = true;
+							result = "The door is opened";
+							Tile playerTile = curTile;
+							if (playerTile.getX() - 1 >= 0) {
+								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() - 1][playerTile.getY()].getExits();
+								for (Entryway ae : adjacentExits) {
+									if (ae.getOrientation().toString().toLowerCase().equals("east")) {
+										ae.open();
+										break;
+									}
+								}
+							}
+							break;
+						} else if (input.contains("south") && e.getOrientation().toString().toLowerCase().equals("south")) {
+							e.open();
+							doorFound = true;
+							result = "The door is opened";
+							Tile playerTile = curTile;
+							if (playerTile.getY() + 1 < world.getMapHeight()) {
+								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() + 1].getExits();
+								for (Entryway ae : adjacentExits) {
+									if (ae.getOrientation().toString().toLowerCase().equals("north")) {
+										ae.open();
+										break;
+									}
+								}
+							}
+							break;
+						}
+					}
+					if (!doorFound) {
+						result = "Which door?";
+					}
+				} else {
+					for (Item item : curTile.getItems()) {
+						if (item.getClass() == OpenableItem.class) {
+							if (input.contains(item.getName())) {
+								boolean canOpen = ((OpenableItem)item).open();
+								if (canOpen) {
+									result = "It is open.";
+								} else {
+									result = "It won't budge.";
+								}
+								break;
+							}
+						}
+					}
+				}
+			} else if (input.contains("close")) {
+				if (input.contains("door")) {
+					boolean doorFound = false;
+					for (Entryway e : curTile.getExits()) {
+						if (input.contains("north") && e.getOrientation().toString().toLowerCase().equals("north")) {
+							e.close();
+							doorFound = true;
+							result = "The door is opened";
+							Tile playerTile = curTile;
+							if (playerTile.getY() - 1 >= 0) {
+								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() - 1].getExits();
+								for (Entryway ae : adjacentExits) {
+									if (ae.getOrientation().toString().toLowerCase().equals("south")) {
+										ae.close();
+										break;
+									}
+								}
+							}
+							break;
+						} else if (input.contains("east") && e.getOrientation().toString().toLowerCase().equals("east")) {
+							e.close();
+							doorFound = true;
+							result = "The door is opened";
+							Tile playerTile = curTile;
+							if (playerTile.getX() + 1 >= 0) {
+								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() + 1][playerTile.getY()].getExits();
+								for (Entryway ae : adjacentExits) {
+									if (ae.getOrientation().toString().toLowerCase().equals("west")) {
+										ae.close();
+										break;
+									}
+								}
+							}
+							break;
+						} else if (input.contains("west") && e.getOrientation().toString().toLowerCase().equals("west")) {
+							e.close();
+							doorFound = true;
+							result = "The door is opened";
+							Tile playerTile = curTile;
+							if (playerTile.getX() - 1 >= 0) {
+								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX() - 1][playerTile.getY()].getExits();
+								for (Entryway ae : adjacentExits) {
+									if (ae.getOrientation().toString().toLowerCase().equals("east")) {
+										ae.close();
+										break;
+									}
+								}
+							}
+							break;
+						} else if (input.contains("south") && e.getOrientation().toString().toLowerCase().equals("south")) {
+							e.close();
+							doorFound = true;
+							result = "The door is opened";
+							Tile playerTile = curTile;
+							if (playerTile.getY() + 1 < world.getMapHeight()) {
+								List <Entryway> adjacentExits = world.getTheMap()[playerTile.getX()][playerTile.getY() + 1].getExits();
+								for (Entryway ae : adjacentExits) {
+									if (ae.getOrientation().toString().toLowerCase().equals("north")) {
+										ae.close();
+										break;
+									}
+								}
+							}
+							break;
+						}
+					}
+					if (!doorFound) {
+						result = "Which door?";
+					}
+				} else {
+					for (Item item : curTile.getItems()) {
+						if (item.getClass() == OpenableItem.class) {
+							if (input.contains(item.getName())) {
+								boolean canClose = ((OpenableItem)item).close();
+								if (canClose) {
+									result = "It is closed.";
+								} else {
+									result = "It won't budge.";
+								}
+								break;
+							}
+						}
+					}
+				}
+			} else if (input.contains("use")) {
+				result = "WE SHOULD CODE THIS AT SOME POINT";
+			}
+			if (result.equals("")) {
+				result = "Sorry, I don't quite understand...";
+			}
+			return result;
+		}
 	}
 	
 	public void Terminate() {

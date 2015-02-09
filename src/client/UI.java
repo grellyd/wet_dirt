@@ -1,13 +1,25 @@
 package client;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.font.TextAttribute;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.text.AttributeSet.ColorAttribute;
-import javax.swing.text.StyleConstants.ColorConstants;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.StyleConstants;
 
 
 public class UI {
@@ -169,6 +181,10 @@ public class UI {
     			textInputArea.setText("");
     		}
     	}
+    }
+    
+    public static void addToOutput(String inputString) {
+    	addToOutput(inputString, false);
     }
     
     public static void addToOutput(String inputString, boolean isUser) {

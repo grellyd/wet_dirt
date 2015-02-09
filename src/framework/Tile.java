@@ -14,9 +14,9 @@ public class Tile {
 	public Tile(int xCord, int yCord, List<Entryway> theExits, String theDescription, List<Item> theItems) {
 		this.x = xCord;
 		this.y = yCord;
-		if (theExits.size() == 4) {
+		//if (theExits.size() == 4) {
 			this.exits = theExits;
-		} else //throw new error
+		//} else //throw new error
 		this.description = theDescription;
 		this.items = theItems;
 	}

@@ -1,32 +1,47 @@
 package client;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.font.TextAttribute;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.text.AttributeSet.ColorAttribute;
-import javax.swing.text.StyleConstants.ColorConstants;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.StyleConstants;
 
 
 public class UI {
 	
 	private static JFrame theUI; 
-	private static JTextArea theActionBar;
 	private static JTextPane scrollArea;
+	private static JTextPane chatScrollArea;
 	private static JTextArea textInputArea;
+	private static JTextArea chatInputArea;
 	private static JScrollPane scrollContainer;
+	private static JScrollPane chatScrollContainer;
 	
-	private static Color actionBarColour;
+//	private static Color actionBarColour;
 	private static Color textInputAreaColour;
 	private static Color systemTextColour;
 	private static Color userTextColour;
 	
 	private static Font textFont;
 	
-	private static Dimension menuBarDimension;
+	private static Dimension chatScrollAreaDimension;
 	private static Dimension mainAreaDimension;
+	private static Dimension chatInputDimension;
 	private static Dimension textInputDimension;
 
 	private static KeyListener listenEnter;
@@ -34,6 +49,8 @@ public class UI {
 	private static String newline = System.getProperty("line.separator");
 	
 	private static String returnString;
+	
+	private final static int textInputAreaHeight = 20;
 
 	public static void createAndShowGUI() {
 		theUI = new JFrame("wetDirtUI");
@@ -42,13 +59,14 @@ public class UI {
 		systemTextColour = new Color(98, 252, 56); 
 		userTextColour = new Color(255, 239, 10);
 		textInputAreaColour = new Color(0, 0, 0); //black
-		actionBarColour = new Color(153, 60, 240);
+		//actionBarColour = new Color(153, 60, 240);
 				
 		textFont = new Font("myFont", Font.BOLD, 14);
 		
-		menuBarDimension = new Dimension(600, 90);
 		mainAreaDimension = new Dimension(600, 600);
-		textInputDimension = new Dimension(600, 20);
+		chatScrollAreaDimension = new Dimension(150, 600);
+		textInputDimension = new Dimension(600, textInputAreaHeight);
+		chatInputDimension = new Dimension(150, textInputAreaHeight);
 		
 		listenEnter = new KeyListener() {
 			
@@ -70,31 +88,54 @@ public class UI {
 			}
 		};
 		
-		theActionBar = new JTextArea("Possible Commands are: \n\tMove $direction$, "
-				+ "\n\tLook $object$, Look Around, Examine inventory/$object$, "
-				+ "\n\tCheck doors, Open/Close $direction$ door"
-				+ "\n\tCheck inventory, Take/Drop $object$");
-		theActionBar.setOpaque(true);
-		theActionBar.setBackground(actionBarColour);
-		theActionBar.setPreferredSize(menuBarDimension);
-		theActionBar.setName("Possible Commands: ");
-		theActionBar.setToolTipText("Possible Commands are: \n Move &Direction& \n Look \n Examine");
-		theActionBar.setForeground(systemTextColour);
-		theActionBar.setEditable(false);
-		theActionBar.setLineWrap(true);
-		theActionBar.setWrapStyleWord(true);
-		
 		scrollArea = new JTextPane();
 		scrollArea.setEditable(false);
 		scrollArea.setBackground(textInputAreaColour);
 		scrollArea.setFont(textFont);
 		scrollArea.setForeground(systemTextColour);
 		scrollArea.setBorder(BorderFactory.createLineBorder(Color.white));
+		scrollArea.addFocusListener(new FocusListener() {
 
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do nothing
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				textInputArea.requestFocus();
+				
+			}
+			
+		});
+		
+		chatScrollArea = new JTextPane();
+		chatScrollArea.setEditable(false);
+		chatScrollArea.setBackground(textInputAreaColour);
+		chatScrollArea.setFont(textFont);
+		chatScrollArea.setForeground(systemTextColour);
+		chatScrollArea.setBorder(BorderFactory.createLineBorder(Color.white));
+		chatScrollArea.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				// Do nothing
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				chatInputArea.requestFocus();
+			}
+			
+		});
 		
 		scrollContainer = new JScrollPane(scrollArea);
 		scrollContainer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollContainer.setPreferredSize(mainAreaDimension);
+
+		chatScrollContainer = new JScrollPane(chatScrollArea);
+		chatScrollContainer.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		chatScrollContainer.setPreferredSize(chatScrollAreaDimension);
 		
 		textInputArea = new JTextArea();
 		textInputArea.setPreferredSize(textInputDimension);
@@ -108,21 +149,19 @@ public class UI {
 		textInputArea.setLineWrap(true);
 		textInputArea.setWrapStyleWord(true);
 		textInputArea.setCaretColor(systemTextColour);
-		textInputArea.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				textInputArea.requestFocus();
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
 		
+		chatInputArea = new JTextArea();
+		chatInputArea.setPreferredSize(chatInputDimension);
+		chatInputArea.setBackground(textInputAreaColour);
+		chatInputArea.setForeground(userTextColour);
+		chatInputArea.setFocusable(true);
+		chatInputArea.setEditable(true);
+		chatInputArea.setFont(textFont);
+		chatInputArea.setBorder(BorderFactory.createLineBorder(Color.white));
+		chatInputArea.addKeyListener(listenEnter);
+		chatInputArea.setLineWrap(true);
+		chatInputArea.setWrapStyleWord(true);
+		chatInputArea.setCaretColor(systemTextColour);
 		
 		theUI.addWindowListener(new WindowAdapter() {
 			
@@ -136,7 +175,8 @@ public class UI {
 		});	
 		
 		
-		theUI.getContentPane().add(theActionBar, BorderLayout.PAGE_START);
+		
+		theUI.getContentPane().add(chatScrollContainer, BorderLayout.EAST);
 		theUI.getContentPane().add(scrollContainer, BorderLayout.CENTER);
 		theUI.getContentPane().add(textInputArea, BorderLayout.PAGE_END);
 		theUI.setTitle("Wet_Dirt - The Multiplayer Text Adventure Game");
@@ -195,7 +235,31 @@ public class UI {
 		}
     }
     
-    public  static String getInputResult() {
+    public static void addToChat(String inputString, boolean isUser) {
+    	inputString = newline + inputString;
+		Document theOutputDoc = chatScrollArea.getDocument();
+		if (isUser) {
+			try {
+				MutableAttributeSet userAttrib = chatScrollArea.getInputAttributes();
+				StyleConstants.setForeground(userAttrib, userTextColour);
+				theOutputDoc.insertString(theOutputDoc.getLength(), inputString, userAttrib);
+				chatScrollArea.setCaretPosition(theOutputDoc.getLength());
+			} catch (BadLocationException e1) {
+				
+			}
+		} else {
+			try {
+				MutableAttributeSet systemAttrib = chatScrollArea.getInputAttributes();
+				StyleConstants.setForeground(systemAttrib, systemTextColour);
+				theOutputDoc.insertString(theOutputDoc.getLength(), inputString, systemAttrib);
+				chatScrollArea.setCaretPosition(theOutputDoc.getLength());
+			} catch (BadLocationException e1) {
+				
+			}
+		}
+    }
+    
+    public static String getInputResult() {
     	while (returnString.equals("")) {
     		try {
 				Thread.sleep(10);

@@ -212,8 +212,16 @@ public class UI {
     }
     
     public static void addToOutput(String inputString, boolean isUser) {
+    	doAddToArea(inputString, isUser, scrollArea);
+    }
+    
+    public static void addToChat(String inputString, boolean isUser) {
+    	doAddToArea(inputString, isUser, chatScrollArea);
+    }
+    	
+    public static void doAddToArea(String inputString, boolean isUser, JTextPane area) {
     	inputString = newline + inputString;
-		Document theOutputDoc = scrollArea.getDocument();
+		Document theOutputDoc = area.getDocument();
 		Color myColour;
 		if (isUser) {
 			myColour = userTextColour;
@@ -221,34 +229,15 @@ public class UI {
 			myColour = systemTextColour;
 		}
 		try {
-			MutableAttributeSet userAttrib = scrollArea.getInputAttributes();
+			MutableAttributeSet userAttrib = area.getInputAttributes();
 			StyleConstants.setForeground(userAttrib, myColour);
 			theOutputDoc.insertString(theOutputDoc.getLength(), inputString, userAttrib);
-			scrollArea.setCaretPosition(theOutputDoc.getLength());
+			area.setCaretPosition(theOutputDoc.getLength());
 		} catch (BadLocationException e1) {
 			
 		}
     }
-    
-    public static void addToChat(String inputString, boolean isUser) {
-    	inputString = newline + inputString;
-		Document theOutputDoc = chatScrollArea.getDocument();
-		Color myColour;
-		if (isUser) {
-			myColour = userTextColour;
-		} else {
-			myColour = systemTextColour;
-		}
-		try {
-			MutableAttributeSet userAttrib = chatScrollArea.getInputAttributes();
-			StyleConstants.setForeground(userAttrib, myColour);
-			theOutputDoc.insertString(theOutputDoc.getLength(), inputString, userAttrib);
-			chatScrollArea.setCaretPosition(theOutputDoc.getLength());
-		} catch (BadLocationException e1) {
-			
-		}
-	}
-    
+       
     public static String getInputResult() {
     	while (returnString.equals("")) {
     		try {

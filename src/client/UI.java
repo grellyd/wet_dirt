@@ -214,50 +214,40 @@ public class UI {
     public static void addToOutput(String inputString, boolean isUser) {
     	inputString = newline + inputString;
 		Document theOutputDoc = scrollArea.getDocument();
+		Color myColour;
 		if (isUser) {
-			try {
-				MutableAttributeSet userAttrib = scrollArea.getInputAttributes();
-				StyleConstants.setForeground(userAttrib, userTextColour);
-				theOutputDoc.insertString(theOutputDoc.getLength(), inputString, userAttrib);
-				scrollArea.setCaretPosition(theOutputDoc.getLength());
-			} catch (BadLocationException e1) {
-				
-			}
+			myColour = userTextColour;
 		} else {
-			try {
-				MutableAttributeSet systemAttrib = scrollArea.getInputAttributes();
-				StyleConstants.setForeground(systemAttrib, systemTextColour);
-				theOutputDoc.insertString(theOutputDoc.getLength(), inputString, systemAttrib);
-				scrollArea.setCaretPosition(theOutputDoc.getLength());
-			} catch (BadLocationException e1) {
-				
-			}
+			myColour = systemTextColour;
+		}
+		try {
+			MutableAttributeSet userAttrib = scrollArea.getInputAttributes();
+			StyleConstants.setForeground(userAttrib, myColour);
+			theOutputDoc.insertString(theOutputDoc.getLength(), inputString, userAttrib);
+			scrollArea.setCaretPosition(theOutputDoc.getLength());
+		} catch (BadLocationException e1) {
+			
 		}
     }
     
     public static void addToChat(String inputString, boolean isUser) {
     	inputString = newline + inputString;
 		Document theOutputDoc = chatScrollArea.getDocument();
+		Color myColour;
 		if (isUser) {
-			try {
-				MutableAttributeSet userAttrib = chatScrollArea.getInputAttributes();
-				StyleConstants.setForeground(userAttrib, userTextColour);
-				theOutputDoc.insertString(theOutputDoc.getLength(), inputString, userAttrib);
-				chatScrollArea.setCaretPosition(theOutputDoc.getLength());
-			} catch (BadLocationException e1) {
-				
-			}
+			myColour = userTextColour;
 		} else {
-			try {
-				MutableAttributeSet systemAttrib = chatScrollArea.getInputAttributes();
-				StyleConstants.setForeground(systemAttrib, systemTextColour);
-				theOutputDoc.insertString(theOutputDoc.getLength(), inputString, systemAttrib);
-				chatScrollArea.setCaretPosition(theOutputDoc.getLength());
-			} catch (BadLocationException e1) {
-				
-			}
+			myColour = systemTextColour;
 		}
-    }
+		try {
+			MutableAttributeSet userAttrib = chatScrollArea.getInputAttributes();
+			StyleConstants.setForeground(userAttrib, myColour);
+			theOutputDoc.insertString(theOutputDoc.getLength(), inputString, userAttrib);
+			chatScrollArea.setCaretPosition(theOutputDoc.getLength());
+		} catch (BadLocationException e1) {
+			
+		}
+	}
     
     public static String getInputResult() {
     	while (returnString.equals("")) {

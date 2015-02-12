@@ -44,11 +44,13 @@ public class UI {
 	private static Dimension chatInputDimension;
 	private static Dimension textInputDimension;
 
-	private static KeyListener listenEnter;
+	private static KeyListener textListenEnter;
+	private static KeyListener chatListenEnter;
 	
 	private static String newline = System.getProperty("line.separator");
 	
 	private static String returnString;
+	private static String chatString;
 	
 	private final static int textInputAreaHeight = 20;
 
@@ -68,7 +70,7 @@ public class UI {
 		textInputDimension = new Dimension(600, textInputAreaHeight);
 		chatInputDimension = new Dimension(150, textInputAreaHeight);
 		
-		listenEnter = new KeyListener() {
+		textListenEnter = new KeyListener() {
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -78,7 +80,27 @@ public class UI {
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
-				activateKeyEvent(e, "RELEASED");
+				activateTextKeyEvent(e, "RELEASED");
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
+		chatListenEnter = new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				activateChatKeyEvent(e, "RELEASED");				
 			}
 			
 			@Override
@@ -145,7 +167,7 @@ public class UI {
 		textInputArea.setEditable(true);
 		textInputArea.setFont(textFont);
 		textInputArea.setBorder(BorderFactory.createLineBorder(Color.white));
-		textInputArea.addKeyListener(listenEnter);
+		textInputArea.addKeyListener(textListenEnter);
 		textInputArea.setLineWrap(true);
 		textInputArea.setWrapStyleWord(true);
 		textInputArea.setCaretColor(systemTextColour);
@@ -158,7 +180,7 @@ public class UI {
 		chatInputArea.setEditable(true);
 		chatInputArea.setFont(textFont);
 		chatInputArea.setBorder(BorderFactory.createLineBorder(Color.white));
-		chatInputArea.addKeyListener(listenEnter);
+		chatInputArea.addKeyListener(chatListenEnter);
 		chatInputArea.setLineWrap(true);
 		chatInputArea.setWrapStyleWord(true);
 		chatInputArea.setCaretColor(systemTextColour);
@@ -174,11 +196,13 @@ public class UI {
 			}
 		});	
 		
-		
+//		chatScrollContainer.add(chatInputArea);
+//		scrollContainer.add(textInputArea);
 		
 		theUI.getContentPane().add(chatScrollContainer, BorderLayout.EAST);
 		theUI.getContentPane().add(scrollContainer, BorderLayout.CENTER);
 		theUI.getContentPane().add(textInputArea, BorderLayout.PAGE_END);
+		theUI.getContentPane().add(chatInputArea, BorderLayout.WEST);
 		theUI.setTitle("Wet_Dirt - The Multiplayer Text Adventure Game");
 		theUI.requestFocusInWindow();
 		textInputArea.requestFocus();
@@ -193,7 +217,7 @@ public class UI {
 
 	}
 	
-    public static void activateKeyEvent(KeyEvent e, String keyStatus) {
+    public static void activateTextKeyEvent(KeyEvent e, String keyStatus) {
     	int id = e.getID();
     	String inputString = "";
     	if (id == KeyEvent.KEY_RELEASED) {
@@ -210,6 +234,26 @@ public class UI {
     		}
     	}
     }
+    
+    public static void activateChatKeyEvent(KeyEvent e, String keyStatus) {
+    	int id = e.getID();
+    	String inputString = "";
+    	if (id == KeyEvent.KEY_RELEASED) {
+    		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+    			Document theInputDoc = chatInputArea.getDocument();
+    			try {
+					inputString = theInputDoc.getText(0, theInputDoc.getLength()).trim();
+				} catch (BadLocationException e1) {
+					e1.printStackTrace();
+				}
+    			chatString = inputString;
+    			addToChat(inputString, true);
+    			passChatMessage();
+    			chatInputArea.setText("");
+    		}
+    	}
+    }
+
     
     public static void addToOutput(String inputString, boolean isUser) {
     	doAddToArea(inputString, isUser, scrollArea);
@@ -252,6 +296,14 @@ public class UI {
     	return tempString;
     }
 
+    public static String passChatMessage() {
+    	// notify listeners.
+    	chatScrollArea.notify();
+    	// send the string
+    	String tempString = chatString.trim();
+    	chatString = "";
+    	return tempString;
+    }
 	
 	public UI() {
 		createAndShowGUI();

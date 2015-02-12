@@ -196,9 +196,8 @@ public class UI {
 			}
 		});	
 		
-//		chatScrollContainer.add(chatInputArea);
-//		scrollContainer.add(textInputArea);
-		
+		//TODO: Fix the chat container. Perhaps two containers; one for the text area and input,
+		//		another for the chat area and input.
 		theUI.getContentPane().add(chatScrollContainer, BorderLayout.EAST);
 		theUI.getContentPane().add(scrollContainer, BorderLayout.CENTER);
 		theUI.getContentPane().add(textInputArea, BorderLayout.PAGE_END);
